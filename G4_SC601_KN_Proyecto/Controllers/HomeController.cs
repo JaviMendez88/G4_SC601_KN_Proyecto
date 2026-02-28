@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,18 +14,20 @@ namespace G4_SC601_KN_Proyecto.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Login()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
 
+        #region Sign Up
+
+        public ActionResult Signup()
+        {
             return View();
         }
+
+        #endregion Sign Up
+
     }
 }
