@@ -1,0 +1,39 @@
+﻿@model G4_SC601_KN_Proyecto.Models.UsuarioModelo
+@{
+    ViewBag.Title = "Sign Up";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<h4 class="text-center mb-4">Create Account</h4>
+
+@using (Html.BeginForm("Signup", "Home", FormMethod.Post))
+{
+    <div class="mb-3">
+        @Html.LabelFor(m => m.FullName, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Full name", autocomplete = "name" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email@example.com", type = "email", autocomplete = "email" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "••••••••", autocomplete = "new-password" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label" })
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "••••••••", autocomplete = "new-password" })
+    </div>
+
+    <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-primary btn-lg w-100">Sign Up</button>
+    </div>
+
+    <p class="text-center mt-3 mb-0">
+        Already have an account?
+        <a href="@Url.Action("Login","Home")">Log in</a>
+    </p>
+}
