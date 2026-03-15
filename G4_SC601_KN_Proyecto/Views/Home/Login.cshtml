@@ -7,7 +7,7 @@
 
 <h4 class="text-center mb-4">Log in</h4>
 
-@using (Html.BeginForm("Signin", "Home", FormMethod.Post))
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
 {
     <div class="mb-3">
         <label class="form-label">Email</label>
@@ -16,7 +16,7 @@
 
     <div class="mb-3">
         <label class="form-label">Password</label>
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.PasswordFor(m => m.Contrasena, new { @class = "form-control" })
     </div>
 
     <div class="d-grid mt-4">
