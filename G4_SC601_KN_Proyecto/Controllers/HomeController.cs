@@ -163,5 +163,16 @@ namespace G4_SC601_KN_Proyecto.Controllers
         }
 
         #endregion
+
+
+        #region AccountRecovery
+
+        public ActionResult AccountRecovery()
+        {
+            return View();
+        }
+
+        #endregion
+
     }
 }
