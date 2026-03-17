@@ -98,22 +98,6 @@ namespace G4_SC601_KN_Proyecto.Controllers
         #endregion
 
 
-        #region Vista Usuario Autenticado
-
-        [HttpGet]
-        public ActionResult IndexUser()
-        {
-            if (Session["IdUsuario"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            return View();
-        }
-
-        #endregion
-
-
         #region Sign Up
 
         [HttpGet]

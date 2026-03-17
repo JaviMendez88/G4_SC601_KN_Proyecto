@@ -18,6 +18,7 @@
     <link href="~/assets/css/tiny-slider.css" rel="stylesheet" />
     <link href="~/assets/css/glightbox.min.css" rel="stylesheet" />
     <link href="~/assets/css/main.css" rel="stylesheet" />
+    <link href="~/template/CSS/style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -61,18 +62,18 @@
                                     </li>
                                 </ul>
                             </div>
-                          <!--Perfil del usuario-->
-                            <div class="d-flex justify-content-end mb-4 me-4">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Perfil
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="@Url.Action("UserDetail","User")"><i class="ti ti-user"></i>Ver Perfil</a></li>
-                                        <li><a class="dropdown-item" href="@Url.Action("","User")"><i class="ti ti-pencil"></i>Editar perfil</a></li>
-                                        <li><a class="dropdown-item" href=><i class="ti ti-brand-among-us"></i>Cerrar Sesión</a></li>
-                                    </ul>
-                                </div>
+                          <!--Perfil del usuario / Autenticación-->
+                            <div class="button">
+                                @if (Session["IdUsuario"] != null)
+                                {
+                                    <a href="@Url.Action("UserDetail", "User")" class="signin"><i class="lni lni-user"></i> Mi Perfil</a>
+                                    <a href="@Url.Action("Logout", "Home")" class="signup"><i class="lni lni-exit"></i> Cerrar Sesión</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "Home")" class="signin">Iniciar Sesión</a>
+                                    <a href="@Url.Action("Signup", "Home")" class="signup">Registrarse</a>
+                                }
                             </div>
                         </nav>
                         <!-- End Navbar -->
