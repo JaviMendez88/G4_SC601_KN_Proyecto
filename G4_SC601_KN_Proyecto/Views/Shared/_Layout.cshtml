@@ -54,16 +54,25 @@
                                            data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
                                            aria-expanded="false" aria-label="Toggle navigation">Pages</a>
                                         <ul class="sub-menu collapse" id="submenu-1-2">
-                                            <li class="nav-item"><a href="@Url.Action("Login","Home")">Sign In</a></li>
-                                            <li class="nav-item"><a href="@Url.Action("Signup","Home")">Sign Up</a></li>
-                                            <li class="nav-item"><a href="reset-password.html">Reset Password</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Login","Home")">Iniciar Sesión</a></li>
+                                            <li class="nav-item"><a href="@Url.Action("Signup","Home")">Registrase</a></li>
+                                            <li class="nav-item"><a href="reset-password.html">Resetear contraseña</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="button">
-                                <a href="@Url.Action("Login","Home")" class="signin">Sign In</a>
-                                <a href="@Url.Action("Signup","Home")" class="signup">Sign Up</a>
+                          <!--Perfil del usuario-->
+                            <div class="d-flex justify-content-end mb-4 me-4">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Perfil
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="../views/perfil.php"><i class="ti ti-user"></i>Ver Perfil</a></li>
+                                        <li><a class="dropdown-item" href="../accions/editar_perfil.php"><i class="ti ti-pencil"></i>Editar perfil</a></li>
+                                        <li><a class="dropdown-item" href="../salirYentrar/logout.php"><i class="ti ti-brand-among-us"></i>Cerrar Sesión</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </nav>
                         <!-- End Navbar -->
