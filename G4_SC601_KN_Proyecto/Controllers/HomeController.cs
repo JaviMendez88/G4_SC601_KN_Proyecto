@@ -101,6 +101,22 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
         #endregion
 
+        #region TipoRol
+
+        // Ingreso al admin panel = 1
+
+        public ActionResult AdminPanel()
+        {
+            if (Session["IdUsuario"] == null)
+                return RedirectToAction("Login", "Home");
+
+            if ((int)Session["Rol"] != 1)
+                return RedirectToAction("IndexUser", "Home");
+
+            return View();
+        }
+
+        #endregion
 
         #region Logout
 

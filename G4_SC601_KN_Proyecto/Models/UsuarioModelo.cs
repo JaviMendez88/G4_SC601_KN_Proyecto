@@ -20,8 +20,5 @@ namespace G4_SC601_KN_Proyecto.Models
         public string Rol { get; set; }
         public int IntentosFallidos { get; set; }
         public bool Bloqueado { get; set; }
-
-
     }
-
 }
