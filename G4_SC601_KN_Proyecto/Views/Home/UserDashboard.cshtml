@@ -1,0 +1,17 @@
+﻿@model G4_SC601_KN_Proyecto.Models.UsuarioModelo
+
+@{
+    ViewBag.Title = "User Dashboard";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<h2>Bienvenido @Session["Nombre"]</h2>
+
+<p>
+    ¡Has iniciado sesión correctamente!
+</p>
+
+<ul>
+    <li><a href="@Url.Action("UserDetail","User")">Mi Perfil</a></li>
+    <li><a href="#">Dashboard</a></li>
+</ul>

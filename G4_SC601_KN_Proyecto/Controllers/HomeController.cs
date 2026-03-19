@@ -14,6 +14,9 @@ namespace G4_SC601_KN_Proyecto.Controllers
 {
     public class HomeController : Controller
     {
+
+        // Sección de Indexes
+
         #region Index Público
 
         public ActionResult Index()
@@ -37,7 +40,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
         #endregion
 
-
+        // Sección de Log In, Log Out, Sign Up.
 
         #region Log In
 
@@ -95,7 +98,17 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 Session["Nombre"] = usuarioDb.nombre;
                 Session["Rol"] = usuarioDb.id_rol;
 
-                return RedirectToAction("IndexUser");
+
+                //Redirigir según rol
+                if (usuarioDb.id_rol == 1)
+                {
+                    return RedirectToAction("AdminDashboard");
+                }
+                else
+                {
+                    return RedirectToAction("UserDashboard");
+                }
+                ;
             }
         }
 
@@ -182,6 +195,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
         #endregion
 
+        // Sección de Recuperación
 
         #region AccountRecovery
 
@@ -189,11 +203,6 @@ namespace G4_SC601_KN_Proyecto.Controllers
         {
             return View();
         }
-
-        #endregion
-
-
-        #region AccountRecovery
 
         // Se crea un step de Account Recovery en un form para después enviar una contraseña temporal al correo del usuario,
         // para que pueda iniciar sesión y cambiar su contraseña a una nueva.
@@ -226,7 +235,6 @@ namespace G4_SC601_KN_Proyecto.Controllers
         }
 
         #endregion
-
 
         #region ResetPassword
 
@@ -311,6 +319,42 @@ Saludos.";
         }
 
         #endregion
+
+
+        // Sección de Dashboards ADMIN y USER
+
+
+        #region AdminDashboard
+        public ActionResult AdminDashboard()
+        {
+            if (Session["IdUsuario"] == null)
+                return RedirectToAction("Login");
+
+            if ((int)Session["Rol"] != 1)
+                return RedirectToAction("UserDashboard");
+
+            return View();
+        }
+        
+        #endregion
+
+
+        #region UserDashboard
+
+        public ActionResult UserDashboard()
+        {
+            if (Session["IdUsuario"] == null)
+                return RedirectToAction("Login");
+
+            if ((int)Session["Rol"] != 2)
+                return RedirectToAction("AdminDashboard");
+
+            return View();
+        }
+
+        #endregion
+
+
 
     }
 }
