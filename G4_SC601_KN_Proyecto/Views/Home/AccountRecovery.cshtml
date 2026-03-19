@@ -1,16 +1,34 @@
 ﻿@model G4_SC601_KN_Proyecto.Models.UsuarioModelo
+
 @{
     ViewBag.Title = "Account Recovery";
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
-@using (Html.BeginForm("Account Recovery", "Home", FormMethod.Post))
+<h4 class="text-center mb-4">Account Recovery</h4>
+
+@using (Html.BeginForm("AccountRecovery", "Home", FormMethod.Post))
 {
+    <div class="mb-3">
+        <label class="form-label">Correo Electrónico</label>
+        @Html.TextBoxFor(m => m.Email, new
+        {
+            @class = "form-control",
+            placeholder = "Ingrese su correo",
+            required = "required"
+        })
+    </div>
 
-
-    <h4 class="text-center mb-4">Account Recovery</h4>
-
+    <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-primary">
+            Recuperar Contraseña
+        </button>
+    </div>
 }
 
-
-
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3 text-center">
+        @ViewBag.Message
+    </div>
+}

@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using System.Net.Mail;
+
 
 namespace G4_SC601_KN_Proyecto.Controllers
 {
@@ -19,6 +22,21 @@ namespace G4_SC601_KN_Proyecto.Controllers
         }
 
         #endregion
+
+
+        #region Index User
+
+        public ActionResult IndexUser()
+        {
+            if (Session["IdUsuario"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+
+        #endregion
+
 
 
         #region Log In
@@ -154,6 +172,127 @@ namespace G4_SC601_KN_Proyecto.Controllers
         public ActionResult AccountRecovery()
         {
             return View();
+        }
+
+        #endregion
+
+
+        #region AccountRecovery
+
+        // Se crea un step de Account Recovery en un form para después trasladar al user a una pantalla adicional
+        // de Reset Password, esto para evitar uso de correo de terceros para resetear su
+        // contraseña sin que el usuario se entere
+
+        [HttpPost]
+        public ActionResult AccountRecovery(UsuarioModelo modelo)
+        {
+            using (var context = new SC604Proyecto_DBEntities())
+            {
+                var usuarioDb = context.usuario
+                    .Where(u => u.email == modelo.Email)
+                    .FirstOrDefault();
+
+                if (usuarioDb != null)
+                {
+                    string passwordTemporal = GenerarPasswordTemporal();
+
+                    usuarioDb.contrasena = passwordTemporal;
+                    usuarioDb.intentos_fallidos = 0;
+                    usuarioDb.bloqueado = false;
+
+                    context.SaveChanges();
+
+                    EnviarCorreoPasswordTemporal(modelo.Email, passwordTemporal);
+                }
+
+                ViewBag.Message = "Se ha enviado una contraseña temporal.";
+                return View();
+            }
+        }
+
+        #endregion
+
+
+        #region ResetPassword
+
+        [HttpGet]
+        public ActionResult ResetPassword(int id)
+        {
+            return View(new UsuarioModelo { IdUsuario = id });
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(UsuarioModelo modelo)
+        {
+            if (modelo.Contrasena != modelo.ConfirmPassword)
+            {
+                ViewBag.Message = "Las contraseñas no coinciden";
+                return View(modelo);
+            }
+
+            using (var context = new SC604Proyecto_DBEntities())
+            {
+                var usuarioDb = context.usuario
+                    .Where(u => u.id_usuario == modelo.IdUsuario)
+                    .FirstOrDefault();
+
+                if (usuarioDb == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                usuarioDb.contrasena = modelo.Contrasena;
+                usuarioDb.intentos_fallidos = 0;
+                usuarioDb.bloqueado = false;
+
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Login");
+        }
+
+        #endregion
+
+
+        #region TempPassword
+
+        private string GenerarPasswordTemporal(int longitud = 8)
+        {
+            const string caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@$!";
+            Random random = new Random();
+            return new string(Enumerable.Repeat(caracteres, longitud)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        #endregion
+
+        #region EnviarCorreo
+        private void EnviarCorreoPasswordTemporal(string destinatario, string passwordTemporal)
+        {
+            MailMessage correo = new MailMessage();
+            correo.From = new MailAddress("proyectoufidelitas@gmail.com");
+            correo.To.Add(destinatario);
+            correo.Subject = "Recuperación de contraseña";
+            correo.Body = $@"
+Hola,
+
+Se ha solicitado una recuperación de contraseña.
+
+Tu contraseña temporal es:
+{passwordTemporal}
+
+Por favor inicia sesión y cámbiala a la brevedad.
+
+Saludos.";
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential(
+                "proyectoufidelitas@gmail.com",
+                "rwelrkfhnsifkqzf"
+            );
+            smtp.EnableSsl = true;
+
+            smtp.Send(correo);
         }
 
         #endregion

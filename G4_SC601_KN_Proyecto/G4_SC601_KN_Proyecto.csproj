@@ -250,6 +250,7 @@
     <Content Include="Views\Home\AccountRecovery.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\UserDetail.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
