@@ -179,9 +179,8 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
         #region AccountRecovery
 
-        // Se crea un step de Account Recovery en un form para después trasladar al user a una pantalla adicional
-        // de Reset Password, esto para evitar uso de correo de terceros para resetear su
-        // contraseña sin que el usuario se entere
+        // Se crea un step de Account Recovery en un form para después enviar una contraseña temporal al correo del usuario,
+        // para que pueda iniciar sesión y cambiar su contraseña a una nueva.
 
         [HttpPost]
         public ActionResult AccountRecovery(UsuarioModelo modelo)
