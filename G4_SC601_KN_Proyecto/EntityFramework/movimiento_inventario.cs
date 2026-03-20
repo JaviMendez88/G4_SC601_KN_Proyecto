@@ -25,7 +25,7 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     
         public virtual lote lote { get; set; }
         public virtual producto producto { get; set; }
-        public virtual usuario usuario { get; set; }
         public virtual ubicacion ubicacion { get; set; }
+        public virtual usuario usuario { get; set; }
     }
 }

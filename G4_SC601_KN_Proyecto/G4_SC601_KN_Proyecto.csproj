@@ -271,7 +271,6 @@
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Home\AdminDashboard.cshtml" />
     <Content Include="Views\Home\UserDashboard.cshtml" />
-    <Content Include="Views\Inventario\Index.cshtml" />
     <Content Include="Views\Inventario\RegistrarMovimiento.cshtml" />
   </ItemGroup>
   <ItemGroup>

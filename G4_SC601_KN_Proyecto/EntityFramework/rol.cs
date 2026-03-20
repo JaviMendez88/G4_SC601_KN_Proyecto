@@ -22,8 +22,8 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     
         public int id_rol { get; set; }
         public string rol1 { get; set; }
-        public Nullable<System.DateTime> fecha_creacion { get; set; }
-        public Nullable<System.DateTime> fecha_modificacion { get; set; }
+        public System.DateTime fecha_creacion { get; set; }
+        public System.DateTime fecha_modificacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usuario> usuario { get; set; }
