@@ -43,9 +43,9 @@
             <PropertyRef Name="id_rol" />
           </Key>
           <Property Name="id_rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="rol" Type="varchar" MaxLength="20" />
-          <Property Name="fecha_creacion" Type="datetime" />
-          <Property Name="fecha_modificacion" Type="datetime" />
+          <Property Name="rol" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="fecha_creacion" Type="datetime" Nullable="false" />
+          <Property Name="fecha_modificacion" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="stock">
           <Key>
@@ -73,14 +73,12 @@
           </Key>
           <Property Name="id_usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="40" Nullable="false" />
-          <Property Name="apellido_1" Type="varchar" MaxLength="30" />
-          <Property Name="apellido_2" Type="varchar" MaxLength="30" />
+          <Property Name="apellido_1" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="contrasena" Type="varchar" MaxLength="225" Nullable="false" />
-          <Property Name="telefono" Type="varchar" MaxLength="25" />
-          <Property Name="email" Type="varchar" MaxLength="100" />
-          <Property Name="id_rol" Type="int" />
-          <Property Name="intentos_fallidos" Type="int" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="id_rol" Type="int" Nullable="false" />
+          <Property Name="intentos_fallidos" Type="int" Nullable="false" />
           <Property Name="bloqueado" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK__lote__id_product__59063A47">
@@ -180,7 +178,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Usuario_Rol">
-          <End Role="rol" Type="Self.rol" Multiplicity="0..1" />
+          <End Role="rol" Type="Self.rol" Multiplicity="1" />
           <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="rol">
@@ -240,18 +238,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SC604Proyecto_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="rol">
-          <Key>
-            <PropertyRef Name="id_rol" />
-          </Key>
-          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="rol1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_creacion" Type="DateTime" Precision="3" />
-          <Property Name="fecha_modificacion" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="usuario" Relationship="SC604Proyecto_DBModel.FK_Usuario_Rol" FromRole="rol" ToRole="usuario" />
-        </EntityType>
         <EntityContainer Name="SC604Proyecto_DBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="rol" EntityType="Self.rol" />
           <EntitySet Name="lote" EntityType="SC604Proyecto_DBModel.lote" />
           <EntitySet Name="movimiento_inventario" EntityType="SC604Proyecto_DBModel.movimiento_inventario" />
           <EntitySet Name="producto" EntityType="SC604Proyecto_DBModel.producto" />
@@ -276,15 +263,6 @@
             <End Role="producto" EntitySet="producto" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <EntitySet Name="usuario" EntityType="SC604Proyecto_DBModel.usuario" />
-          <AssociationSet Name="FK__movimient__id_us__6A30C649" Association="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649">
-            <End Role="usuario" EntitySet="usuario" />
-            <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Rol" Association="SC604Proyecto_DBModel.FK_Usuario_Rol">
-            <End Role="rol" EntitySet="rol" />
-            <End Role="usuario" EntitySet="usuario" />
-          </AssociationSet>
           <EntitySet Name="ubicacion" EntityType="SC604Proyecto_DBModel.ubicacion" />
           <AssociationSet Name="FK__movimient__id_ub__693CA210" Association="SC604Proyecto_DBModel.FK__movimient__id_ub__693CA210">
             <End Role="ubicacion" EntitySet="ubicacion" />
@@ -293,6 +271,16 @@
           <AssociationSet Name="FK__stock__id_ubicac__5FB337D6" Association="SC604Proyecto_DBModel.FK__stock__id_ubicac__5FB337D6">
             <End Role="ubicacion" EntitySet="ubicacion" />
             <End Role="stock" EntitySet="stock" />
+          </AssociationSet>
+          <EntitySet Name="rol" EntityType="SC604Proyecto_DBModel.rol" />
+          <EntitySet Name="usuario" EntityType="SC604Proyecto_DBModel.usuario" />
+          <AssociationSet Name="FK__movimient__id_us__6A30C649" Association="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Rol" Association="SC604Proyecto_DBModel.FK_Usuario_Rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="lote">
@@ -322,8 +310,8 @@
           <Property Name="id_usuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="lote" Relationship="SC604Proyecto_DBModel.FK__movimient__id_lo__68487DD7" FromRole="movimiento_inventario" ToRole="lote" />
           <NavigationProperty Name="producto" Relationship="SC604Proyecto_DBModel.FK__movimient__id_pr__6754599E" FromRole="movimiento_inventario" ToRole="producto" />
-          <NavigationProperty Name="usuario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649" FromRole="movimiento_inventario" ToRole="usuario" />
           <NavigationProperty Name="ubicacion" Relationship="SC604Proyecto_DBModel.FK__movimient__id_ub__693CA210" FromRole="movimiento_inventario" ToRole="ubicacion" />
+          <NavigationProperty Name="usuario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649" FromRole="movimiento_inventario" ToRole="usuario" />
         </EntityType>
         <EntityType Name="producto">
           <Key>
@@ -412,48 +400,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="usuario">
-          <Key>
-            <PropertyRef Name="id_usuario" />
-          </Key>
-          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="apellido_1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="apellido_2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="usuario1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="contrasena" Type="String" Nullable="false" MaxLength="225" FixedLength="false" Unicode="false" />
-          <Property Name="telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="id_rol" Type="Int32" />
-          <Property Name="intentos_fallidos" Type="Int32" />
-          <Property Name="bloqueado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="movimiento_inventario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649" FromRole="usuario" ToRole="movimiento_inventario" />
-          <NavigationProperty Name="rol" Relationship="SC604Proyecto_DBModel.FK_Usuario_Rol" FromRole="usuario" ToRole="rol" />
-        </EntityType>
-        <Association Name="FK__movimient__id_us__6A30C649">
-          <End Type="SC604Proyecto_DBModel.usuario" Role="usuario" Multiplicity="1" />
-          <End Type="SC604Proyecto_DBModel.movimiento_inventario" Role="movimiento_inventario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="usuario">
-              <PropertyRef Name="id_usuario" />
-            </Principal>
-            <Dependent Role="movimiento_inventario">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuario_Rol">
-          <End Type="SC604Proyecto_DBModel.rol" Role="rol" Multiplicity="0..1" />
-          <End Type="SC604Proyecto_DBModel.usuario" Role="usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="rol">
-              <PropertyRef Name="id_rol" />
-            </Principal>
-            <Dependent Role="usuario">
-              <PropertyRef Name="id_rol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ubicacion">
           <Key>
             <PropertyRef Name="id_ubicacion" />
@@ -489,22 +435,62 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="rol">
+          <Key>
+            <PropertyRef Name="id_rol" />
+          </Key>
+          <Property Name="id_rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rol1" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fecha_modificacion" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="usuario" Relationship="SC604Proyecto_DBModel.FK_Usuario_Rol" FromRole="rol" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="apellido_1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="usuario1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="contrasena" Type="String" Nullable="false" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="id_rol" Type="Int32" Nullable="false" />
+          <Property Name="intentos_fallidos" Type="Int32" Nullable="false" />
+          <Property Name="bloqueado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="movimiento_inventario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649" FromRole="usuario" ToRole="movimiento_inventario" />
+          <NavigationProperty Name="rol" Relationship="SC604Proyecto_DBModel.FK_Usuario_Rol" FromRole="usuario" ToRole="rol" />
+        </EntityType>
+        <Association Name="FK__movimient__id_us__6A30C649">
+          <End Type="SC604Proyecto_DBModel.usuario" Role="usuario" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.movimiento_inventario" Role="movimiento_inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="movimiento_inventario">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Rol">
+          <End Type="SC604Proyecto_DBModel.rol" Role="rol" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.usuario" Role="usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SC604Proyecto_DBModelStoreContainer" CdmEntityContainer="SC604Proyecto_DBEntities">
-          <EntitySetMapping Name="rol">
-            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.rol">
-              <MappingFragment StoreEntitySet="rol">
-                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
-                <ScalarProperty Name="rol1" ColumnName="rol" />
-                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
-                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="lote">
             <EntityTypeMapping TypeName="SC604Proyecto_DBModel.lote">
               <MappingFragment StoreEntitySet="lote">
@@ -551,23 +537,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="usuario">
-            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.usuario">
-              <MappingFragment StoreEntitySet="usuario">
-                <ScalarProperty Name="bloqueado" ColumnName="bloqueado" />
-                <ScalarProperty Name="intentos_fallidos" ColumnName="intentos_fallidos" />
-                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
-                <ScalarProperty Name="usuario1" ColumnName="usuario" />
-                <ScalarProperty Name="apellido_2" ColumnName="apellido_2" />
-                <ScalarProperty Name="apellido_1" ColumnName="apellido_1" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ubicacion">
             <EntityTypeMapping TypeName="SC604Proyecto_DBModel.ubicacion">
               <MappingFragment StoreEntitySet="ubicacion">
@@ -575,6 +544,31 @@
                 <ScalarProperty Name="canton" ColumnName="canton" />
                 <ScalarProperty Name="provincia" ColumnName="provincia" />
                 <ScalarProperty Name="id_ubicacion" ColumnName="id_ubicacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rol">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.rol">
+              <MappingFragment StoreEntitySet="rol">
+                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="rol1" ColumnName="rol" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="bloqueado" ColumnName="bloqueado" />
+                <ScalarProperty Name="intentos_fallidos" ColumnName="intentos_fallidos" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+                <ScalarProperty Name="usuario1" ColumnName="usuario" />
+                <ScalarProperty Name="apellido_1" ColumnName="apellido_1" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

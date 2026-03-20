@@ -2,16 +2,90 @@
 
 @{
     ViewBag.Title = "User Dashboard";
-    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var stock = ViewBag.StockInventario as IEnumerable<G4_SC601_KN_Proyecto.Models.StockViewModel>;
+    var vencimientos = ViewBag.Vencimientos as IEnumerable<G4_SC601_KN_Proyecto.Models.StockViewModel>;
 }
 
-<h2>Bienvenido @Session["Nombre"]</h2>
+<div class="container-fluid mt-4">
+    <h2 class="mb-3 text-gray-800">Bienvenido @Session["Nombre"]</h2>
 
-<p>
-    ¡Has iniciado sesión correctamente!
-</p>
+    <div class="alert alert-info shadow-sm">
+        <i class="fas fa-info-circle"></i> Has iniciado sesión como <strong>Usuario de Consulta</strong>.
+    </div>
 
-<ul>
-    <li><a href="@Url.Action("UserDetail","User")">Mi Perfil</a></li>
-    <li><a href="#">Dashboard</a></li>
-</ul>
+    <hr class="my-4" />
+    <h2 class="h4 mb-4 text-gray-800">Consulta de Inventarios</h2>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold" style="color: #0056b3;">
+                        <i class="fas fa-boxes"></i> Stock Actual
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" width="100%" cellspacing="0">
+                            <thead class="table-dark">
+                                <tr><th>Producto</th><th>Lote</th><th>Cantidad</th></tr>
+                            </thead>
+                            <tbody>
+                                @if (stock != null)
+                                {
+                                    foreach (var item in stock)
+                                    {
+                                        <tr>
+                                            <td>@item.Producto</td>
+                                            <td>@item.Lote</td>
+                                            <td><span class="@(item.Cantidad < 50 ? "text-danger font-weight-bold" : "text-success font-weight-bold")">@item.Cantidad</span></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow mb-4" style="border-left: 4px solid #f6c23e;">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-warning">
+                        <i class="fas fa-exclamation-triangle"></i> Próximos Vencimientos
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead class="bg-warning text-dark">
+                                <tr><th>Producto</th><th>Lote</th><th>Vence</th></tr>
+                            </thead>
+                            <tbody>
+                                @if (vencimientos != null && vencimientos.Any())
+                                {
+                                    foreach (var item in vencimientos)
+                                    {
+                                        <tr>
+                                            <td>@item.Producto</td>
+                                            <td>@item.Lote</td>
+                                            <td class="text-danger font-weight-bold">@item.FechaVencimiento.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="3" class="text-center text-success">No hay alertas.</td></tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -322,7 +322,7 @@ Saludos.";
 
 
         // Sección de Dashboards ADMIN y USER
-
+        // Sección de Dashboards ADMIN y USER
 
         #region AdminDashboard
         public ActionResult AdminDashboard()
@@ -333,25 +333,64 @@ Saludos.";
             if ((int)Session["Rol"] != 1)
                 return RedirectToAction("UserDashboard");
 
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var listaStock = db.stock.Select(s => new StockViewModel
+                {
+                    Producto = s.producto.nombre,
+                    Lote = s.lote.codigo_lote,
+                    Cantidad = s.cantidad,
+                    FechaVencimiento = s.lote.fecha_vencimiento
+                }).ToList();
+
+                DateTime fechaLimite = DateTime.Now.AddMonths(6);
+
+                ViewBag.StockInventario = listaStock;
+                ViewBag.Vencimientos = listaStock
+                    .Where(s => s.FechaVencimiento <= fechaLimite)
+                    .OrderBy(s => s.FechaVencimiento)
+                    .ToList();
+            }
+
             return View();
         }
-        
         #endregion
 
+           
 
-        #region UserDashboard
-
+            #region UserDashboard
         public ActionResult UserDashboard()
         {
+            // Validaciones originales
             if (Session["IdUsuario"] == null)
                 return RedirectToAction("Login");
 
             if ((int)Session["Rol"] != 2)
                 return RedirectToAction("AdminDashboard");
 
+            // Solo lectura
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var listaStock = db.stock.Select(s => new StockViewModel
+                {
+                    Producto = s.producto.nombre,
+                    Lote = s.lote.codigo_lote,
+                    Cantidad = s.cantidad,
+                    FechaVencimiento = s.lote.fecha_vencimiento
+                }).ToList();
+
+                DateTime fechaLimite = DateTime.Now.AddMonths(6);
+
+
+                ViewBag.StockInventario = listaStock;
+                ViewBag.Vencimientos = listaStock
+                    .Where(s => s.FechaVencimiento <= fechaLimite)
+                    .OrderBy(s => s.FechaVencimiento)
+                    .ToList();
+            }
+
             return View();
         }
-
         #endregion
 
 
