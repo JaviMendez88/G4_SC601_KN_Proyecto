@@ -12,15 +12,11 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class stock
+    public partial class rack
     {
-        public int id_producto { get; set; }
-        public int id_lote { get; set; }
-        public int id_ubicacion { get; set; }
-        public int cantidad { get; set; }
+        public int id_rack { get; set; }
+        public int id_bodega { get; set; }
     
-        public virtual lote lote { get; set; }
-        public virtual producto producto { get; set; }
-        public virtual ubicacion ubicacion { get; set; }
+        public virtual bodega bodega { get; set; }
     }
 }

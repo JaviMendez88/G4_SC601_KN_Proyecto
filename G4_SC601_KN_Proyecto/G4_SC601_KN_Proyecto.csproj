@@ -124,10 +124,25 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="EntityFramework\auditoria.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\bodega.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\categoria.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\errores.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\lote.cs">
       <DependentUpon>ProyectoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\movimiento_inventario.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\pasillo.cs">
       <DependentUpon>ProyectoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\producto.cs">
@@ -148,7 +163,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ProyectoDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\rack.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\registro_error.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\rol.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ruta.cs">
       <DependentUpon>ProyectoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\stock.cs">

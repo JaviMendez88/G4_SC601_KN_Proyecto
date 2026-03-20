@@ -5,6 +5,39 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SC604Proyecto_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="auditoria">
+          <Key>
+            <PropertyRef Name="id_auditoria" />
+          </Key>
+          <Property Name="id_auditoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_usuario" Type="int" Nullable="false" />
+          <Property Name="accion" Type="varchar" MaxLength="50" />
+          <Property Name="tabla_afectada" Type="varchar" MaxLength="50" />
+          <Property Name="fecha" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="bodega">
+          <Key>
+            <PropertyRef Name="id_bodega" />
+          </Key>
+          <Property Name="id_bodega" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_ubicacion" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="categoria">
+          <Key>
+            <PropertyRef Name="id_categoria" />
+          </Key>
+          <Property Name="id_categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="errores">
+          <Key>
+            <PropertyRef Name="id_error" />
+          </Key>
+          <Property Name="id_error" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="225" />
+        </EntityType>
         <EntityType Name="lote">
           <Key>
             <PropertyRef Name="id_lote" />
@@ -25,8 +58,15 @@
           <Property Name="id_ubicacion" Type="int" Nullable="false" />
           <Property Name="tipo" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
-          <Property Name="fecha" Type="datetime" />
+          <Property Name="fecha" Type="datetime2" Precision="7" />
           <Property Name="id_usuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pasillo">
+          <Key>
+            <PropertyRef Name="id_pasillo" />
+          </Key>
+          <Property Name="id_pasillo" Type="int" Nullable="false" />
+          <Property Name="id_ubicacion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="producto">
           <Key>
@@ -36,7 +76,21 @@
           <Property Name="id_categoria" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="70" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="precio" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="precio" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rack">
+          <Key>
+            <PropertyRef Name="id_rack" />
+          </Key>
+          <Property Name="id_rack" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_bodega" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="registro_error">
+          <Key>
+            <PropertyRef Name="id_reporte" />
+          </Key>
+          <Property Name="id_reporte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_error" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -46,6 +100,17 @@
           <Property Name="rol" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="fecha_creacion" Type="datetime" Nullable="false" />
           <Property Name="fecha_modificacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ruta">
+          <Key>
+            <PropertyRef Name="id_ruta" />
+          </Key>
+          <Property Name="id_ruta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ruta" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="id_rol" Type="int" />
+          <Property Name="requiere_rol" Type="bit" Nullable="false" />
+          <Property Name="fecha_creacion" Type="datetime2" Precision="7" />
+          <Property Name="fecha_modificacion" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="stock">
           <Key>
@@ -75,13 +140,37 @@
           <Property Name="nombre" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="apellido_1" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="contrasena" Type="varchar" MaxLength="225" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="contrasena" Type="varchar" MaxLength="225" Nullable="false" />
           <Property Name="id_rol" Type="int" Nullable="false" />
           <Property Name="intentos_fallidos" Type="int" Nullable="false" />
           <Property Name="bloqueado" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK__lote__id_product__59063A47">
+        <Association Name="fk_auditoria_usuario">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="auditoria" Type="Self.auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="auditoria">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_bodega_ubicacion">
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="1" />
+          <End Role="bodega" Type="Self.bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ubicacion">
+              <PropertyRef Name="id_ubicacion" />
+            </Principal>
+            <Dependent Role="bodega">
+              <PropertyRef Name="id_ubicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_lote_producto">
           <End Role="producto" Type="Self.producto" Multiplicity="1" />
           <End Role="lote" Type="Self.lote" Multiplicity="*" />
           <ReferentialConstraint>
@@ -93,7 +182,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_lo__68487DD7">
+        <Association Name="fk_mov_lote">
           <End Role="lote" Type="Self.lote" Multiplicity="0..1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -105,7 +194,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_pr__6754599E">
+        <Association Name="fk_mov_producto">
           <End Role="producto" Type="Self.producto" Multiplicity="1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -117,7 +206,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_ub__693CA210">
+        <Association Name="fk_mov_ubicacion">
           <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -129,7 +218,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_us__6A30C649">
+        <Association Name="fk_mov_usuario">
           <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -141,7 +230,67 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__stock__id_lote__5EBF139D">
+        <Association Name="fk_pasillo_ubicacion">
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="1" />
+          <End Role="pasillo" Type="Self.pasillo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ubicacion">
+              <PropertyRef Name="id_ubicacion" />
+            </Principal>
+            <Dependent Role="pasillo">
+              <PropertyRef Name="id_ubicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_producto_categoria">
+          <End Role="categoria" Type="Self.categoria" Multiplicity="1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoria">
+              <PropertyRef Name="id_categoria" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="id_categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rack_bodega">
+          <End Role="bodega" Type="Self.bodega" Multiplicity="1" />
+          <End Role="rack" Type="Self.rack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bodega">
+              <PropertyRef Name="id_bodega" />
+            </Principal>
+            <Dependent Role="rack">
+              <PropertyRef Name="id_bodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_registro_error">
+          <End Role="errores" Type="Self.errores" Multiplicity="1" />
+          <End Role="registro_error" Type="Self.registro_error" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="errores">
+              <PropertyRef Name="id_error" />
+            </Principal>
+            <Dependent Role="registro_error">
+              <PropertyRef Name="id_error" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ruta_rol">
+          <End Role="rol" Type="Self.rol" Multiplicity="0..1" />
+          <End Role="ruta" Type="Self.ruta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="ruta">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_stock_lote">
           <End Role="lote" Type="Self.lote" Multiplicity="1" />
           <End Role="stock" Type="Self.stock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -153,7 +302,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__stock__id_produc__5DCAEF64">
+        <Association Name="fk_stock_producto">
           <End Role="producto" Type="Self.producto" Multiplicity="1" />
           <End Role="stock" Type="Self.stock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -165,7 +314,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__stock__id_ubicac__5FB337D6">
+        <Association Name="fk_stock_ubicacion">
           <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="1" />
           <End Role="stock" Type="Self.stock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -177,7 +326,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_Rol">
+        <Association Name="FK_usuario_rol">
           <End Role="rol" Type="Self.rol" Multiplicity="1" />
           <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -190,46 +339,82 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SC604Proyecto_DBModelStoreContainer">
+          <EntitySet Name="auditoria" EntityType="Self.auditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bodega" EntityType="Self.bodega" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="categoria" EntityType="Self.categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="errores" EntityType="Self.errores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lote" EntityType="Self.lote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movimiento_inventario" EntityType="Self.movimiento_inventario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pasillo" EntityType="Self.pasillo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="producto" EntityType="Self.producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rack" EntityType="Self.rack" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="registro_error" EntityType="Self.registro_error" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ruta" EntityType="Self.ruta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="stock" EntityType="Self.stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__lote__id_product__59063A47" Association="Self.FK__lote__id_product__59063A47">
+          <AssociationSet Name="fk_auditoria_usuario" Association="Self.fk_auditoria_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="auditoria" EntitySet="auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="fk_bodega_ubicacion" Association="Self.fk_bodega_ubicacion">
+            <End Role="ubicacion" EntitySet="ubicacion" />
+            <End Role="bodega" EntitySet="bodega" />
+          </AssociationSet>
+          <AssociationSet Name="fk_lote_producto" Association="Self.fk_lote_producto">
             <End Role="producto" EntitySet="producto" />
             <End Role="lote" EntitySet="lote" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_lo__68487DD7" Association="Self.FK__movimient__id_lo__68487DD7">
+          <AssociationSet Name="fk_mov_lote" Association="Self.fk_mov_lote">
             <End Role="lote" EntitySet="lote" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_pr__6754599E" Association="Self.FK__movimient__id_pr__6754599E">
+          <AssociationSet Name="fk_mov_producto" Association="Self.fk_mov_producto">
             <End Role="producto" EntitySet="producto" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_ub__693CA210" Association="Self.FK__movimient__id_ub__693CA210">
+          <AssociationSet Name="fk_mov_ubicacion" Association="Self.fk_mov_ubicacion">
             <End Role="ubicacion" EntitySet="ubicacion" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_us__6A30C649" Association="Self.FK__movimient__id_us__6A30C649">
+          <AssociationSet Name="fk_mov_usuario" Association="Self.fk_mov_usuario">
             <End Role="usuario" EntitySet="usuario" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__stock__id_lote__5EBF139D" Association="Self.FK__stock__id_lote__5EBF139D">
+          <AssociationSet Name="fk_pasillo_ubicacion" Association="Self.fk_pasillo_ubicacion">
+            <End Role="ubicacion" EntitySet="ubicacion" />
+            <End Role="pasillo" EntitySet="pasillo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_producto_categoria" Association="Self.fk_producto_categoria">
+            <End Role="categoria" EntitySet="categoria" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rack_bodega" Association="Self.fk_rack_bodega">
+            <End Role="bodega" EntitySet="bodega" />
+            <End Role="rack" EntitySet="rack" />
+          </AssociationSet>
+          <AssociationSet Name="fk_registro_error" Association="Self.fk_registro_error">
+            <End Role="errores" EntitySet="errores" />
+            <End Role="registro_error" EntitySet="registro_error" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ruta_rol" Association="Self.fk_ruta_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="ruta" EntitySet="ruta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_stock_lote" Association="Self.fk_stock_lote">
             <End Role="lote" EntitySet="lote" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <AssociationSet Name="FK__stock__id_produc__5DCAEF64" Association="Self.FK__stock__id_produc__5DCAEF64">
+          <AssociationSet Name="fk_stock_producto" Association="Self.fk_stock_producto">
             <End Role="producto" EntitySet="producto" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <AssociationSet Name="FK__stock__id_ubicac__5FB337D6" Association="Self.FK__stock__id_ubicac__5FB337D6">
+          <AssociationSet Name="fk_stock_ubicacion" Association="Self.fk_stock_ubicacion">
             <End Role="ubicacion" EntitySet="ubicacion" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
             <End Role="rol" EntitySet="rol" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
@@ -282,6 +467,42 @@
             <End Role="rol" EntitySet="rol" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
+          <EntitySet Name="auditoria" EntityType="SC604Proyecto_DBModel.auditoria" />
+          <EntitySet Name="bodega" EntityType="SC604Proyecto_DBModel.bodega" />
+          <EntitySet Name="categoria" EntityType="SC604Proyecto_DBModel.categoria" />
+          <EntitySet Name="errores" EntityType="SC604Proyecto_DBModel.errores" />
+          <EntitySet Name="pasillo" EntityType="SC604Proyecto_DBModel.pasillo" />
+          <EntitySet Name="rack" EntityType="SC604Proyecto_DBModel.rack" />
+          <EntitySet Name="registro_error" EntityType="SC604Proyecto_DBModel.registro_error" />
+          <EntitySet Name="ruta" EntityType="SC604Proyecto_DBModel.ruta" />
+          <AssociationSet Name="fk_auditoria_usuario" Association="SC604Proyecto_DBModel.fk_auditoria_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="auditoria" EntitySet="auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="fk_bodega_ubicacion" Association="SC604Proyecto_DBModel.fk_bodega_ubicacion">
+            <End Role="ubicacion" EntitySet="ubicacion" />
+            <End Role="bodega" EntitySet="bodega" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rack_bodega" Association="SC604Proyecto_DBModel.fk_rack_bodega">
+            <End Role="bodega" EntitySet="bodega" />
+            <End Role="rack" EntitySet="rack" />
+          </AssociationSet>
+          <AssociationSet Name="fk_producto_categoria" Association="SC604Proyecto_DBModel.fk_producto_categoria">
+            <End Role="categoria" EntitySet="categoria" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <AssociationSet Name="fk_registro_error" Association="SC604Proyecto_DBModel.fk_registro_error">
+            <End Role="errores" EntitySet="errores" />
+            <End Role="registro_error" EntitySet="registro_error" />
+          </AssociationSet>
+          <AssociationSet Name="fk_pasillo_ubicacion" Association="SC604Proyecto_DBModel.fk_pasillo_ubicacion">
+            <End Role="ubicacion" EntitySet="ubicacion" />
+            <End Role="pasillo" EntitySet="pasillo" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ruta_rol" Association="SC604Proyecto_DBModel.fk_ruta_rol">
+            <End Role="rol" EntitySet="rol" />
+            <End Role="ruta" EntitySet="ruta" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="lote">
           <Key>
@@ -306,7 +527,7 @@
           <Property Name="id_ubicacion" Type="Int32" Nullable="false" />
           <Property Name="tipo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="cantidad" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="fecha" Type="DateTime" Precision="7" />
           <Property Name="id_usuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="lote" Relationship="SC604Proyecto_DBModel.FK__movimient__id_lo__68487DD7" FromRole="movimiento_inventario" ToRole="lote" />
           <NavigationProperty Name="producto" Relationship="SC604Proyecto_DBModel.FK__movimient__id_pr__6754599E" FromRole="movimiento_inventario" ToRole="producto" />
@@ -321,10 +542,11 @@
           <Property Name="id_categoria" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
           <Property Name="descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="precio" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="precio" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <NavigationProperty Name="lote" Relationship="SC604Proyecto_DBModel.FK__lote__id_product__59063A47" FromRole="producto" ToRole="lote" />
           <NavigationProperty Name="movimiento_inventario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_pr__6754599E" FromRole="producto" ToRole="movimiento_inventario" />
           <NavigationProperty Name="stock" Relationship="SC604Proyecto_DBModel.FK__stock__id_produc__5DCAEF64" FromRole="producto" ToRole="stock" />
+          <NavigationProperty Name="categoria" Relationship="SC604Proyecto_DBModel.fk_producto_categoria" FromRole="producto" ToRole="categoria" />
         </EntityType>
         <EntityType Name="stock">
           <Key>
@@ -410,6 +632,8 @@
           <Property Name="distrito" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="movimiento_inventario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_ub__693CA210" FromRole="ubicacion" ToRole="movimiento_inventario" />
           <NavigationProperty Name="stock" Relationship="SC604Proyecto_DBModel.FK__stock__id_ubicac__5FB337D6" FromRole="ubicacion" ToRole="stock" />
+          <NavigationProperty Name="bodega" Relationship="SC604Proyecto_DBModel.fk_bodega_ubicacion" FromRole="ubicacion" ToRole="bodega" />
+          <NavigationProperty Name="pasillo" Relationship="SC604Proyecto_DBModel.fk_pasillo_ubicacion" FromRole="ubicacion" ToRole="pasillo" />
         </EntityType>
         <Association Name="FK__movimient__id_ub__693CA210">
           <End Type="SC604Proyecto_DBModel.ubicacion" Role="ubicacion" Multiplicity="1" />
@@ -444,6 +668,7 @@
           <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="fecha_modificacion" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="usuario" Relationship="SC604Proyecto_DBModel.FK_Usuario_Rol" FromRole="rol" ToRole="usuario" />
+          <NavigationProperty Name="ruta" Relationship="SC604Proyecto_DBModel.fk_ruta_rol" FromRole="rol" ToRole="ruta" />
         </EntityType>
         <EntityType Name="usuario">
           <Key>
@@ -460,6 +685,7 @@
           <Property Name="bloqueado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="movimiento_inventario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_us__6A30C649" FromRole="usuario" ToRole="movimiento_inventario" />
           <NavigationProperty Name="rol" Relationship="SC604Proyecto_DBModel.FK_Usuario_Rol" FromRole="usuario" ToRole="rol" />
+          <NavigationProperty Name="auditoria" Relationship="SC604Proyecto_DBModel.fk_auditoria_usuario" FromRole="usuario" ToRole="auditoria" />
         </EntityType>
         <Association Name="FK__movimient__id_us__6A30C649">
           <End Type="SC604Proyecto_DBModel.usuario" Role="usuario" Multiplicity="1" />
@@ -481,6 +707,164 @@
               <PropertyRef Name="id_rol" />
             </Principal>
             <Dependent Role="usuario">
+              <PropertyRef Name="id_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="auditoria">
+          <Key>
+            <PropertyRef Name="id_auditoria" />
+          </Key>
+          <Property Name="id_auditoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="accion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tabla_afectada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="usuario" Relationship="SC604Proyecto_DBModel.fk_auditoria_usuario" FromRole="auditoria" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="bodega">
+          <Key>
+            <PropertyRef Name="id_bodega" />
+          </Key>
+          <Property Name="id_bodega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_ubicacion" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ubicacion" Relationship="SC604Proyecto_DBModel.fk_bodega_ubicacion" FromRole="bodega" ToRole="ubicacion" />
+          <NavigationProperty Name="rack" Relationship="SC604Proyecto_DBModel.fk_rack_bodega" FromRole="bodega" ToRole="rack" />
+        </EntityType>
+        <EntityType Name="categoria">
+          <Key>
+            <PropertyRef Name="id_categoria" />
+          </Key>
+          <Property Name="id_categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="titulo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="producto" Relationship="SC604Proyecto_DBModel.fk_producto_categoria" FromRole="categoria" ToRole="producto" />
+        </EntityType>
+        <EntityType Name="errores">
+          <Key>
+            <PropertyRef Name="id_error" />
+          </Key>
+          <Property Name="id_error" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="registro_error" Relationship="SC604Proyecto_DBModel.fk_registro_error" FromRole="errores" ToRole="registro_error" />
+        </EntityType>
+        <EntityType Name="pasillo">
+          <Key>
+            <PropertyRef Name="id_pasillo" />
+          </Key>
+          <Property Name="id_pasillo" Type="Int32" Nullable="false" />
+          <Property Name="id_ubicacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ubicacion" Relationship="SC604Proyecto_DBModel.fk_pasillo_ubicacion" FromRole="pasillo" ToRole="ubicacion" />
+        </EntityType>
+        <EntityType Name="rack">
+          <Key>
+            <PropertyRef Name="id_rack" />
+          </Key>
+          <Property Name="id_rack" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_bodega" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="bodega" Relationship="SC604Proyecto_DBModel.fk_rack_bodega" FromRole="rack" ToRole="bodega" />
+        </EntityType>
+        <EntityType Name="registro_error">
+          <Key>
+            <PropertyRef Name="id_reporte" />
+          </Key>
+          <Property Name="id_reporte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_error" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="errores" Relationship="SC604Proyecto_DBModel.fk_registro_error" FromRole="registro_error" ToRole="errores" />
+        </EntityType>
+        <EntityType Name="ruta">
+          <Key>
+            <PropertyRef Name="id_ruta" />
+          </Key>
+          <Property Name="id_ruta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ruta1" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="id_rol" Type="Int32" />
+          <Property Name="requiere_rol" Type="Boolean" Nullable="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Precision="7" />
+          <Property Name="fecha_modificacion" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="rol" Relationship="SC604Proyecto_DBModel.fk_ruta_rol" FromRole="ruta" ToRole="rol" />
+        </EntityType>
+        <Association Name="fk_auditoria_usuario">
+          <End Type="SC604Proyecto_DBModel.usuario" Role="usuario" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.auditoria" Role="auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="auditoria">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_bodega_ubicacion">
+          <End Type="SC604Proyecto_DBModel.ubicacion" Role="ubicacion" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.bodega" Role="bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ubicacion">
+              <PropertyRef Name="id_ubicacion" />
+            </Principal>
+            <Dependent Role="bodega">
+              <PropertyRef Name="id_ubicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rack_bodega">
+          <End Type="SC604Proyecto_DBModel.bodega" Role="bodega" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.rack" Role="rack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bodega">
+              <PropertyRef Name="id_bodega" />
+            </Principal>
+            <Dependent Role="rack">
+              <PropertyRef Name="id_bodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_producto_categoria">
+          <End Type="SC604Proyecto_DBModel.categoria" Role="categoria" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.producto" Role="producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoria">
+              <PropertyRef Name="id_categoria" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="id_categoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_registro_error">
+          <End Type="SC604Proyecto_DBModel.errores" Role="errores" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.registro_error" Role="registro_error" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="errores">
+              <PropertyRef Name="id_error" />
+            </Principal>
+            <Dependent Role="registro_error">
+              <PropertyRef Name="id_error" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_pasillo_ubicacion">
+          <End Type="SC604Proyecto_DBModel.ubicacion" Role="ubicacion" Multiplicity="1" />
+          <End Type="SC604Proyecto_DBModel.pasillo" Role="pasillo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ubicacion">
+              <PropertyRef Name="id_ubicacion" />
+            </Principal>
+            <Dependent Role="pasillo">
+              <PropertyRef Name="id_ubicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ruta_rol">
+          <End Type="SC604Proyecto_DBModel.rol" Role="rol" Multiplicity="0..1" />
+          <End Type="SC604Proyecto_DBModel.ruta" Role="ruta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rol">
+              <PropertyRef Name="id_rol" />
+            </Principal>
+            <Dependent Role="ruta">
               <PropertyRef Name="id_rol" />
             </Dependent>
           </ReferentialConstraint>
@@ -569,6 +953,79 @@
                 <ScalarProperty Name="apellido_1" ColumnName="apellido_1" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="auditoria">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.auditoria">
+              <MappingFragment StoreEntitySet="auditoria">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="tabla_afectada" ColumnName="tabla_afectada" />
+                <ScalarProperty Name="accion" ColumnName="accion" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_auditoria" ColumnName="id_auditoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bodega">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.bodega">
+              <MappingFragment StoreEntitySet="bodega">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_ubicacion" ColumnName="id_ubicacion" />
+                <ScalarProperty Name="id_bodega" ColumnName="id_bodega" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categoria">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.categoria">
+              <MappingFragment StoreEntitySet="categoria">
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
+                <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="errores">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.errores">
+              <MappingFragment StoreEntitySet="errores">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="id_error" ColumnName="id_error" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pasillo">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.pasillo">
+              <MappingFragment StoreEntitySet="pasillo">
+                <ScalarProperty Name="id_ubicacion" ColumnName="id_ubicacion" />
+                <ScalarProperty Name="id_pasillo" ColumnName="id_pasillo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rack">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.rack">
+              <MappingFragment StoreEntitySet="rack">
+                <ScalarProperty Name="id_bodega" ColumnName="id_bodega" />
+                <ScalarProperty Name="id_rack" ColumnName="id_rack" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="registro_error">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.registro_error">
+              <MappingFragment StoreEntitySet="registro_error">
+                <ScalarProperty Name="id_error" ColumnName="id_error" />
+                <ScalarProperty Name="id_reporte" ColumnName="id_reporte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ruta">
+            <EntityTypeMapping TypeName="SC604Proyecto_DBModel.ruta">
+              <MappingFragment StoreEntitySet="ruta">
+                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="requiere_rol" ColumnName="requiere_rol" />
+                <ScalarProperty Name="id_rol" ColumnName="id_rol" />
+                <ScalarProperty Name="ruta1" ColumnName="ruta" />
+                <ScalarProperty Name="id_ruta" ColumnName="id_ruta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
