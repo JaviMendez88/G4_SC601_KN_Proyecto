@@ -122,7 +122,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="EntityFramework\lote.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\movimiento_inventario.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\producto.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\ProyectoDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -141,12 +151,19 @@
     <Compile Include="EntityFramework\rol.cs">
       <DependentUpon>ProyectoDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\stock.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ubicacion.cs">
+      <DependentUpon>ProyectoDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\usuario.cs">
       <DependentUpon>ProyectoDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\StockViewModel.cs" />
     <Compile Include="Models\UsuarioModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -254,6 +271,8 @@
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Home\AdminDashboard.cshtml" />
     <Content Include="Views\Home\UserDashboard.cshtml" />
+    <Content Include="Views\Inventario\Index.cshtml" />
+    <Content Include="Views\Inventario\RegistrarMovimiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

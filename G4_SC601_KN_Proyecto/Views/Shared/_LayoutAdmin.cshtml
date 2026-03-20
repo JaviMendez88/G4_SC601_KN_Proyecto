@@ -38,7 +38,13 @@
                         <li class="nav-item ms-2">
                             <a href="@Url.Action("Signup","Home")" class="main-btn primary-btn btn-sm">Register</a>
                         </li>
-                    </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Inventario")">
+                                <i class="fas fa-fw fa-boxes"></i>
+                                <span>Gestión de Inventarios</span>
+                            </a>
+                        </li>
+</ul>
                 </div>
             </nav>
         </div>
@@ -49,23 +55,21 @@
     {
         <section class="hero-area">
             <div class="container">
-                <h1 class="hero-title">Inventory Management - Smart App</h1>
+                <h1 class="hero-title">Gestion de inventarios</h1>
                 <div class="mt-4"></div>
             </div>
         </section>
     }
 
     <!-- ================= CONTENIDO ================= -->
-    <main class="container auth-container">
-        <div class="auth-box card-style">
-            @RenderBody()
-        </div>
-    </main>
+<main class="container-fluid px-4">
+    @RenderBody()
+</main>
 
     <!-- ================= FOOTER ================= -->
     <footer class="footer-simple">
         <div class="container">
-            <strong>Inventory Management - Smart Web App</strong><br />
+            <strong>Gestion de inventarios</strong><br />
             Universidad Fidélitas — Programación Avanzada SC604<br />
             Grupo 4 · © @DateTime.Now.Year
         </div>

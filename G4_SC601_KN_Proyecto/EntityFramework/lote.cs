@@ -12,20 +12,25 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class rol
+    public partial class lote
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public rol()
+        public lote()
         {
-            this.usuario = new HashSet<usuario>();
+            this.movimiento_inventario = new HashSet<movimiento_inventario>();
+            this.stock = new HashSet<stock>();
         }
     
-        public int id_rol { get; set; }
-        public string rol1 { get; set; }
-        public Nullable<System.DateTime> fecha_creacion { get; set; }
-        public Nullable<System.DateTime> fecha_modificacion { get; set; }
+        public int id_lote { get; set; }
+        public int id_producto { get; set; }
+        public string codigo_lote { get; set; }
+        public System.DateTime fecha_vencimiento { get; set; }
+        public System.DateTime fecha_ingreso { get; set; }
     
+        public virtual producto producto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<usuario> usuario { get; set; }
+        public virtual ICollection<movimiento_inventario> movimiento_inventario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<stock> stock { get; set; }
     }
 }

@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Registrar Movimiento";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    <h1 class="h3 mb-4 text-gray-800">Registrar Entrada o Salida</h1>
+
+    <div class="card shadow mb-4" style="max-width: 600px;">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Detalles del Movimiento</h6>
+        </div>
+        <div class="card-body">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <form action="@Url.Action("RegistrarMovimiento", "Inventario")" method="post">
+
+                <div class="form-group mb-3">
+                    <label class="font-weight-bold">Tipo de Movimiento</label>
+                    <select name="tipo" class="form-control" required>
+                        <option value="ENTRADA">Entrada (Sumar al stock)</option>
+                        <option value="SALIDA">Salida (Restar al stock)</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Producto</label>
+                    <select name="id_producto" class="form-control" required>
+                        <option value="">Seleccione un producto...</option>
+                        @foreach (var p in ViewBag.Productos)
+                        {
+                            <option value="@p.id_producto">@p.nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Lote Asociado</label>
+                    <select name="id_lote" class="form-control" required>
+                        <option value="">Seleccione el lote...</option>
+                        @foreach (var l in ViewBag.Lotes)
+                        {
+                            <option value="@l.id_lote">@l.codigo_lote</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Ubicación / Bodega</label>
+                    <select name="id_ubicacion" class="form-control" required>
+                        <option value="">Seleccione la bodega...</option>
+                        @foreach (var u in ViewBag.Ubicaciones)
+                        {
+                            <option value="@u.id_ubicacion">@u.canton - @u.distrito</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label>Cantidad</label>
+                    <input type="number" name="cantidad" class="form-control" min="1" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-save"></i> Procesar Movimiento
+                </button>
+                <a href="@Url.Action("Index", "Inventario")" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
