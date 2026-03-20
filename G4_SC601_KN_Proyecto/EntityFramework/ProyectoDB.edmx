@@ -25,7 +25,7 @@
           <Property Name="id_ubicacion" Type="int" Nullable="false" />
           <Property Name="tipo" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
-          <Property Name="fecha" Type="datetime" />
+          <Property Name="fecha" Type="datetime2" Precision="7" />
           <Property Name="id_usuario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="producto">
@@ -36,7 +36,7 @@
           <Property Name="id_categoria" Type="int" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="70" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="precio" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="precio" Type="decimal" Precision="12" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="rol">
           <Key>
@@ -75,13 +75,13 @@
           <Property Name="nombre" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="apellido_1" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="contrasena" Type="varchar" MaxLength="225" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="contrasena" Type="varchar" MaxLength="225" Nullable="false" />
           <Property Name="id_rol" Type="int" Nullable="false" />
           <Property Name="intentos_fallidos" Type="int" Nullable="false" />
           <Property Name="bloqueado" Type="bit" Nullable="false" />
         </EntityType>
-        <Association Name="FK__lote__id_product__59063A47">
+        <Association Name="fk_lote_producto">
           <End Role="producto" Type="Self.producto" Multiplicity="1" />
           <End Role="lote" Type="Self.lote" Multiplicity="*" />
           <ReferentialConstraint>
@@ -93,7 +93,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_lo__68487DD7">
+        <Association Name="fk_mov_lote">
           <End Role="lote" Type="Self.lote" Multiplicity="0..1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -105,7 +105,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_pr__6754599E">
+        <Association Name="fk_mov_producto">
           <End Role="producto" Type="Self.producto" Multiplicity="1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -117,7 +117,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_ub__693CA210">
+        <Association Name="fk_mov_ubicacion">
           <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -129,7 +129,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__movimient__id_us__6A30C649">
+        <Association Name="fk_mov_usuario">
           <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
           <End Role="movimiento_inventario" Type="Self.movimiento_inventario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -141,7 +141,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__stock__id_lote__5EBF139D">
+        <Association Name="fk_stock_lote">
           <End Role="lote" Type="Self.lote" Multiplicity="1" />
           <End Role="stock" Type="Self.stock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -153,7 +153,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__stock__id_produc__5DCAEF64">
+        <Association Name="fk_stock_producto">
           <End Role="producto" Type="Self.producto" Multiplicity="1" />
           <End Role="stock" Type="Self.stock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -165,7 +165,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__stock__id_ubicac__5FB337D6">
+        <Association Name="fk_stock_ubicacion">
           <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="1" />
           <End Role="stock" Type="Self.stock" Multiplicity="*" />
           <ReferentialConstraint>
@@ -177,7 +177,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_Rol">
+        <Association Name="FK_usuario_rol">
           <End Role="rol" Type="Self.rol" Multiplicity="1" />
           <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -197,39 +197,39 @@
           <EntitySet Name="stock" EntityType="Self.stock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__lote__id_product__59063A47" Association="Self.FK__lote__id_product__59063A47">
+          <AssociationSet Name="fk_lote_producto" Association="Self.fk_lote_producto">
             <End Role="producto" EntitySet="producto" />
             <End Role="lote" EntitySet="lote" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_lo__68487DD7" Association="Self.FK__movimient__id_lo__68487DD7">
+          <AssociationSet Name="fk_mov_lote" Association="Self.fk_mov_lote">
             <End Role="lote" EntitySet="lote" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_pr__6754599E" Association="Self.FK__movimient__id_pr__6754599E">
+          <AssociationSet Name="fk_mov_producto" Association="Self.fk_mov_producto">
             <End Role="producto" EntitySet="producto" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_ub__693CA210" Association="Self.FK__movimient__id_ub__693CA210">
+          <AssociationSet Name="fk_mov_ubicacion" Association="Self.fk_mov_ubicacion">
             <End Role="ubicacion" EntitySet="ubicacion" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__movimient__id_us__6A30C649" Association="Self.FK__movimient__id_us__6A30C649">
+          <AssociationSet Name="fk_mov_usuario" Association="Self.fk_mov_usuario">
             <End Role="usuario" EntitySet="usuario" />
             <End Role="movimiento_inventario" EntitySet="movimiento_inventario" />
           </AssociationSet>
-          <AssociationSet Name="FK__stock__id_lote__5EBF139D" Association="Self.FK__stock__id_lote__5EBF139D">
+          <AssociationSet Name="fk_stock_lote" Association="Self.fk_stock_lote">
             <End Role="lote" EntitySet="lote" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <AssociationSet Name="FK__stock__id_produc__5DCAEF64" Association="Self.FK__stock__id_produc__5DCAEF64">
+          <AssociationSet Name="fk_stock_producto" Association="Self.fk_stock_producto">
             <End Role="producto" EntitySet="producto" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <AssociationSet Name="FK__stock__id_ubicac__5FB337D6" Association="Self.FK__stock__id_ubicac__5FB337D6">
+          <AssociationSet Name="fk_stock_ubicacion" Association="Self.fk_stock_ubicacion">
             <End Role="ubicacion" EntitySet="ubicacion" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+          <AssociationSet Name="FK_usuario_rol" Association="Self.FK_usuario_rol">
             <End Role="rol" EntitySet="rol" />
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
@@ -306,7 +306,7 @@
           <Property Name="id_ubicacion" Type="Int32" Nullable="false" />
           <Property Name="tipo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="cantidad" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="fecha" Type="DateTime" Precision="7" />
           <Property Name="id_usuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="lote" Relationship="SC604Proyecto_DBModel.FK__movimient__id_lo__68487DD7" FromRole="movimiento_inventario" ToRole="lote" />
           <NavigationProperty Name="producto" Relationship="SC604Proyecto_DBModel.FK__movimient__id_pr__6754599E" FromRole="movimiento_inventario" ToRole="producto" />
@@ -321,7 +321,7 @@
           <Property Name="id_categoria" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
           <Property Name="descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="precio" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="precio" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <NavigationProperty Name="lote" Relationship="SC604Proyecto_DBModel.FK__lote__id_product__59063A47" FromRole="producto" ToRole="lote" />
           <NavigationProperty Name="movimiento_inventario" Relationship="SC604Proyecto_DBModel.FK__movimient__id_pr__6754599E" FromRole="producto" ToRole="movimiento_inventario" />
           <NavigationProperty Name="stock" Relationship="SC604Proyecto_DBModel.FK__stock__id_produc__5DCAEF64" FromRole="producto" ToRole="stock" />
