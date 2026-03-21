@@ -1,142 +1,17 @@
-CREATE DATABASE SC604Proyecto_DB;
-
-USE SC604Proyecto_DB;
-
--- TABLA ROLES, ERRORES, USUARIOS, PRODUCTO, CATEGORÍA, BODEGAS, RACKS, PASILLOS, Movimientos_inventarios, Lotes, Ubicaciones, stock, auditoria
-
-CREATE TABLE errores (
-id_error int not null auto_increment,
-tipo varchar(70) not null,
-descripcion varchar (225),
-primary key (id_error)
-);
-
-create table categoria(
-id_categoria int not null auto_increment,
-titulo varchar (40) unique,
-PRIMARY KEY (id_categoria),
-index ndx_titulo (titulo)
-);
-
-create table producto(
-id_producto int not null auto_increment,
-id_categoria int not null,
-nombre varchar (70) not null,
-descripcion varchar(100) not null,
-precio decimal(12,2) CHECK (precio >= 0),
-PRIMARY KEY (id_producto),
-foreign key  (id_categoria) references categoria(id_categoria)
-);
-
-create table ubicacion(
-id_ubicacion int not null auto_increment, 
-provincia varchar (20) not null, 
-canton varchar (70) not null, 
-distrito varchar (70) not null, 
-PRIMARY KEY (id_ubicacion)
-);
-
-create table bodega(
-id_bodega int not null auto_increment,
-id_ubicacion int not null, 
-nombre varchar (30) not null, 
-primary key (id_bodega),
-foreign key  (id_ubicacion) references ubicacion (id_ubicacion)
-
-);
-
-CREATE TABLE ruta (
-    id_ruta INT AUTO_INCREMENT NOT NULL,
-    ruta VARCHAR(255) NOT NULL,
-    id_rol INT NULL,
-    requiere_rol boolean NOT NULL DEFAULT TRUE,
-  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    check (id_rol IS NOT NULL OR requiere_rol = FALSE),
-    PRIMARY KEY (id_ruta),
-    FOREIGN KEY (id_rol) REFERENCES rol(id_rol));
-    
-    
--- RACKS, PASILLOS, Movimientos_inventarios, Lotes, auditoria
-
-create table rack(
-id_rack int not null auto_increment, 
-id_bodega int not null, 
-primary key(id_rack),
-foreign key  (id_bodega) references bodega(id_bodega)
-);
-
-create table pasillo(
-id_pasillo int not null, 
-id_ubicacion int not null, 
-primary key (id_pasillo),
-foreign key (id_ubicacion) references ubicacion (id_ubicacion)
-);
-
-
-CREATE TABLE lote (
-  id_lote INT not null AUTO_INCREMENT,
-  id_producto INT NOT NULL,
-  codigo_lote VARCHAR(50),
-  fecha_vencimiento DATE NOT NULL,
-  fecha_ingreso DATE NOT NULL,
-  primary key (id_lote),
-  FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-  CHECK (fecha_vencimiento > fecha_ingreso)
-);
-
-CREATE TABLE stock (
-  id_producto INT NOT NULL,
-  id_lote INT NOT NULL,
-  id_ubicacion INT NOT NULL,
-  cantidad INT UNSIGNED NOT NULL,
-  PRIMARY KEY (id_producto, id_lote, id_ubicacion),
-  FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-  FOREIGN KEY (id_lote) REFERENCES lote(id_lote),
-  FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
-);
-
-create table registro_error(
-id_reporte int not null auto_increment, 
-id_error int not null, 
-primary key(id_reporte),
-foreign key (id_error) references errores(id_error)
-);
-
-CREATE TABLE movimiento_inventario (
-  id_movimiento INT NOT NULL AUTO_INCREMENT,
-  id_producto INT NOT NULL,
-  id_lote INT,
-  id_ubicacion INT NOT NULL,
-  tipo ENUM('ENTRADA','SALIDA','AJUSTE') NOT NULL,
-  cantidad INT NOT NULL,
-  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  id_usuario INT NOT NULL,
-  primary key (id_movimiento),
-  FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
-  FOREIGN KEY (id_lote) REFERENCES lote(id_lote),
-  FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion),
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
-
-  
-  
-  CREATE TABLE auditoria (
-  id_auditoria INT AUTO_INCREMENT,
-  id_usuario INT NOT NULL,
-  accion VARCHAR(50),
-  tabla_afectada VARCHAR(50),
-  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  primary key (id_auditoria),
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
-);
-
-
 -- Javier Méndez -- Tablas modificadas
 
-USE SC604Proyecto_DB;
 
---TABLAS ROL, USUARIO
+
+
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ProyectoDB')
+BEGIN
+    CREATE DATABASE ProyectoDB;
+END
+GO
+
+USE ProyectoDB;
+GO
+
 
 CREATE TABLE dbo.rol (
     id_rol INT IDENTITY(1,1) NOT NULL,
@@ -145,6 +20,7 @@ CREATE TABLE dbo.rol (
     fecha_modificacion DATETIME NOT NULL DEFAULT GETDATE(),
     CONSTRAINT PK_rol PRIMARY KEY (id_rol)
 );
+GO
 
 CREATE TABLE dbo.usuario (
     id_usuario INT IDENTITY(1,1) NOT NULL,
@@ -157,20 +33,199 @@ CREATE TABLE dbo.usuario (
     intentos_fallidos INT NOT NULL DEFAULT 0,
     bloqueado BIT NOT NULL DEFAULT 0,
     CONSTRAINT PK_usuario PRIMARY KEY (id_usuario),
-    CONSTRAINT FK_usuario_rol FOREIGN KEY (id_rol)
+    CONSTRAINT FK_usuario_rol 
+        FOREIGN KEY (id_rol)
         REFERENCES dbo.rol(id_rol)
+);
+GO
+
+INSERT INTO dbo.rol (rol)
+VALUES 
+    ('ADMIN'),
+    ('USUARIO');
+GO
+
+INSERT INTO dbo.usuario (
+    nombre,
+    apellido_1,
+    usuario,
+    email,
+    contrasena,
+    id_rol,
+    intentos_fallidos,
+    bloqueado
+)
+VALUES
+(
+    'Javier',
+    'Mendez',
+    'jmendez80868',
+    'jmendez80867@ufide.ac.cr',
+    'WvzLPrey',
+    1,  -- ADMIN
+    0,
+    0
+),
+(
+    'Otilio',
+    'Jaen',
+    'Ottis',
+    'otilio0223@ufide.ac.cr',
+    'ABC000',
+    2,  -- USUARIO
+    0,
+    0
+);
+GO
+
+
+
+CREATE TABLE errores (
+    id_error INT IDENTITY(1,1) PRIMARY KEY,
+    tipo VARCHAR(70) NOT NULL,
+    descripcion VARCHAR(225)
 );
 
 
--- Roles creados.
+CREATE TABLE categoria (
+    id_categoria INT IDENTITY(1,1) PRIMARY KEY,
+    titulo VARCHAR(40) UNIQUE
+);
 
-INSERT INTO dbo.rol (rol)
-VALUES ('ADMIN');
-
-INSERT INTO dbo.rol (rol)
-VALUES ('USUARIO');
-
+CREATE INDEX ndx_titulo ON categoria(titulo);
 
 
+CREATE TABLE producto (
+    id_producto INT IDENTITY(1,1) PRIMARY KEY,
+    id_categoria INT NOT NULL,
+    nombre VARCHAR(70) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL,
+    precio DECIMAL(12,2) NOT NULL,
+    CONSTRAINT chk_precio CHECK (precio >= 0),
+    CONSTRAINT fk_producto_categoria 
+        FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
 
+
+CREATE TABLE ubicacion (
+    id_ubicacion INT IDENTITY(1,1) PRIMARY KEY,
+    provincia VARCHAR(20) NOT NULL,
+    canton VARCHAR(70) NOT NULL,
+    distrito VARCHAR(70) NOT NULL
+);
+
+
+
+CREATE TABLE bodega (
+    id_bodega INT IDENTITY(1,1) PRIMARY KEY,
+    id_ubicacion INT NOT NULL,
+    nombre VARCHAR(30) NOT NULL,
+    CONSTRAINT fk_bodega_ubicacion 
+        FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
+);
+
+
+CREATE TABLE ruta (
+    id_ruta INT IDENTITY(1,1) PRIMARY KEY,
+    ruta VARCHAR(255) NOT NULL,
+    id_rol INT NULL,
+    requiere_rol BIT NOT NULL DEFAULT 1,
+    fecha_creacion DATETIME2 DEFAULT SYSDATETIME(),
+    fecha_modificacion DATETIME2 DEFAULT SYSDATETIME(),
+    CONSTRAINT chk_ruta_rol CHECK (
+        id_rol IS NOT NULL OR requiere_rol = 0
+    ),
+    CONSTRAINT fk_ruta_rol 
+        FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
+);
+
+
+
+CREATE TABLE rack (
+    id_rack INT IDENTITY(1,1) PRIMARY KEY,
+    id_bodega INT NOT NULL,
+    CONSTRAINT fk_rack_bodega 
+        FOREIGN KEY (id_bodega) REFERENCES bodega(id_bodega)
+);
+
+
+CREATE TABLE pasillo (
+    id_pasillo INT PRIMARY KEY,
+    id_ubicacion INT NOT NULL,
+    CONSTRAINT fk_pasillo_ubicacion 
+        FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
+);
+
+
+
+CREATE TABLE lote (
+    id_lote INT IDENTITY(1,1) PRIMARY KEY,
+    id_producto INT NOT NULL,
+    codigo_lote VARCHAR(50),
+    fecha_vencimiento DATE NOT NULL,
+    fecha_ingreso DATE NOT NULL,
+    CONSTRAINT chk_fechas_lote 
+        CHECK (fecha_vencimiento > fecha_ingreso),
+    CONSTRAINT fk_lote_producto 
+        FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+);
+
+
+
+CREATE TABLE stock (
+    id_producto INT NOT NULL,
+    id_lote INT NOT NULL,
+    id_ubicacion INT NOT NULL,
+    cantidad INT NOT NULL,
+    CONSTRAINT chk_cantidad CHECK (cantidad >= 0),
+    PRIMARY KEY (id_producto, id_lote, id_ubicacion),
+    CONSTRAINT fk_stock_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    CONSTRAINT fk_stock_lote FOREIGN KEY (id_lote) REFERENCES lote(id_lote),
+    CONSTRAINT fk_stock_ubicacion FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
+);
+
+
+
+CREATE TABLE registro_error (
+    id_reporte INT IDENTITY(1,1) PRIMARY KEY,
+    id_error INT NOT NULL,
+    CONSTRAINT fk_registro_error 
+        FOREIGN KEY (id_error) REFERENCES errores(id_error)
+);
+
+
+
+CREATE TABLE movimiento_inventario (
+    id_movimiento INT IDENTITY(1,1) PRIMARY KEY,
+    id_producto INT NOT NULL,
+    id_lote INT NULL,
+    id_ubicacion INT NOT NULL,
+    tipo VARCHAR(10) NOT NULL,
+    cantidad INT NOT NULL,
+    fecha DATETIME2 DEFAULT SYSDATETIME(),
+    id_usuario INT NOT NULL,
+    CONSTRAINT chk_tipo_movimiento 
+        CHECK (tipo IN ('ENTRADA','SALIDA','AJUSTE')),
+    CONSTRAINT fk_mov_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    CONSTRAINT fk_mov_lote FOREIGN KEY (id_lote) REFERENCES lote(id_lote),
+    CONSTRAINT fk_mov_ubicacion FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion),
+    CONSTRAINT fk_mov_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+
+
+CREATE TABLE auditoria (
+    id_auditoria INT IDENTITY(1,1) PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    accion VARCHAR(50),
+    tabla_afectada VARCHAR(50),
+    fecha DATETIME2 DEFAULT SYSDATETIME(),
+    CONSTRAINT fk_auditoria_usuario 
+        FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+
+
+SELECT * FROM dbo.rol;
+SELECT * FROM dbo.usuario;
 
