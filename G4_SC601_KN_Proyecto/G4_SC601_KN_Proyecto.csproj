@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AuditoriaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DbContextExtension.cs" />
+    <Compile Include="Models\PerfilModel.cs" />
     <Compile Include="Models\StockViewModel.cs" />
     <Compile Include="Models\UsuarioModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,6 +200,7 @@
     <Content Include="assets\css\glightbox.min.css" />
     <Content Include="assets\css\LineIcons.3.0.css" />
     <Content Include="assets\css\main.css" />
+    <Content Include="assets\css\style.css" />
     <Content Include="assets\css\tiny-slider.css" />
     <Content Include="assets\fonts\LineIcons.svg" />
     <Content Include="assets\images\favicon.svg" />
@@ -205,6 +209,7 @@
     <Content Include="assets\images\logo\Terumo-logo-766x200.jpg" />
     <Content Include="assets\images\logo\white-logo.svg" />
     <Content Include="assets\js\bootstrap.min.js" />
+    <Content Include="assets\js\ConsultarCambios.js" />
     <Content Include="assets\js\count-up.min.js" />
     <Content Include="assets\js\glightbox.min.js" />
     <Content Include="assets\js\wow.min.js" />
@@ -269,8 +274,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="template\CSS\style.css" />
-    <Content Include="template\js\UserValidations .js" />
+    <Content Include="assets\js\validaciones\UserValidations .js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -290,12 +294,12 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\Home\IndexUser.cshtml" />
     <Content Include="Views\Home\AccountRecovery.cshtml" />
-    <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\UserDetail.cshtml" />
     <Content Include="Views\Home\ResetPassword.cshtml" />
     <Content Include="Views\Home\AdminDashboard.cshtml" />
     <Content Include="Views\Home\UserDashboard.cshtml" />
     <Content Include="Views\Inventario\RegistrarMovimiento.cshtml" />
+    <Content Include="Views\Auditoria\AuditoriaCambios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,8 +18,14 @@
     <link href="~/assets/css/tiny-slider.css" rel="stylesheet" />
     <link href="~/assets/css/glightbox.min.css" rel="stylesheet" />
     <link href="~/assets/css/main.css" rel="stylesheet" />
-    <link href="~/template/CSS/style.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
 </head>
+
+
+
 
 <body>
     <!-- Start Header Area -->
@@ -50,19 +56,10 @@
                                             <li class="nav-item"><a href="index2.html">Startup Homepage</a></li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
-                                           data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
-                                           aria-expanded="false" aria-label="Toggle navigation">Pages</a>
-                                        <ul class="sub-menu collapse" id="submenu-1-2">
-                                            <li class="nav-item"><a href="@Url.Action("Login","Home")">Iniciar Sesión</a></li>
-                                            <li class="nav-item"><a href="@Url.Action("Signup","Home")">Registrase</a></li>
-                                            <li class="nav-item"><a href="@Url.Action("AccountRecovery","Home")">Recuperar Contraseña</a></li>
-                                        </ul>
-                                    </li>
+                                    
                                 </ul>
                             </div>
-                          <!--Perfil del usuario / Autenticación-->
+                            <!--Perfil del usuario / Autenticación-->
                             <div class="button">
                                 @if (Session["IdUsuario"] != null)
                                 {

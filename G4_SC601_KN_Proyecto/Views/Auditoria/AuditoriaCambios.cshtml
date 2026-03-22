@@ -1,0 +1,83 @@
+﻿
+@model List<G4_SC601_KN_Proyecto.EntityFramework.auditoria>
+
+@{
+    ViewBag.Title = "Auditoría de Cambios";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml"; 
+}
+
+<div class="container-fluid mt-4">
+    <h2 class="mb-3 text-gray-800">
+        <i class="fas fa-history text-primary"></i> Tabla de Auditoría
+    </h2>
+    <p class="text-muted">Registro histórico de transacciones realizadas en la base de datos.</p>
+
+    <hr class="my-4" />
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold" style="color: #0056b3;">
+                <i class="fas fa-list-ul"></i> Movimientos Recientes
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="tablaCambios"  class="table table-striped table-hover table-bordered" width="100%" cellspacing="0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th width="15%">Fecha y Hora</th>
+                            <th width="20%">Usuario Responsable</th>
+                            <th width="15%">Acción</th>
+                            <th width="20%">Módulo Afectado</th>
+                            <th width="30%">Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.fecha.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                    <td>
+                                        @* Mostrar nombre del usuario, o un fallback si se eliminó *@
+                                        @(item.usuario != null ? item.usuario.nombre + " " + item.usuario.apellido_1 : "Usuario No." + item.id_usuario)
+                                    </td>
+                                    <td>
+                                        @* Aplicar colores a la acción (Added = Verde, Modified = Amarillo, Deleted = Rojo) *@
+                                        @if (item.accion == "Added")
+                                        {
+                                            <span class="badge bg-success">Creación</span>
+                                        }
+                                        else if (item.accion == "Modified")
+                                        {
+                                            <span class="badge bg-warning text-dark">Modificación</span>
+                                        }
+                                        else if (item.accion == "Deleted")
+                                        {
+                                            <span class="badge bg-danger">Eliminación</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@item.accion</span>
+                                        }
+                                    </td>
+                                    <td>@item.tabla_afectada</td>
+                                    <td><small>@item.detalles</small></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Aún no hay registros de auditoría almacenados.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+	</div>
+</div>
+
+<script src="~/assets/js/ConsultarCambios.js"></script>

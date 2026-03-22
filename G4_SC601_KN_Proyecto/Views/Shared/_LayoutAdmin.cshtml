@@ -12,7 +12,17 @@
     <link href="~/assets/css/tiny-slider.css" rel="stylesheet" />
     <link href="~/assets/css/glightbox.min.css" rel="stylesheet" />
     <link href="~/assets/css/main.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/2.3.7/css/dataTables.bootstrap5.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+
+
+
 </head>
+
 
 <body>
     <!-- ================= HEADER ================= -->
@@ -36,7 +46,7 @@
                         <li class="nav-item ms-2">
                             <a href="@Url.Action("Signup","Home")" class="main-btn primary-btn btn-sm">Register</a>
                         </li>
-</ul>
+                    </ul>
                 </div>
             </nav>
         </div>
@@ -54,9 +64,9 @@
     }
 
     <!-- ================= CONTENIDO ================= -->
-<main class="container-fluid px-4">
-    @RenderBody()
-</main>
+    <main class="container-fluid px-4">
+        @RenderBody()
+    </main>
 
     <!-- ================= FOOTER ================= -->
     <footer class="footer-simple">
@@ -70,6 +80,8 @@
     <!-- JS -->
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/wow.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.7/js/dataTables.bootstrap5.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

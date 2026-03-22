@@ -11,7 +11,7 @@ namespace G4_SC601_KN_Proyecto.Models
         public string Apellido1 { get; set; }
         public string UsuarioLogin { get; set; }
         public string Email { get; set; }
-        public int RolUsuario { get; set; }
+
 
 
     }

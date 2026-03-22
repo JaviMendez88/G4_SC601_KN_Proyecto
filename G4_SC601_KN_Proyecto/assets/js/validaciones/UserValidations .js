@@ -13,9 +13,6 @@
             Email: {
                 required: true,
                 email: true
-            },
-            IdRol: {
-                required: true
             }
         },
         messages: {
@@ -31,10 +28,8 @@
             Email: {
                 required: "Campo Requerido",
                 email: "Ingrese un correo electrónico válido"
-            },
-            IdRol: {
-                required: "Debe seleccionar un tipo de rol"
             }
+            
         },
         errorElement: "span",
         errorClass: "text-danger",
