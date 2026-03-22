@@ -1,22 +1,18 @@
 ﻿@model G4_SC601_KN_Proyecto.Models.PerfilModel
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Actualizar Perfil";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
-<div class="row mt-4">
-    <div class="col-lg-8 mx-auto">
-        <div class="card-style">
-            <div class="card-header">
-                <h2>Bienvenido @Session["Nombre"]</h2>
-                <h4>Detalles del Perfil</h4>
-            </div>
-        </div>
-    </div>
-</div>
+
+  <h2 class="text-center mb-4">Perfil de @Session["Nombre"]</h2>
+   <h4 class="text-center mb-4">Actualizar Perfil</h4>
+         
+
 
 <div class="row">
-    <div class="col-lg-8 mx-auto">
+  
         <div class="card-style">
             @if (ViewBag.Message != null)
             {
@@ -28,49 +24,45 @@
             @using (Html.BeginForm("UserDetail", "User", FormMethod.Post, new { @id = "FormUpdateUser" }))
             {
                 @Html.AntiForgeryToken()
-                <div class="row">
-                    <div class="col-12">
-                        <div class="input-style-1">
-                            <label>Nombre</label>
-                            @Html.TextBoxFor(u => u.Nombre, new { @placeholder = "Nombre", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="input-style-1">
-                            <label>Primer Apellido</label>
-                            @Html.TextBoxFor(u => u.Apellido1, new { @placeholder = "Primer Apellido", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="input-style-1">
-                            <label>Nombre de Usuario</label>
-                            @Html.TextBoxFor(u => u.UsuarioLogin, new { @placeholder = "Usuario", @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="input-style-1">
-                            <label>Correo Elctrónico</label>
-                            @Html.TextBoxFor(u => u.Email, new { @placeholder = "Correo Electrónico", @type = "email", @class = "form-control" })
-                        </div>
-                    </div>
-
-
-
-                    <div class="col-12 mt-3">
-                        <div class="button-group d-flex justify-content-center flex-wrap">
-                            <button type="submit" class="main-btn primary-btn btn-hover w-100 text-center">
-                                Actualizar Usuario
-                            </button>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="input-style-1">
+                    <label>Nombre</label>
+                    @Html.TextBoxFor(u => u.Nombre, new { @placeholder = "Nombre", @class = "form-control" })
                 </div>
+            </div>
+
+            <div class="col-12">
+                <div class="input-style-1">
+                    <label>Primer Apellido</label>
+                    @Html.TextBoxFor(u => u.Apellido1, new { @placeholder = "Primer Apellido", @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="input-style-1">
+                    <label>Nombre de Usuario</label>
+                    @Html.TextBoxFor(u => u.UsuarioLogin, new { @placeholder = "Usuario", @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="input-style-1">
+                    <label>Correo Elctrónico</label>
+                    @Html.TextBoxFor(u => u.Email, new { @placeholder = "Correo Electrónico", @type = "email", @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary btn-lg w-100">Actualizar Usuario</button>
+            </div>
+
+
+        </div>
             }
         </div>
     </div>
-</div>
-<script src="~/assets/js/validaciones/UserValidations .js"></script>
+
+<script src="~/assets/js/validaciones/UserValidations.js"></script>
 
 

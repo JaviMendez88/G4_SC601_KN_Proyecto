@@ -36,25 +36,17 @@
                     <div class="nav-inner">
                         <!-- Start Navbar -->
                         <nav class="navbar navbar-expand-lg">
-                            <a class="navbar-brand" href="/Home/Index">
+                            <a class="navbar-brand" href="@Url.Action("Index","Home")">
                                 <img src="~/assets/images/logo/Terumo-logo-766x200.jpg" />
                             </a>
-                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="toggler-icon"></span>
-                                <span class="toggler-icon"></span>
-                                <span class="toggler-icon"></span>
-                            </button>
+                            
                             <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                                 <ul id="nav" class="navbar-nav ms-auto">
                                     <li class="nav-item">
-                                        <a class="dd-menu active collapsed" href="index.html" data-bs-toggle="collapse"
+                                        <a class="dd-menu active collapsed" href="@Url.Action("Index","Home")" data-bs-toggle="collapse"
                                            data-bs-target="#submenu-1-1" aria-controls="navbarSupportedContent"
                                            aria-expanded="false" aria-label="Toggle navigation">Home</a>
-                                        <ul class="sub-menu collapse" id="submenu-1-1">
-                                            <li class="nav-item"><a href="index2.html">Startup Homepage</a></li>
-                                        </ul>
+                                        
                                     </li>
                                     
                                 </ul>

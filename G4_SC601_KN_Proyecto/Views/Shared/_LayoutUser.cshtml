@@ -40,31 +40,18 @@
                             <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
                         </li>
 
-                        @if (Session["IdUsuario"] != null)
-                        {
-                            <li class="nav-item ms-lg-3">
-                                <a href="@Url.Action("Logout", "Home")"
-                                   class="main-btn primary-btn-outline btn-sm">
-                                    Log out
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item ms-lg-3">
-                                <a href="@Url.Action("Login","Home")"
-                                   class="main-btn primary-btn-outline btn-sm">
-                                    Log In
-                                </a>
-                            </li>
-
-                            <li class="nav-item ms-2">
-                                <a href="@Url.Action("Signup","Home")"
-                                   class="main-btn primary-btn btn-sm">
-                                    Register
-                                </a>
-                            </li>
-                        }
+                        <div class="button">
+                            @if (Session["IdUsuario"] != null)
+                            {
+                                <a href="@Url.Action("UserDetail", "User")" class="signin"><i class="lni lni-user"></i> Mi Perfil</a>
+                                <a href="@Url.Action("Logout", "Home")" class="signup"><i class="lni lni-exit"></i> Cerrar Sesión</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Login", "Home")" class="signin">Iniciar Sesión</a>
+                                <a href="@Url.Action("Signup", "Home")" class="signup">Registrarse</a>
+                            }
+                        </div>
                     </ul>
 
                 </div>
@@ -102,6 +89,10 @@
     <!-- JS -->
     <script src="~/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/wow.min.js"></script>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
     @RenderSection("Scripts", required: false)
 </body>

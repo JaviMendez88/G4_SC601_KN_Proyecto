@@ -1,4 +1,7 @@
-﻿using System;
+﻿using G4_SC601_KN_Proyecto.EntityFramework;
+using G4_SC601_KN_Proyecto.Filters;
+using G4_SC601_KN_Proyecto.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,12 +9,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using G4_SC601_KN_Proyecto.EntityFramework;
-using G4_SC601_KN_Proyecto.Models;
+
 
 namespace G4_SC601_KN_Proyecto.Controllers
 {
+    [SesionActiva]
     public class UserController : Controller
+       
     {
         #region perfil
         //trae los datos del usuario de la session
@@ -33,12 +37,8 @@ namespace G4_SC601_KN_Proyecto.Controllers
                     Email = result.email
 
                 };
-
-
                 return View(dto);
             }
-
-
         }
 
         [HttpPost]
@@ -49,6 +49,8 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 var idUsuarioSession = int.Parse(Session["IdUsuario"].ToString());
                 var result = db.usuario.Where(u => u.id_usuario == idUsuarioSession).FirstOrDefault();
                 
+
+
                 if (result != null)
                 {
                     result.nombre = model.Nombre;
@@ -58,11 +60,11 @@ namespace G4_SC601_KN_Proyecto.Controllers
                     
                     db.SaveChanges();
                     
-                    
+                    ViewBag.Mesaje = "Perfil actualizado correctamente";
                 }
                 Session["Nombre"] = model.Nombre;
          
-                TempData["Exito"] = "Perfil actualizado correctamente";
+         
                 return RedirectToAction("UserDetail", "User");
             }
         }
@@ -74,6 +76,8 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult ConsultarUsuarios()
         {
+            
+
             using (var db = new SC604Proyecto_DBEntities())
             {
                 var result = db.usuario.ToList();

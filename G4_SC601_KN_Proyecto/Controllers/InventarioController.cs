@@ -1,4 +1,5 @@
 ﻿using G4_SC601_KN_Proyecto.EntityFramework;
+using G4_SC601_KN_Proyecto.Filters;
 using G4_SC601_KN_Proyecto.Models;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace G4_SC601_KN_Proyecto.Controllers
 {
+    [SesionActiva]
     public class InventarioController : Controller
     {
         private SC604Proyecto_DBEntities db = new SC604Proyecto_DBEntities();

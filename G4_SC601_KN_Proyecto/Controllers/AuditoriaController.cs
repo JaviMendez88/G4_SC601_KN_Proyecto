@@ -1,13 +1,15 @@
-﻿using System;
+﻿using G4_SC601_KN_Proyecto.EntityFramework;
+using G4_SC601_KN_Proyecto.Filters;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using G4_SC601_KN_Proyecto.EntityFramework;
-using System.Data.Entity;
 
 namespace G4_SC601_KN_Proyecto.Controllers
 {
+    [SesionActiva]
     public class AuditoriaController : Controller
     {
         // GET: Auditoria
