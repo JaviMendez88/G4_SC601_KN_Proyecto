@@ -15,11 +15,13 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     public partial class auditoria
     {
         public int id_auditoria { get; set; }
-        public int id_usuario { get; set; }
+        public string NombreTabla { get; set; }
         public string accion { get; set; }
-        public string tabla_afectada { get; set; }
-        public System.DateTime fecha { get; set; }
-        public string detalles { get; set; }
+        public string OldValues { get; set; }
+        public string NewValues { get; set; }
+        public int id_usuario { get; set; }
+        public System.DateTime date { get; set; }
+        public string NombreUser { get; set; }
     
         public virtual usuario usuario { get; set; }
     }

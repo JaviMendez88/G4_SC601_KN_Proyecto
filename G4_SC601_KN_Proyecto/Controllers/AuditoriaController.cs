@@ -14,10 +14,8 @@ namespace G4_SC601_KN_Proyecto.Controllers
         public ActionResult AuditoriaCambios()
         {
             // Validar que un administrador esté en sesión (ajustar seguridad según corresponda)
-            if (Session["IdUsuario"] == null)
-            {
+            if (Session["Rol"] == null || (int)Session["Rol"] != 1)
                 return RedirectToAction("Login", "Home");
-            }
 
             using (var db = new SC604Proyecto_DBEntities())
             {
@@ -25,7 +23,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 // Usamos Include para traer los datos del usuario que hizo el cambio
                 var listaAuditorias = db.auditoria
                                         .Include(a => a.usuario)
-                                        .OrderByDescending(a => a.fecha)
+                                        .OrderByDescending(a => a.date)
                                         .Take(100) // Recomendable limitar para tableros grandes, puedes hacerlo paginado después
                                         .ToList();
 

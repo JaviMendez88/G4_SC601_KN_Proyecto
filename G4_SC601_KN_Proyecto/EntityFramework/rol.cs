@@ -17,8 +17,8 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public rol()
         {
-            this.usuario = new HashSet<usuario>();
             this.ruta = new HashSet<ruta>();
+            this.usuario = new HashSet<usuario>();
         }
     
         public int id_rol { get; set; }
@@ -27,8 +27,8 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
         public System.DateTime fecha_modificacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<usuario> usuario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ruta> ruta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<usuario> usuario { get; set; }
     }
 }

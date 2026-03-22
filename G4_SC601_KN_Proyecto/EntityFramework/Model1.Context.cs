@@ -25,20 +25,20 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<lote> lote { get; set; }
-        public virtual DbSet<movimiento_inventario> movimiento_inventario { get; set; }
-        public virtual DbSet<producto> producto { get; set; }
-        public virtual DbSet<stock> stock { get; set; }
-        public virtual DbSet<ubicacion> ubicacion { get; set; }
-        public virtual DbSet<rol> rol { get; set; }
-        public virtual DbSet<usuario> usuario { get; set; }
         public virtual DbSet<auditoria> auditoria { get; set; }
         public virtual DbSet<bodega> bodega { get; set; }
         public virtual DbSet<categoria> categoria { get; set; }
         public virtual DbSet<errores> errores { get; set; }
+        public virtual DbSet<lote> lote { get; set; }
+        public virtual DbSet<movimiento_inventario> movimiento_inventario { get; set; }
         public virtual DbSet<pasillo> pasillo { get; set; }
+        public virtual DbSet<producto> producto { get; set; }
         public virtual DbSet<rack> rack { get; set; }
         public virtual DbSet<registro_error> registro_error { get; set; }
+        public virtual DbSet<rol> rol { get; set; }
         public virtual DbSet<ruta> ruta { get; set; }
+        public virtual DbSet<stock> stock { get; set; }
+        public virtual DbSet<ubicacion> ubicacion { get; set; }
+        public virtual DbSet<usuario> usuario { get; set; }
     }
 }

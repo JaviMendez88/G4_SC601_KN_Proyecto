@@ -18,17 +18,26 @@
 
     <div class="card shadow mb-4 border-left-primary">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">
-                <i class="fas fa-users"></i> Panel de Administrador - Gestión de Usuarios
-            </h6>
+            <h5 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-users"></i> Panel de Administrador
+            </h5>
         </div>
         <div class="card-body">
+            <h6 class="font-weight-bold text-secondary mb-3">Gestión de usuarios </h6>
             <ul class="mb-0">
                 <li><a href="@Url.Action("ListUsers","Admin")" class="text-decoration-none">Ver Usuarios</a></li>
                 <li><a href="@Url.Action("EditUser","Admin")" class="text-decoration-none">Modificar Usuarios</a></li>
             </ul>
         </div>
+    
+    <div class="card-body">
+        <h6 class="font-weight-bold text-secondary mb-3">Auditoría de cambios </h6>
+        <ul class="mb-0">
+            <li><a href="@Url.Action("AuditoriaCambios","Auditoria")" class="text-decoration-none">Ver Cambios</a></li>
+
+        </ul>
     </div>
+</div>
 
     <hr class="my-5" />
     <h2 class="h4 mb-4 text-gray-800">Módulo de Inventarios</h2>

@@ -17,10 +17,10 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ubicacion()
         {
-            this.movimiento_inventario = new HashSet<movimiento_inventario>();
-            this.stock = new HashSet<stock>();
             this.bodega = new HashSet<bodega>();
+            this.movimiento_inventario = new HashSet<movimiento_inventario>();
             this.pasillo = new HashSet<pasillo>();
+            this.stock = new HashSet<stock>();
         }
     
         public int id_ubicacion { get; set; }
@@ -29,12 +29,12 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
         public string distrito { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<movimiento_inventario> movimiento_inventario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<stock> stock { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bodega> bodega { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<movimiento_inventario> movimiento_inventario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<pasillo> pasillo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<stock> stock { get; set; }
     }
 }
