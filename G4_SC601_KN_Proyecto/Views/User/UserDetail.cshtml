@@ -1,4 +1,4 @@
-﻿@model G4_SC601_KN_Proyecto.Models.UsuarioModelo
+﻿@model G4_SC601_KN_Proyecto.Models.PerfilModel
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,13 +18,20 @@
                     <p><strong>Primer Apellido:</strong> @Model.Apellido1</p>
                     <p><strong>Usuario Login:</strong> @Model.UsuarioLogin</p>
                     <p><strong>Email:</strong> @Model.Email</p>
-                    <p><strong>Rol:</strong> @Model.Rol</p>
+                    <p><strong>Rol:</strong> @Model.RolUsuario</p>
                 </div>
                 <div class="card-footer">
-                    @Html.ActionLink("Editar Perfil", "EditUser", "User", null, new { @class = "btn btn-primary" })
+                    @Html.ActionLink(
+                    "Editar Perfil",   // linkText (Lo que ve el usuario)
+                    "EditUser",        // actionName (Nombre del ActionResult)
+                    "User",            // controllerName (Nombre del Controlador)
+                    null,              // routeValues (No enviamos parámetros en la URL)
+                    new { @class = "btn btn-primary" }
+)
                 </div>
             </div>
         </div>
     </div>
+
 
 

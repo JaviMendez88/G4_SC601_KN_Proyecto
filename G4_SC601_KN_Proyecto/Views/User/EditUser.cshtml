@@ -1,7 +1,5 @@
-﻿@model G4_SC601_KN_Proyecto.Models.UsuarioModelo
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
-}
+﻿@model G4_SC601_KN_Proyecto.Models.PerfilModel
+
 
 <div class="signup-wrapper">
     <div class="form-wrapper">
@@ -16,11 +14,12 @@
 
         @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { @id = "FormUpdateUser" }))
         {
+            @Html.AntiForgeryToken()
             <div class="row">
                 <div class="col-12">
                     <div class="input-style-1">
                         <label>Nombre</label>
-                        @Html.TextBoxFor(u => u.Nombre , new { @placeholder = "Nombre", @class = "form-control" })
+                        @Html.TextBoxFor(u => u.Nombre, new { @placeholder = "Nombre", @class = "form-control" })
                     </div>
                 </div>
 
@@ -48,10 +47,10 @@
                 <div class="col-12">
                     <div class="input-style-1">
                         <label>Rol de Usuario</label>
-                        @Html.DropDownListFor(u => u.IdRol,
-                            (SelectList)ViewBag.Roles,
-                            "-- Seleccione un rol --",
-                            new { @class = "form-control" })
+                        @Html.DropDownListFor(u => u.RolUsuario, 
+                       (SelectList)ViewBag.TiposRoles,
+                       "-- Seleccione un rol --", 
+                       new { @class = "form-control" })
                     </div>
                 </div>
 
@@ -67,3 +66,4 @@
     </div>
 </div>
 
+<script src="~/assets/js/validaciones/UserValidations .js"></script>

@@ -13,118 +13,116 @@ namespace G4_SC601_KN_Proyecto.Controllers
 {
     public class UserController : Controller
     {
-
-        #region details
+        #region perfil
+        //trae los datos del usuario de la session
         [HttpGet]
         public ActionResult UserDetail()
         {
-            // Validar que la sesión exista
-            if (Session["IdUsuario"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
 
-            UsuarioModelo model = new UsuarioModelo();
-            int userId = (int)Session["IdUsuario"];
             using (var db = new SC604Proyecto_DBEntities())
             {
+                //variables de session que hay id_usuario, nombre y rol
+                var idUsuarioSession = int.Parse(Session["IdUsuario"].ToString());
                 // Buscamos el usuario específico por su ID y traemos la información de su rol
-                var user = db.usuario.Include(u => u.rol).FirstOrDefault(u => u.id_usuario == userId);
-
-                if (user != null)
+                var result = db.usuario.Include(u => u.id_usuario == idUsuarioSession).FirstOrDefault();
+                var dto = new PerfilModel
                 {
-                    model.Nombre = user.nombre;
-                    model.Apellido1 = user.apellido_1;
-                    model.UsuarioLogin = user.usuario1; // Nota: en EF se llama 'usuario1'
-                    model.Email = user.email;
-                    model.Rol = user.rol != null ? user.rol.rol1 : "Sin Rol"; 
-                }
+                    Nombre = result.nombre,
+                    Apellido1 = result.apellido_1,
+                    UsuarioLogin = result.usuario1,
+                    Email = result.email,
+                    RolUsuario = result.id_rol
+                };
+
+               
+                return View(dto);
             }
 
-            return View(model);
         }
+
+
         #endregion
 
 
-        #region edit
+        #region Editar Perfil
+        //trae los datos del usuario de la session
         [HttpGet]
-        public ActionResult EditUser()
+        public ActionResult Edituser()
         {
-            // Validar que la sesión exista
-            if (Session["IdUsuario"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
-            int userId = (int)Session["IdUsuario"];
-            UsuarioModelo model = new UsuarioModelo();
 
             using (var db = new SC604Proyecto_DBEntities())
             {
-                var user = db.usuario.FirstOrDefault(u => u.id_usuario == userId);
-                if (user != null)
+                //variables de session que hay id_usuario, nombre y rol
+                var idUsuarioSession = int.Parse(Session["IdUsuario"].ToString());
+                // Buscamos el usuario específico por su ID y traemos la información de su rol
+                var result = db.usuario.Include(u => u.id_usuario == idUsuarioSession).FirstOrDefault();
+                var dto = new PerfilModel
                 {
-                    model.Nombre = user.nombre;
-                    model.Apellido1 = user.apellido_1;
-                    model.UsuarioLogin = user.usuario1; 
-                    model.Email = user.email;
-
-                    // Llenamos el IdRol en el modelo para que la vista sepa con qué rol iniciar
-                    if (user.id_rol != null) 
-                    {
-                        model.IdRol = (int)user.id_rol; 
-                    }
-                }
+                    Nombre = result.nombre,
+                    Apellido1 = result.apellido_1,
+                    UsuarioLogin = result.usuario1,
+                    Email = result.email,
+                    RolUsuario = result.id_rol
+                };
 
                 // Llenamos el ViewBag con la lista de roles para el DropDownList
-                ViewBag.Roles = new SelectList(db.rol.ToList(), "id_rol", "rol1");
-            }
-
-            return View(model);
-        }
-
-
-        [HttpPost]
-        public ActionResult EditUser(UsuarioModelo usuario)
-        {
-            // Validar que la sesión exista
-            if (Session["IdUsuario"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            int userId = (int)Session["IdUsuario"];
-
-            // Aquí actualizamos la información del usuario en la base de datos
-            using (var db = new SC604Proyecto_DBEntities())
-            {
-                var userUpdate = db.usuario.FirstOrDefault(u => u.id_usuario == userId);
-
-                if (userUpdate != null) 
-                {
-                    userUpdate.nombre = usuario.Nombre;
-                    userUpdate.apellido_1 = usuario.Apellido1;
-                    userUpdate.usuario1 = usuario.UsuarioLogin; 
-                    userUpdate.email = usuario.Email;
-
-                    // Validar que solo un administrador (asumiendo que IdRol 1 es Admin) puede cambiar de rol
-                    if (userUpdate.id_rol == 1 && usuario.IdRol > 0)
+                var roles = db.rol
+                    .Select(r => new
                     {
-                        userUpdate.id_rol = usuario.IdRol; 
-                    }
+                        r.id_rol,
+                        r.rol1
+                    }).ToList();
 
-                    db.SaveChanges();
-                    return RedirectToAction("UserDetail");
-                }
-
-                // Si la actualización falla y retornamos a la vista, tenemos que recargar el ViewBag
-                ViewBag.Roles = new SelectList(db.rol.ToList(), "id_rol", "rol1", usuario.IdRol);
+                // Los nombres de string deben coincidir exactamente con las propiedades del select anónimo: "id_rol" y "rol1"
+                ViewBag.TiposRoles = new SelectList(roles, "id_rol", "rol1", dto.RolUsuario);
+                return View(dto);
             }
 
-            return View(usuario);
         }
-
         #endregion
 
+        [HttpPost]
+        public ActionResult EditUser(PerfilModel model)
+        {
+          
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var idUsuarioSession = int.Parse(Session["IdUsuario"].ToString());
+                var result = db.usuario.Where(u => u.id_usuario == idUsuarioSession).FirstOrDefault();
+                if (result != null)
+                {
+                    model.Nombre = result.nombre;
+                    model.Apellido1 = result.apellido_1;
+                    model.UsuarioLogin = result.usuario1;
+                    model.Email = result.email;
+
+                    if (model.RolUsuario == 1) {
+                        ViewBag.TiposRoles = new SelectList(
+                        db.rol.ToList(),
+                        "id_rol",
+                        "rol1"
+                    );
+                    }
+                    else
+                    {
+                        ViewBag.MensajeError = "Este usuario no tiene permisos para cambiar el rol.";
+                    }
+                }
+
+                db.SaveChanges();
+            }
+
+            //Actualizamos la información de la sesión(las variables de session) con los nuevos datos del perfil
+            //variables de session que hay id_usuario, nombre y rol
+
+            Session["Nombre"] = model.Nombre;
+            //Session["CorreoElectronico"] = model.CorreoElectronico;
+            return RedirectToAction("UserDetail", "Home");
+
+        }
+
+
+       
 
 
 
