@@ -41,8 +41,6 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
         }
 
-
-
         [HttpPost]
         public ActionResult UserDetail(PerfilModel model)
         {
@@ -72,6 +70,16 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
         #endregion
 
-
+        #region CRUD usuarios
+        [HttpGet]
+        public ActionResult ConsultarUsuarios()
+        {
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var result = db.usuario.ToList();
+                return View(result);
+            }
         }
+        #endregion
     }
+}

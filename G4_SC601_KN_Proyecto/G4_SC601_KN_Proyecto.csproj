@@ -344,6 +344,7 @@
     <Content Include="Views\Home\UserDashboard.cshtml" />
     <Content Include="Views\Inventario\RegistrarMovimiento.cshtml" />
     <Content Include="Views\Auditoria\AuditoriaCambios.cshtml" />
+    <Content Include="Views\User\ConsultarUsuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
