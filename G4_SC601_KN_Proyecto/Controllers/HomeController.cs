@@ -145,7 +145,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         #endregion
 
 
-        #region Sign Up
+        #region Sign Up - Registro
 
         [HttpGet]
         public ActionResult Signup()
