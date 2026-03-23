@@ -257,6 +257,7 @@
     <Content Include="assets\js\ConsultarCambios.js" />
     <Content Include="assets\js\count-up.min.js" />
     <Content Include="assets\js\glightbox.min.js" />
+    <Content Include="assets\js\validaciones\ValidacionLogin.js" />
     <Content Include="assets\js\validaciones\ValidacionSignUp.js" />
     <Content Include="assets\js\wow.min.js" />
     <Content Include="bin\G4_SC601_KN_Proyecto.dll" />
