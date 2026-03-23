@@ -10,11 +10,32 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
 {
     public partial class SC604Proyecto_DBEntities
     {
+
         public override int SaveChanges()
         {
-            AuditarCambios();
-            return base.SaveChanges();
+            try
+            {
+                AuditarCambios();
+                return base.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                foreach (var entityErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var error in entityErrors.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine(
+                            $"Entidad: {entityErrors.Entry.Entity.GetType().Name} | " +
+                            $"Propiedad: {error.PropertyName} | " +
+                            $"Error: {error.ErrorMessage}"
+                        );
+                    }
+                }
+
+                throw;
+            }
         }
+
 
         private void AuditarCambios()
         {
@@ -37,10 +58,14 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
             {
                 var nuevaAuditoria = new auditoria
                 {
-                    NombreTabla = entry.Entity.GetType().Name,
+                    id_usuario = userIdSession,
+
+                    NombreTabla = entry.Entity.GetType().Name.Length > 100
+                        ? entry.Entity.GetType().Name.Substring(0, 100)
+                        : entry.Entity.GetType().Name,
+
                     accion = entry.State.ToString(),
 
-                    // No Null. BD no lo permite. Si no hay valores, se guarda un string vacío.
                     OldValues = entry.State == EntityState.Modified
                         ? JsonConvert.SerializeObject(entry.OriginalValues.ToObject())
                         : string.Empty,
@@ -49,13 +74,16 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
                         ? JsonConvert.SerializeObject(entry.CurrentValues.ToObject())
                         : string.Empty,
 
-                    id_usuario = userIdSession,
-                    NombreUser = nombreSession,
-                    date = DateTime.Now,
+                    NombreUser = nombreSession.Length > 50
+                        ? nombreSession.Substring(0, 50)
+                        : nombreSession,
+
+                    date = DateTime.Now
                 };
 
                 this.auditoria.Add(nuevaAuditoria);
             }
+
         }
     }
 }

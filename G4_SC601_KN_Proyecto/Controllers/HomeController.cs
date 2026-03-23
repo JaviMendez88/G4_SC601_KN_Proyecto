@@ -2,12 +2,13 @@
 using G4_SC601_KN_Proyecto.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Net;
 using System.Net.Mail;
+using System.Web;
+using System.Web.Mvc;
 
 
 namespace G4_SC601_KN_Proyecto.Controllers
@@ -187,7 +188,27 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 };
 
                 context.usuario.Add(nuevoUsuario);
-                context.SaveChanges();
+
+                // Sólo para determinar el error. Debe borrarse y dejar solo el context.SaveChanges() en producción.
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var entityErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var error in entityErrors.ValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine(
+                                $"Entidad: {entityErrors.Entry.Entity.GetType().Name} | " +
+                                $"Propiedad: {error.PropertyName} | " +
+                                $"Error: {error.ErrorMessage}");
+                        }
+                    }
+                    throw;
+                }
+
             }
 
             return RedirectToAction("Login");
@@ -358,7 +379,7 @@ Saludos.";
 
            
 
-            #region UserDashboard
+        #region UserDashboard
         public ActionResult UserDashboard()
         {
             // Validaciones originales
@@ -393,6 +414,18 @@ Saludos.";
         }
         #endregion
 
+        #region ValidacionCorreo
+
+        [HttpPost]
+        public JsonResult ValidarEmail(string Email)
+        {
+            using (var context = new SC604Proyecto_DBEntities())
+            {
+                bool existe = context.usuario.Any(u => u.email == Email);
+                return Json(!existe, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
 
     }
