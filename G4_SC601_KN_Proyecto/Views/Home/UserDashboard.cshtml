@@ -38,7 +38,7 @@
                                     foreach (var item in stock)
                                     {
                                         <tr>
-                                            <td>@item.Producto</td>
+                                            <td>@item.Material</td>
                                             <td>@item.Lote</td>
                                             <td><span class="@(item.Cantidad < 50 ? "text-danger font-weight-bold" : "text-success font-weight-bold")">@item.Cantidad</span></td>
                                         </tr>
@@ -70,7 +70,7 @@
                                     foreach (var item in vencimientos)
                                     {
                                         <tr>
-                                            <td>@item.Producto</td>
+                                            <td>@item.Material</td>
                                             <td>@item.Lote</td>
                                             <td class="text-danger font-weight-bold">@item.FechaVencimiento.ToString("dd/MM/yyyy")</td>
                                         </tr>

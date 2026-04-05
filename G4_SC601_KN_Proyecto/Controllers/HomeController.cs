@@ -358,7 +358,7 @@ Saludos.";
             {
                 var listaStock = db.stock.Select(s => new StockViewModel
                 {
-                    Producto = s.producto.nombre,
+                    Material = s.material.descriptionM,
                     Lote = s.lote.codigo_lote,
                     Cantidad = s.cantidad,
                     FechaVencimiento = s.lote.fecha_vencimiento
@@ -394,7 +394,7 @@ Saludos.";
             {
                 var listaStock = db.stock.Select(s => new StockViewModel
                 {
-                    Producto = s.producto.nombre,
+                    Material = s.material.descriptionM,
                     Lote = s.lote.codigo_lote,
                     Cantidad = s.cantidad,
                     FechaVencimiento = s.lote.fecha_vencimiento

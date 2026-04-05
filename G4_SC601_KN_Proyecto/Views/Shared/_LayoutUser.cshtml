@@ -39,6 +39,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
                         </li>
+                        <li>
+                         
+                                <a class="nav-link" href="@Url.Action("AdminDashboard", "Home")"> Menu Administrador</a>
+
+                        </li>
 
                         <div class="button">
                             @if (Session["IdUsuario"] != null)

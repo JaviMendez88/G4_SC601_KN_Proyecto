@@ -1,4 +1,4 @@
-﻿// ~/assets/js/validaciones/UserValidations.js
+﻿
 
 $(function () {
     $("#FormUpdateUser").validate({
@@ -54,5 +54,18 @@ $(function () {
         unhighlight: function (element) {
             $(element).removeClass("is-invalid");
         }
+    });
+});
+
+$(function () {
+
+    var table = new DataTable('#tablaUsuarios', {
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.7/i18n/es-ES.json',
+            "emptyTable": "No hay usuarios",
+        },
+        columnDefs: [
+            { targets: '_all', className: 'text-start' }
+        ]
     });
 });

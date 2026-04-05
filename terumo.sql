@@ -86,7 +86,7 @@ CREATE TABLE errores (
     descripcion VARCHAR(225)
 );
 
-
+/*
 CREATE TABLE categoria (
     id_categoria INT IDENTITY(1,1) PRIMARY KEY,
     titulo VARCHAR(40) UNIQUE
@@ -105,6 +105,36 @@ CREATE TABLE producto (
     CONSTRAINT fk_producto_categoria 
         FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
+*/
+
+CREATE TABLE [dbo].[family](
+ id_family INT IDENTITY(1,1) PRIMARY KEY,
+ title VARCHAR(40) UNIQUE
+);
+create index ndx_family ON family(title);
+
+CREATE TABLE [dbo].[parent](
+ id_parent INT IDENTITY(1,1) PRIMARY KEY,
+ codigo VARCHAR(40) UNIQUE
+);
+
+CREATE TABLE [dbo].[material](
+id_material INT IDENTITY (1,1) PRIMARY KEY,
+id_family INT NOT NULL,
+id_parent INT NOT NULL,
+descriptionM VARCHAR (100) NOT NULL,
+count_Order INT NOT NULL,
+Qty INT NOT NULL,
+labor int NOT NULL,
+Ind_OVH decimal NOT NULL,
+Scrap_Allowance int NOT NULL,
+materialP decimal NOT NULL, 
+total_Variance decimal NOT NULL,
+CONSTRAINT chk_materialP CHECK (materialP<= 0),
+CONSTRAINT chk_total_variance CHECK (total_Variance<= 0),
+CONSTRAINT fk_material_family FOREIGN KEY (id_family)  REFERENCES family(id_family), 
+CONSTRAINT fk_material_parent FOREIGN KEY (id_parent) REFERENCES parent (id_parent)
+);
 
 
 CREATE TABLE ubicacion (
@@ -116,7 +146,7 @@ CREATE TABLE ubicacion (
 
 
 
-CREATE TABLE bodega (
+/*CREATE TABLE bodega (
     id_bodega INT IDENTITY(1,1) PRIMARY KEY,
     id_ubicacion INT NOT NULL,
     nombre VARCHAR(30) NOT NULL,
@@ -155,49 +185,49 @@ CREATE TABLE pasillo (
     CONSTRAINT fk_pasillo_ubicacion 
         FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
 );
-
+*/
 
 
 CREATE TABLE lote (
     id_lote INT IDENTITY(1,1) PRIMARY KEY,
-    id_producto INT NOT NULL,
+    id_material INT NOT NULL,
     codigo_lote VARCHAR(50),
     fecha_vencimiento DATE NOT NULL,
     fecha_ingreso DATE NOT NULL,
     CONSTRAINT chk_fechas_lote 
         CHECK (fecha_vencimiento > fecha_ingreso),
-    CONSTRAINT fk_lote_producto 
-        FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
+    CONSTRAINT fk_lote_material 
+        FOREIGN KEY (id_material) REFERENCES material(id_material)
 );
 
 
 
 CREATE TABLE stock (
-    id_producto INT NOT NULL,
+    id_material INT NOT NULL,
     id_lote INT NOT NULL,
     id_ubicacion INT NOT NULL,
     cantidad INT NOT NULL,
     CONSTRAINT chk_cantidad CHECK (cantidad >= 0),
-    PRIMARY KEY (id_producto, id_lote, id_ubicacion),
-    CONSTRAINT fk_stock_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    PRIMARY KEY (id_material, id_lote, id_ubicacion),
+    CONSTRAINT fk_stock_material FOREIGN KEY (id_material) REFERENCES material(id_material),
     CONSTRAINT fk_stock_lote FOREIGN KEY (id_lote) REFERENCES lote(id_lote),
     CONSTRAINT fk_stock_ubicacion FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
 );
 
 
-
+/*
 CREATE TABLE registro_error (
     id_reporte INT IDENTITY(1,1) PRIMARY KEY,
     id_error INT NOT NULL,
     CONSTRAINT fk_registro_error 
         FOREIGN KEY (id_error) REFERENCES errores(id_error)
 );
-
+*/
 
 
 CREATE TABLE movimiento_inventario (
     id_movimiento INT IDENTITY(1,1) PRIMARY KEY,
-    id_producto INT NOT NULL,
+    id_material INT NOT NULL,
     id_lote INT NULL,
     id_ubicacion INT NOT NULL,
     tipo VARCHAR(10) NOT NULL,
@@ -206,7 +236,7 @@ CREATE TABLE movimiento_inventario (
     id_usuario INT NOT NULL,
     CONSTRAINT chk_tipo_movimiento 
         CHECK (tipo IN ('ENTRADA','SALIDA','AJUSTE')),
-    CONSTRAINT fk_mov_producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+    CONSTRAINT fk_mov_material FOREIGN KEY (id_material) REFERENCES material(id_material),
     CONSTRAINT fk_mov_lote FOREIGN KEY (id_lote) REFERENCES lote(id_lote),
     CONSTRAINT fk_mov_ubicacion FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion),
     CONSTRAINT fk_mov_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)

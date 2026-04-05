@@ -18,7 +18,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         {
             var listaStock = db.stock.Select(s => new StockViewModel
             {
-                Producto = s.producto.nombre,
+                Material = s.material.descriptionM,
                 Lote = s.lote.codigo_lote,
                 Cantidad = s.cantidad,
                 FechaVencimiento = s.lote.fecha_vencimiento
@@ -38,7 +38,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         public ActionResult RegistrarMovimiento()
         {
             // Listas para los dropdowns del formulario
-            ViewBag.Productos = db.producto.ToList();
+            ViewBag.Productos = db.material.ToList();
             ViewBag.Lotes = db.lote.ToList();
             ViewBag.Ubicaciones = db.ubicacion.ToList();
 
@@ -46,14 +46,14 @@ namespace G4_SC601_KN_Proyecto.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrarMovimiento(int id_producto, int id_lote, int id_ubicacion, string tipo, int cantidad)
+        public ActionResult RegistrarMovimiento(int id_material, int id_lote, int id_ubicacion, string tipo, int cantidad)
         {
             try
             {
                 // Registrar el movimiento en el historial
                 var nuevoMovimiento = new movimiento_inventario
                 {
-                    id_producto = id_producto,
+                    id_material = id_material,
                     id_lote = id_lote,
                     id_ubicacion = id_ubicacion,
                     tipo = tipo,
@@ -63,7 +63,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 };
                 db.movimiento_inventario.Add(nuevoMovimiento);
 
-                var stockActual = db.stock.FirstOrDefault(s => s.id_producto == id_producto && s.id_lote == id_lote && s.id_ubicacion == id_ubicacion);
+                var stockActual = db.stock.FirstOrDefault(s => s.id_material == id_material && s.id_lote == id_lote && s.id_ubicacion == id_ubicacion);
 
                 if (stockActual != null)
                 {
@@ -78,7 +78,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                     // Crear registro de stock si no existe y el movimiento es de entrada
                     var nuevoStock = new stock
                     {
-                        id_producto = id_producto,
+                        id_material = id_material,
                         id_lote = id_lote,
                         id_ubicacion = id_ubicacion,
                         cantidad = cantidad
@@ -94,7 +94,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 ViewBag.Error = "Ocurrió un error al guardar: " + ex.Message;
 
                 // Recargar listas para volver a mostrar el formulario
-                ViewBag.Productos = db.producto.ToList();
+                ViewBag.Materiales = db.material.ToList();
                 ViewBag.Lotes = db.lote.ToList();
                 ViewBag.Ubicaciones = db.ubicacion.ToList();
                 return View();

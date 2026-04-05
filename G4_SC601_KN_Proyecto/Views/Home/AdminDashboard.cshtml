@@ -28,7 +28,13 @@
                 <li><a href="@Url.Action("ConsultarUsuarios","User")" class="text-decoration-none">Ver Usuarios</a></li>
             </ul>
         </div>
-    
+        <div class="card-body">
+            <h6 class="font-weight-bold text-secondary mb-3">Gestión de materiales </h6>
+            <ul class="mb-0">
+                <li><a href="@Url.Action("ConsultMaterial","Material")" class="text-decoration-none">Ver Materiales</a></li>
+            </ul>
+        </div>
+
     <div class="card-body">
         <h6 class="font-weight-bold text-secondary mb-3">Auditoría de cambios </h6>
         <ul class="mb-0">
@@ -67,7 +73,7 @@
                                     foreach (var item in stock)
                                     {
                                         <tr>
-                                            <td>@item.Producto</td>
+                                            <td>@item.Material</td>
                                             <td>@item.Lote</td>
                                             <td>
                                                 @if (item.Cantidad < 50)
@@ -112,7 +118,7 @@
                                     foreach (var item in vencimientos)
                                     {
                                         <tr>
-                                            <td>@item.Producto</td>
+                                            <td>@item.Material</td>
                                             <td>@item.Lote</td>
                                             <td class="text-danger font-weight-bold">@item.FechaVencimiento.ToString("dd/MM/yyyy")</td>
                                         </tr>
