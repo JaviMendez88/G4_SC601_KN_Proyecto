@@ -13,7 +13,9 @@
         </div>
     </div>
 </div>
-
+<div>
+    <a href="@Url.Action("CreateMaterial", "Material")" class="btn btn-primary mb-3">Crear Material</a>
+</div>
 <div class="row">
     <div class="col-lg-12">
         <div class="card-style">
@@ -40,16 +42,16 @@
                         <tr>
 
                             <td>@item.id_material</td>
-                            <td>@item.id_family</td>
-                            <td>@item.id_parent</td>
+                            <td>@(item.id_family)</td>
+                            <td>@(item.id_parent)</td>
                             <td>@item.descriptionM</td>
                             <td>@item.count_Order</td>
                             <td>@item.Qty</td>
-                            <td>@item.labor</td>
-                            <td>@item.Ind_OVH</td>
-                            <td>@item.Scrap_Allowance</td>
-                            <td>@item.materialP</td>
-                            <td>@item.total_Variance</td>
+                            <td>$@item.labor</td>
+                            <td>$@item.Ind_OVH</td>
+                            <td>$@item.Scrap_Allowance</td>
+                            <td>$@item.materialP</td>
+                            <td>$@item.total_Variance</td>
                             <td>
                                 <a href="@Url.Action("EditMaterial", "Material", new { id = item.id_material })" class="badge bg-warning text-dark" style="text-decoration: none; cursor: pointer;">Modificación</a>
                                 <a href="javascript:void(0);" onclick="deleteMaterial(@item.id_material)" class="badge bg-danger" style="text-decoration: none; cursor: pointer;">Eliminación</a>

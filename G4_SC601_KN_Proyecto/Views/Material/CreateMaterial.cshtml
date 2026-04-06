@@ -1,4 +1,4 @@
-﻿@model G4_SC601_KN_Proyecto.EntityFramework.material
+﻿@model G4_SC601_KN_Proyecto.Models.materialModel
 
 @{
     ViewBag.Title = "CreateMaterial";
@@ -15,6 +15,7 @@
         </div>
     }
 
+
     @using (Html.BeginForm("CreateMaterial", "Material", FormMethod.Post, new { @id = "FormCreateMaterial" }))
     {
         @Html.AntiForgeryToken()
@@ -22,81 +23,87 @@
         <div class="form-horizontal">
             <h4>material</h4>
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+			<div class="form-group">
+				<label class="control-label col-md-2">Family</label>
+				<div class="col-md-10">
+					@Html.DropDownListFor(model => model.idFamily,
+				   (SelectList)ViewBag.Families, "-- Selecciona una Familia --", 
+				   new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.idFamily, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2">Family</label>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.id_family, ViewBag.Families as SelectList, "-- Selecciona una Familia --", new { @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<label class="control-label col-md-2">Parent</label>
+				<div class="col-md-10">
+					@Html.DropDownListFor(model => model.idParent, 
+				   (SelectList)ViewBag.Parents, "-- Selecciona un Parent --", 
+				   new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.idParent, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2">Parent</label>
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.id_parent, ViewBag.Parents as SelectList, "-- Selecciona un Parent --", new { @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>Description</label>
+					@Html.TextBoxFor(model => model.descriptionM, new { @placeholder = "Description", @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.descriptionM, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Description</label>
-                    @Html.TextBoxFor(model => model.descriptionM, new { @placeholder = "Description", @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>Count Order</label>
+					@Html.TextBoxFor(model => model.countOrder, new { @placeholder = "Count Order", @class = "form-control" , @type = "number"})
+					@Html.ValidationMessageFor(model => model.countOrder, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Count Order</label>
-                    @Html.TextBoxFor(model => model.count_Order, new { @placeholder = "Count Order", @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>QTY coois scrap</label>
+					@Html.TextBoxFor(model => model.Qty, new { @placeholder = "Qty", @class = "form-control" , @type = "number"})
+					@Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>QTY</label>
-                    @Html.TextBoxFor(model => model.Qty, new { @placeholder = "Qty", @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>Labor</label>
+					@Html.TextBoxFor(model => model.labor, new { @placeholder = "Labor", @class = "form-control", @type = "number" })
+					@Html.ValidationMessageFor(model => model.labor, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Labor</label>
-                    @Html.TextBoxFor(model => model.labor, new { @placeholder = "Labor", @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>Indirect OVH</label>
+					@Html.TextBoxFor(model => model.IndOVH, new { @placeholder = "Indirect OVH", @class = "form-control", @type = "number", @step = "0.01", @data_val = "false" })
+					@Html.ValidationMessageFor(model => model.IndOVH, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Indirect OVH</label>
-                    @Html.TextBoxFor(model => model.Ind_OVH, new { @placeholder = "Indirect OVH", @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>Scrap Allowance</label>
+					@Html.TextBoxFor(model => model.Scrap_Allowance, new { @placeholder = "Scrap Allowance", @class = "form-control", @type = "number", @step = "0.01", @data_val = "false" })
+					@Html.ValidationMessageFor(model => model.Scrap_Allowance, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Scrap Allowance</label>
-                    @Html.TextBoxFor(model => model.Scrap_Allowance, new { @placeholder = "Scrap Allowance", @class = "form-control" })
-                </div>
-            </div>
+			<div class="form-group">
+				<div class="col-md-10">
+					<label>Material Price</label>
+					@Html.TextBoxFor(model => model.materialPrice, new { @placeholder = "Material Price", @class = "form-control", @type = "number", @step = "0.01", @data_val = "false" })
+					@Html.ValidationMessageFor(model => model.materialPrice, "", new { @class = "text-danger" })
+				</div>
+			</div>
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Material Price</label>
-                    @Html.TextBoxFor(model => model.materialP, new { @placeholder = "Material Price", @class = "form-control" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label>Total Variance</label>
-                    @Html.TextBoxFor(model => model.total_Variance, new { @placeholder = "Total Variance", @class = "form-control" })
-                </div>
-            </div>
+         
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </div>
         </div>

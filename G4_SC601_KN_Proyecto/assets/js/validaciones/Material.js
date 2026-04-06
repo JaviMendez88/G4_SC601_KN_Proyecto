@@ -1,17 +1,17 @@
 ﻿$(function() {
     $("#FormCreateMaterial").validate({
         rules: {
-            id_family: {
+            idFamily: {
                 required: true
             },
-            id_parent: {
+            idParent: {
                 required: true
             },
             descriptionM: {
                 required: true,
                 minlength: 3
             },
-            count_Order: {
+            countOrder: {
                 required: true,
                 number: true,
                 min: 1
@@ -26,7 +26,7 @@
                 number: true,
                 min: 0
             },
-            Ind_OVH: {
+            IndOVH: {
                 required: true,
                 number: true,
                 min: 0
@@ -34,26 +34,25 @@
             Scrap_Allowance: {
                 required: true,
                 number: true,
-                min: 0
+              
             },
-            materialP: {
+            materialPrice: {
                 required: true,
                 number: true,
                 min: 0
             },
-            total_Variance: {
-                required: true,
+            totalVariance: {
                 number: true
             }
         },
         messages: {
-            id_family: "Selecciona una familia",
-            id_parent: "Selecciona un parent",
+            idFamily: "Selecciona una familia",
+            idParent: "Selecciona un parent",
             descriptionM: {
                 required: "La descripción es requerida",
                 minlength: "La descripción debe tener al menos 3 caracteres"
             },
-            count_Order: {
+            countOrder: {
                 required: "La cantidad de orden es requerida",
                 number: "Debe ser un número",
                 min: "Debe ser mayor a 0"
@@ -68,7 +67,7 @@
                 number: "Debe ser un número",
                 min: "No puede ser negativo"
             },
-            Ind_OVH: {
+            IndOVH: {
                 required: "Indirect OVH es requerido",
                 number: "Debe ser un número",
                 min: "No puede ser negativo"
@@ -78,13 +77,12 @@
                 number: "Debe ser un número",
                 min: "No puede ser negativo"
             },
-            materialP: {
+            materialPrice: {
                 required: "El precio del material es requerido",
                 number: "Debe ser un número",
                 min: "No puede ser negativo"
             },
-            total_Variance: {
-                required: "La varianza total es requerida",
+            totalVariance: {
                 number: "Debe ser un número"
             }
         },
@@ -98,7 +96,8 @@
             $(element).closest('.form-group').removeClass('has-error');
         }
     });
-});
+
+    
 
 
 $(function () {
