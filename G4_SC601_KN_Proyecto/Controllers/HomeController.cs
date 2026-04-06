@@ -1,9 +1,11 @@
-﻿using G4_SC601_KN_Proyecto.EntityFramework;
+﻿using ClosedXML.Excel;
+using G4_SC601_KN_Proyecto.EntityFramework;
 using G4_SC601_KN_Proyecto.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -382,6 +384,7 @@ Saludos.";
         #region UserDashboard
         public ActionResult UserDashboard()
         {
+
             // Validaciones originales
             if (Session["IdUsuario"] == null)
                 return RedirectToAction("Login");
@@ -426,6 +429,114 @@ Saludos.";
             }
         }
         #endregion
+
+
+        #region ExportarExcel
+
+        public ActionResult ExportarStockActual()
+        {
+            if (Session["IdUsuario"] == null)
+                return RedirectToAction("Login");
+
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var data = db.stock.Select(s => new StockViewModel
+                {
+                    Material = s.material.descriptionM,
+                    Lote = s.lote.codigo_lote,
+                    Cantidad = s.cantidad
+                }).ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var ws = workbook.Worksheets.Add("Stock Actual");
+
+                    ws.Cell(1, 1).Value = "Producto";
+                    ws.Cell(1, 2).Value = "Lote";
+                    ws.Cell(1, 3).Value = "Cantidad";
+
+                    int row = 2;
+                    foreach (var item in data)
+                    {
+                        ws.Cell(row, 1).Value = item.Material;
+                        ws.Cell(row, 2).Value = item.Lote;
+                        ws.Cell(row, 3).Value = item.Cantidad;
+                        row++;
+                    }
+
+                    ws.Columns().AdjustToContents();
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        return File(
+                            stream.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            $"StockActual_{DateTime.Now:yyyyMMdd}.xlsx"
+                        );
+                    }
+                }
+            }
+        }
+
+
+
+        public ActionResult ExportarVencimientos()
+        {
+            if (Session["IdUsuario"] == null)
+                return RedirectToAction("Login");
+
+            DateTime fechaLimite = DateTime.Now.AddMonths(6);
+
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var data = db.stock
+                    .Where(s => s.lote.fecha_vencimiento <= fechaLimite)
+                    .Select(s => new StockViewModel
+                    {
+                        Material = s.material.descriptionM,
+                        Lote = s.lote.codigo_lote,
+                        FechaVencimiento = s.lote.fecha_vencimiento
+                    })
+                    .OrderBy(s => s.FechaVencimiento)
+                    .ToList();
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var ws = workbook.Worksheets.Add("Vencimientos");
+
+                    ws.Cell(1, 1).Value = "Producto";
+                    ws.Cell(1, 2).Value = "Lote";
+                    ws.Cell(1, 3).Value = "Vence";
+
+                    int row = 2;
+                    foreach (var item in data)
+                    {
+                        ws.Cell(row, 1).Value = item.Material;
+                        ws.Cell(row, 2).Value = item.Lote;
+                        ws.Cell(row, 3).Value = item.FechaVencimiento.ToString("dd/MM/yyyy");
+                        row++;
+                    }
+
+                    ws.Columns().AdjustToContents();
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        return File(
+                            stream.ToArray(),
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            $"Vencimientos_{DateTime.Now:yyyyMMdd}.xlsx"
+                        );
+                    }
+                }
+            }
+        }
+
+
+
+        #endregion ExportarExcel
+
 
 
     }
