@@ -130,8 +130,7 @@ Ind_OVH decimal NOT NULL,
 Scrap_Allowance int NOT NULL,
 materialP decimal NOT NULL, 
 total_Variance decimal NOT NULL,
-CONSTRAINT chk_materialP CHECK (materialP<= 0),
-CONSTRAINT chk_total_variance CHECK (total_Variance<= 0),
+CONSTRAINT chk_materialP CHECK (materialP>= 0),
 CONSTRAINT fk_material_family FOREIGN KEY (id_family)  REFERENCES family(id_family), 
 CONSTRAINT fk_material_parent FOREIGN KEY (id_parent) REFERENCES parent (id_parent)
 );
