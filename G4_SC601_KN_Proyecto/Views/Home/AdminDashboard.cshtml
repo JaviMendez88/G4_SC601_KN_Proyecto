@@ -21,6 +21,8 @@
             <h5 class="m-0 font-weight-bold text-primary">
                 <i class="fas fa-users"></i> Panel de Administrador
             </h5>
+
+
         </div>
         <div class="card-body">
             <h6 class="font-weight-bold text-secondary mb-3">Gestión de usuarios </h6>
@@ -35,14 +37,47 @@
             </ul>
         </div>
 
-    <div class="card-body">
-        <h6 class="font-weight-bold text-secondary mb-3">Auditoría de cambios </h6>
-        <ul class="mb-0">
-            <li><a href="@Url.Action("AuditoriaCambios","Auditoria")" class="text-decoration-none">Ver Cambios</a></li>
+        <div class="card-body">
+            <h6 class="font-weight-bold text-secondary mb-3">Auditoría de cambios </h6>
+            <ul class="mb-0">
+                <li><a href="@Url.Action("AuditoriaCambios","Auditoria")" class="text-decoration-none">Ver Cambios</a></li>
 
-        </ul>
+            </ul>
+        </div>
     </div>
-</div>
+
+    <!-- Sección en proceso para la importación de archivos de Excel que alimenten las tablas de SQL (Stock) -->
+    <!-- Ver [Post] en AdminController.cs ImportarExcel -->
+
+    <div class="card shadow mb-4 border-left-success">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-success">
+                <i class="fas fa-file-excel"></i> Importar inventario desde Excel
+            </h6>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(
+                "ImportarExcel",
+                "Admin",
+                FormMethod.Post,
+                new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-group">
+                    <input type="file"
+                           name="archivoExcel"
+                           class="form-control"
+                           accept=".xlsx"
+                           required />
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-upload"></i> Importar
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Ver comment arriba -->
 
     <hr class="my-5" />
     <h2 class="h4 mb-4 text-gray-800">Módulo de Inventarios</h2>
