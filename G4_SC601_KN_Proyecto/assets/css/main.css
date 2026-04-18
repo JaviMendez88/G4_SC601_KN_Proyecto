@@ -884,11 +884,26 @@ ol {
   height: 100%;
 }
 
-@media only screen and (min-width: 480px) and (max-width: 767px) {
+/* Removed fixed container width to allow Bootstrap responsive handling */
+
+/* Ensure container has proper widths for all breakpoints */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+
+@media (min-width: 1400px) {
   .container {
-    width: 450px;
+    max-width: 1320px;
   }
 }
+
+
 
 /* Bread Crumbs */
 .breadcrumbs {
@@ -1965,7 +1980,7 @@ ol {
 }
 
 .button .signin {
-  color: #fff;
+  color: forestgreen;
   font-weight: 500;
   margin-right: 20px;
 }
@@ -1988,7 +2003,7 @@ ol {
 }
 
 .sticky .button .signin {
-  color: #151515;
+  color: #5ABF8A;
 }
 
 .sticky .button .signin:hover {
@@ -2014,7 +2029,7 @@ ol {
 }
 
 .others-pages .button .signin:hover {
-  color: #E30613;
+  color: #5ABF8A;
 }
 
 .others-pages .button .signup {
@@ -2028,9 +2043,9 @@ ol {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
-  .header .button .signin {
-    color: #151515;
-  }
+    .header .button .signin {
+        color: #5ABF8A;
+    }
   .header .button .signin:hover {
     color: #E30613;
   }
@@ -3139,7 +3154,7 @@ ol {
 /* Forms Styles */
 
 .auth-container {
-    max-width: 480px;
+    min-width: 900px;
     margin: 60px auto 90px auto;
 }
 
@@ -3160,10 +3175,6 @@ ol {
     padding: 140px 0 60px 0;
 }
 
-.auth-container {
-    max-width: 480px;
-    margin: 60px auto 90px auto;
-}
 
 .card-style {
     background: #fff;
@@ -3211,6 +3222,9 @@ body {
     margin-top: 60px;
     border-top: 1px solid #ddd;
 }
+
+
+
 
 .hero-title {
     font-size: 32px;

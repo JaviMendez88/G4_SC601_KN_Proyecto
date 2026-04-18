@@ -354,7 +354,6 @@
     <Content Include="Views\Home\Signup.cshtml" />
     <Content Include="Views\Shared\_LayoutExterno.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
-    <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\Home\IndexUser.cshtml" />
     <Content Include="Views\Home\AccountRecovery.cshtml" />
     <Content Include="Views\User\UserDetail.cshtml" />
