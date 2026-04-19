@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger text-center">
+        @ViewBag.Message
+    </div>
+}
+
 <h4 class="text-center mb-4">Log in</h4>
 
 @using (Html.BeginForm("Login", "Home", FormMethod.Post))
