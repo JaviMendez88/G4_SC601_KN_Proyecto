@@ -159,21 +159,16 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult Signup(UsuarioModelo modelo)
         {
-            if (modelo.Contrasena != modelo.ConfirmPassword)
+            if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Las contraseñas no coinciden";
                 return View(modelo);
             }
 
             using (var context = new SC604Proyecto_DBEntities())
             {
-                var existe = context.usuario
-                    .Where(u => u.email == modelo.Email)
-                    .FirstOrDefault();
-
-                if (existe != null)
+                if (context.usuario.Any(u => u.email == modelo.Email))
                 {
-                    ViewBag.Message = "El correo ya está registrado";
+                    ModelState.AddModelError("Email", "El correo ya está registrado");
                     return View(modelo);
                 }
 
@@ -190,27 +185,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 };
 
                 context.usuario.Add(nuevoUsuario);
-
-                // Sólo para determinar el error. Debe borrarse y dejar solo el context.SaveChanges() en producción.
-                try
-                {
-                    context.SaveChanges();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var entityErrors in ex.EntityValidationErrors)
-                    {
-                        foreach (var error in entityErrors.ValidationErrors)
-                        {
-                            System.Diagnostics.Debug.WriteLine(
-                                $"Entidad: {entityErrors.Entry.Entity.GetType().Name} | " +
-                                $"Propiedad: {error.PropertyName} | " +
-                                $"Error: {error.ErrorMessage}");
-                        }
-                    }
-                    throw;
-                }
-
+                context.SaveChanges();
             }
 
             return RedirectToAction("Login");

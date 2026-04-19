@@ -36,7 +36,7 @@
                             <a href="@Url.Action("Login","Home")" class="main-btn primary-btn-outline btn-sm">Iniciar Sesión</a>
                         </li>
                         <li class="nav-item ms-2">
-                            <a href="@Url.Action("Signup","Home")" class="main-btn primary-btn btn-sm">Registrase</a>
+                            <a href="@Url.Action("Signup","Home")" class="main-btn primary-btn btn-sm">Registrarse</a>
                         </li>
                     </ul>
                 </div>
@@ -71,13 +71,18 @@
         </div>
     </footer>
 
-    <!-- JS -->
-    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
-    <script src="~/assets/js/wow.min.js"></script>
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Plugins de jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
 
+    <!-- Luego otros scripts -->
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/wow.min.js"></script>
+
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

@@ -14,7 +14,7 @@
                 required: true,
                 email: true,
                 remote: {
-                    url: "/Home/Signup",
+                    url: "/Home/ValidarEmail",
                     type: "post",
                     data: {
                         Email: function () {
