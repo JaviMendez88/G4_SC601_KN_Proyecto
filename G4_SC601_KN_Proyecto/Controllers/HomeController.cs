@@ -142,7 +142,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
             Session.Abandon();
 
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion

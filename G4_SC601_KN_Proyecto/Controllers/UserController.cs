@@ -65,7 +65,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 Session["Nombre"] = model.Nombre;
          
          
-                return RedirectToAction("UserDetail", "User");
+                return RedirectToAction("Index", "Home");
             }
         }
 

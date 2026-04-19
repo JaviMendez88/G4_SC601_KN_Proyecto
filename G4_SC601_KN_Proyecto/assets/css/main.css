@@ -895,7 +895,29 @@ ol {
   padding-right: 15px;
 }
 
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
 
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
 
 @media (min-width: 1400px) {
   .container {
@@ -3154,7 +3176,7 @@ ol {
 /* Forms Styles */
 
 .auth-container {
-    min-width: 900px;
+    max-width: 900px;
     margin: 60px auto 90px auto;
 }
 
@@ -3175,7 +3197,6 @@ ol {
     padding: 140px 0 60px 0;
 }
 
-
 .card-style {
     background: #fff;
     border: 1px solid #eee;
@@ -3194,10 +3215,10 @@ ol {
     border-color: #E30613;
 }
 
-    .btn-primary:hover {
-        background-color: #5ABF8A;
-        border-color: #5ABF8A;
-    }
+.btn-primary:hover {
+    background-color: #5ABF8A;
+    border-color: #5ABF8A;
+}
 
 html, body {
     height: 100%;

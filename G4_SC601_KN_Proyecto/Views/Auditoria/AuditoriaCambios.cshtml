@@ -61,26 +61,16 @@
                                     }
                                 </td>
 								<td>
-									<button class="btn btn-info btn-sm"
-											onclick="verDetalle('@Html.Raw(item.OldValues.Replace("'", "\\'"))', '@Html.Raw(item.NewValues.Replace("'", "\\'"))')">
+									<button class="btn btn-info btn-sm btn-ver-detalles"
+
+                                            data-old-values='@item.OldValues'
+                                            data-new-values='@item.NewValues'
+                                            data-accion='@item.accion'>
 										Ver
 									</button>
 								</td>
 
 							</tr>
-							<script>
-								function verDetalle(oldValues, newValues) {
-									Swal.fire({
-						title: '📝 Cambios',
-						html: "ANTES:\n" + oldValues + "\n\nDESPUÉS:\n" + newValues,
-						icon: 'info',
-						width: '800px',
-						confirmButtonColor: '#5ABF8A',
-						confirmButtonText: 'Cerrar',
-						scrollable: true
-					});
-								}
-							</script>
                         }
                     </tbody>
                 </table>
@@ -90,3 +80,4 @@
 </div>
 
 <script src="~/assets/js/ConsultarCambios.js"></script>
+

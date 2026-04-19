@@ -9,9 +9,10 @@ using G4_SC601_KN_Proyecto.Models;
 
 namespace G4_SC601_KN_Proyecto.Controllers
 {
+
     public class MaterialController : Controller
     {
-        // GET: Material
+       
         public ActionResult Index()
         {
             return View();

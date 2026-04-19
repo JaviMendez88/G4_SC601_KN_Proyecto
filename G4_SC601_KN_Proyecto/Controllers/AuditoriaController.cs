@@ -12,7 +12,6 @@ namespace G4_SC601_KN_Proyecto.Controllers
     [SesionActiva]
     public class AuditoriaController : Controller
     {
-        // GET: Auditoria
         public ActionResult AuditoriaCambios()
         {
             // Validar que un administrador esté en sesión (ajustar seguridad según corresponda)

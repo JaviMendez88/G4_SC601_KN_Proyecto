@@ -11,5 +11,29 @@
     });
 });
 
+// Event listener para los botones "Ver detalles"
+$(document).on('click', '.btn-ver-detalles', function (e) {
+    e.preventDefault();
+
+    const oldValues = $(this).attr('data-old-values');
+    const newValues = $(this).attr('data-new-values');
+    const accion = $(this).attr('data-accion');
+
+    verDetalle(oldValues, newValues, accion);
+
+
+});
+
+function verDetalle(oldValues, newValues, accion) {
+    const mensaje = "ANTES:\n" + oldValues + "\n\nDESPUÉS:\n" + newValues;
+
+    Swal.fire({
+        title: 'Cambios',
+        text: mensaje,
+    });
+}
+
+
+
 
 
