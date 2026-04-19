@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -40,24 +39,28 @@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
                         </li>
-                        <li>
-                            @if (Session["IdUsuario"] != null && Session["Rol"].ToString() == "Admin")
+                        <li class="nav-item ms-lg-3">
+                            @if (Session["IdUsuario"] != null && Convert.ToInt32(Session["Rol"] ?? 0) == 1)
                             {
-                                <a class="nav-link" href="@Url.Action("AdminDashboard", "Home")"> Menu Administrador</a>
+                                <a class="nav-item ms-lg-3" href="@Url.Action("AdminDashboard", "Home")"> Acciones de Administrador</a>
                             }
                         </li>
 
 
                         @if (Session["IdUsuario"] != null)
                         {
-                            <li>
+                            <li class="nav-item ms-lg-3">
                                 <a href="@Url.Action("UserDetail", "User")" class="signin"><i class="lni lni-user"></i> Mi Perfil</a>
+                            </li>
+                            <li class="nav-item ms-lg-2">
                                 <a href="@Url.Action("Logout", "Home")" class="signup"><i class="lni lni-exit"></i> Cerrar Sesión</a>
                             </li>
                         }
 
                         else
                         {
+
+             
                             <li class="nav-item ms-lg-3">
                                 <a href="@Url.Action("Login","Home")" class="main-btn primary-btn-outline btn-sm">Iniciar Sesión</a>
                             </li>
