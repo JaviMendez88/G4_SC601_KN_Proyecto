@@ -12,15 +12,13 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class stock
+    public partial class bitacora_errores
     {
-        public int id_material { get; set; }
-        public int id_lote { get; set; }
-        public int id_ubicacion { get; set; }
-        public int cantidad { get; set; }
-    
-        public virtual lote lote { get; set; }
-        public virtual material material { get; set; }
-        public virtual ubicacion ubicacion { get; set; }
+        public int id_error { get; set; }
+        public string mensaje_error { get; set; }
+        public string stack_trace { get; set; }
+        public string contexto { get; set; }
+        public Nullable<System.DateTime> fecha_hora { get; set; }
+        public string usuario { get; set; }
     }
 }

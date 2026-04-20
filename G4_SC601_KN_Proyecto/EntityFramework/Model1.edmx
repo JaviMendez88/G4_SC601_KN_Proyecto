@@ -18,6 +18,17 @@
           <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="NombreUser" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="bitacora_errores">
+          <Key>
+            <PropertyRef Name="id_error" />
+          </Key>
+          <Property Name="id_error" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mensaje_error" Type="varchar(max)" Nullable="false" />
+          <Property Name="stack_trace" Type="varchar(max)" />
+          <Property Name="contexto" Type="varchar" MaxLength="255" />
+          <Property Name="fecha_hora" Type="datetime" />
+          <Property Name="usuario" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="errores">
           <Key>
             <PropertyRef Name="id_error" />
@@ -268,6 +279,7 @@
         </Association>
         <EntityContainer Name="ProyectoDBModelStoreContainer">
           <EntitySet Name="auditoria" EntityType="Self.auditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bitacora_errores" EntityType="Self.bitacora_errores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="errores" EntityType="Self.errores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="family" EntityType="Self.family" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lote" EntityType="Self.lote" Schema="dbo" store:Type="Tables" />
@@ -676,7 +688,19 @@
             <End Role="ubicacion" EntitySet="ubicacion" />
             <End Role="stock" EntitySet="stock" />
           </AssociationSet>
+          <EntitySet Name="bitacora_errores" EntityType="ProyectoDBModel.bitacora_errores" />
         </EntityContainer>
+        <EntityType Name="bitacora_errores">
+          <Key>
+            <PropertyRef Name="id_error" />
+          </Key>
+          <Property Name="id_error" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mensaje_error" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="stack_trace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="contexto" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_hora" Type="DateTime" Precision="3" />
+          <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -806,6 +830,18 @@
                 <ScalarProperty Name="id_rol" ColumnName="id_rol" />
                 <ScalarProperty Name="intentos_fallidos" ColumnName="intentos_fallidos" />
                 <ScalarProperty Name="bloqueado" ColumnName="bloqueado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bitacora_errores">
+            <EntityTypeMapping TypeName="ProyectoDBModel.bitacora_errores">
+              <MappingFragment StoreEntitySet="bitacora_errores">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
+                <ScalarProperty Name="contexto" ColumnName="contexto" />
+                <ScalarProperty Name="stack_trace" ColumnName="stack_trace" />
+                <ScalarProperty Name="mensaje_error" ColumnName="mensaje_error" />
+                <ScalarProperty Name="id_error" ColumnName="id_error" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
