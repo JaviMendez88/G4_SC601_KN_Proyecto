@@ -184,10 +184,19 @@ namespace G4_SC601_KN_Proyecto.Controllers
                         db.SaveChanges();
                     }
 
-                    // Stock
-                    int idUbicacionDefault = 1;
+                        // Stock
+                        //int idUbicacionDefault = 1;
 
-                    var stock = db.stock.FirstOrDefault(s =>
+
+                        var ubicacionDefault = db.ubicacion.FirstOrDefault();
+
+                        if (ubicacionDefault == null)
+                            throw new Exception("No existen ubicaciones registradas.");
+
+                        int idUbicacionDefault = ubicacionDefault.id_ubicacion;
+
+
+                        var stock = db.stock.FirstOrDefault(s =>
                         s.id_material == material.id_material &&
                         s.id_lote == lote.id_lote &&
                         s.id_ubicacion == idUbicacionDefault);
@@ -231,8 +240,8 @@ namespace G4_SC601_KN_Proyecto.Controllers
             TempData["Error"] = "Error al importar el archivo: " + ex.Message;
         }
 
-        return RedirectToAction("AdminDashboard");
-    }
+            return RedirectToAction("AdminDashboard", "Home");
+        }
 
         #endregion Importar Excel - In Progress RF05
 
