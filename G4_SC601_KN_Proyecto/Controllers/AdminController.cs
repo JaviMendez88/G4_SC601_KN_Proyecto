@@ -84,8 +84,16 @@ namespace G4_SC601_KN_Proyecto.Controllers
                     string familyName = row.Cell(38).GetString().Trim();
                     string parentCode = row.Cell(3).GetString().Trim();
                     string materialDesc = row.Cell(18).GetString().Trim();
+                    string codigoLoteExcel = row.Cell(39).GetString().Trim();
 
-                    int qty = (int)Math.Max(0, row.Cell(25).GetDouble());
+                        // Fallback por seguridad
+                        if (string.IsNullOrEmpty(codigoLoteExcel))
+                        {
+                            codigoLoteExcel = "IMPORT-EXCEL";
+                        }
+
+
+                        int qty = (int)Math.Max(0, row.Cell(25).GetDouble());
 
 
                         decimal labor = row.Cell(30).GetValue<decimal>();
@@ -166,27 +174,27 @@ namespace G4_SC601_KN_Proyecto.Controllers
                         db.SaveChanges();
                     }
 
-                    // Lote
-                    var lote = db.lote.FirstOrDefault(l =>
-                        l.id_material == material.id_material &&
-                        l.codigo_lote == "IMPORT-EXCEL");
 
-                    if (lote == null)
-                    {
-                        lote = new lote
+                        // ====== LOTE (desde Excel) ======
+                        var lote = db.lote.FirstOrDefault(l =>
+                            l.id_material == material.id_material &&
+                            l.codigo_lote == codigoLoteExcel);
+
+                        if (lote == null)
                         {
-                            id_material = material.id_material,
-                            codigo_lote = "IMPORT-EXCEL",
-                            fecha_ingreso = DateTime.Today,
-                            fecha_vencimiento = DateTime.Today.AddYears(2)
-                        };
-                        db.lote.Add(lote);
-                        db.SaveChanges();
-                    }
+                            lote = new lote
+                            {
+                                id_material = material.id_material,
+                                codigo_lote = codigoLoteExcel,
+                                fecha_ingreso = DateTime.Today,
+                                fecha_vencimiento = DateTime.Today.AddYears(2)
+                            };
+                            db.lote.Add(lote);
+                            db.SaveChanges();
+                        }
+
 
                         // Stock
-                        //int idUbicacionDefault = 1;
-
 
                         var ubicacionDefault = db.ubicacion.FirstOrDefault();
 

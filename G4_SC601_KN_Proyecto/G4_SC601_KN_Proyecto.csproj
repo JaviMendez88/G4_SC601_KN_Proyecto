@@ -366,6 +366,7 @@
     <Content Include="Views\Material\CreateMaterial.cshtml" />
     <Content Include="Views\Material\ConsultMaterial.cshtml" />
     <Content Include="Views\Material\EditMaterial.cshtml" />
+    <Content Include="Views\Shared\_AlertMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
