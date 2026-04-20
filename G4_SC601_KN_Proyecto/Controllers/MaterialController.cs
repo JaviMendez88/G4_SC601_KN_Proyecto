@@ -1,22 +1,25 @@
-﻿using System;
+﻿using G4_SC601_KN_Proyecto.EntityFramework;
+using G4_SC601_KN_Proyecto.Filters;
+using G4_SC601_KN_Proyecto.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using G4_SC601_KN_Proyecto.EntityFramework;
-using G4_SC601_KN_Proyecto.Models;
 
 namespace G4_SC601_KN_Proyecto.Controllers
 {
+    [SesionActiva]
 
     public class MaterialController : Controller
     {
-       
+
         public ActionResult Index()
         {
             return View();
         }
+        #region ConsultMaterial
 
         [HttpGet]
         public ActionResult ConsultMaterial()
@@ -28,6 +31,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
             }
 
         }
+        #endregion
 
         #region create Material
         [HttpGet]
@@ -37,9 +41,9 @@ namespace G4_SC601_KN_Proyecto.Controllers
             {
                 var families = db.family.
                     Select(f => new
-                {
-                    f.id_family,
-                    f.title
+                    {
+                        f.id_family,
+                        f.title
                     }).ToList();
                 ViewBag.Families = new SelectList(families, "id_family", "title");
                 var parents = db.parent.Select(p => new
@@ -79,7 +83,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 }
 
                 // Calcular totalVariance en el servidor
-                decimal totalVariance =  model.labor + model.IndOVH + model.Scrap_Allowance + model.materialPrice;
+                decimal totalVariance = model.labor + model.IndOVH + model.Scrap_Allowance + model.materialPrice;
 
                 var newMaterial = db.material.Add(new material
                 {
@@ -215,5 +219,95 @@ namespace G4_SC601_KN_Proyecto.Controllers
         }
 
         #endregion
+
+
+        #region InsertFamily
+
+        [HttpGet]
+        public ActionResult CreateFamily()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateFamily(family table)
+        {
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var newFamily = db.family.Add(new family
+                {
+                    id_family = table.id_family,
+                    title = table.title
+                });
+                db.SaveChanges();
+            }
+            return RedirectToAction("ConsultMaterial", "Material");
+        }
+        #endregion
+
+        #region DeleteFamily
+        [HttpGet]
+        public ActionResult DeleteFamily(int id)
+        {
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var family = db.family.Where(f => f.id_family == id).FirstOrDefault();
+                if (family != null)
+                {
+                    db.family.Remove(family);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("ConsultMaterial", "Material");
+            }
+        }
+
+        #endregion
+
+        #region Insert Parent
+        [HttpGet]
+        public ActionResult CreateParent()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateParent(parent table)
+        {
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var newParent = db.parent.Add(new parent
+                {
+                    id_parent = table.id_parent,
+                    codigo = table.codigo
+                });
+                db.SaveChanges();
+            }
+            return RedirectToAction("ConsultMaterial", "Material");
+        }
+        #endregion
+
+        #region delete parent
+
+        [HttpGet]
+        public ActionResult DeleteParent(int id)
+        {
+            using (var db = new SC604Proyecto_DBEntities())
+            {
+                var parent = db.parent.Where(p => p.id_parent == id).FirstOrDefault();
+                if (parent != null)
+                {
+                    db.parent.Remove(parent);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("ConsultMaterial", "Material");
+            }
+        }
+
+
+        #endregion
+
     }
 }
+    
+

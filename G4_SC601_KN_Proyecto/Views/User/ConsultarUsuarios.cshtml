@@ -4,6 +4,7 @@
 
     @{
 
+
         Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     }
 
@@ -26,7 +27,6 @@
                             <th>Apellido </th>
                             <th>Usuario</th>
                             <th>Correo Electronico</th>
-
                             <th>Intentos fallidos</th>
                             <th>Bloqueado </th>
                         </tr>
@@ -40,8 +40,8 @@
                                 <td>@item.apellido_1</td>
                                 <td>@item.usuario1</td>
                                 <td>@item.email</td>
-
                                 <td>@item.intentos_fallidos</td>
+                                <td>@(item.bloqueado == true ? "Sí" : "No")</td>
 
 
                             </tr>
