@@ -1,0 +1,54 @@
+﻿@model G4_SC601_KN_Proyecto.EntityFramework.family
+
+@{
+    ViewBag.Title = "DeleteFamily";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Eliminar Familia</h2>
+
+<h3>¿Estás seguro que deseas eliminar esta familia?</h3>
+
+<div class="card-style">
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Message
+        </div>
+    }
+
+    @if (Model != null)
+    {
+        <div class="form-horizontal">
+            <h4>Familia</h4>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">ID:</label>
+                <div class="col-md-10">
+                    <p>@Model.id_family</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Título:</label>
+                <div class="col-md-10">
+                    <p>@Model.title</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="@Url.Action("DeleteFamily", "Material", new { id = Model.id_family })" class="btn btn-danger">Confirmar Eliminación</a>
+                    <a href="@Url.Action("ConsultMaterial", "Material")" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            Familia no encontrada.
+        </div>
+        <a href="@Url.Action("ConsultMaterial", "Material")" class="btn btn-secondary">Volver</a>
+    }
+</div>

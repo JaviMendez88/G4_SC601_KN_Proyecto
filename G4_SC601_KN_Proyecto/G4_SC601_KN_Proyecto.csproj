@@ -241,6 +241,9 @@
     <Compile Include="EntityFramework\stock.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\ubicacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -376,6 +379,8 @@
     <Content Include="Views\Gemini\Index.cshtml" />
     <Content Include="Views\Material\CreateFamily.cshtml" />
     <Content Include="Views\Material\CreateParent.cshtml" />
+    <Content Include="Views\Material\DeleteFamily.cshtml" />
+    <Content Include="Views\Material\DeleteParent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

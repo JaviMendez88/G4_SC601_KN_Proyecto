@@ -26,6 +26,7 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
         }
     
         public virtual DbSet<auditoria> auditoria { get; set; }
+        public virtual DbSet<bitacora_errores> bitacora_errores { get; set; }
         public virtual DbSet<errores> errores { get; set; }
         public virtual DbSet<family> family { get; set; }
         public virtual DbSet<lote> lote { get; set; }
@@ -34,8 +35,8 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
         public virtual DbSet<parent> parent { get; set; }
         public virtual DbSet<rol> rol { get; set; }
         public virtual DbSet<stock> stock { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<ubicacion> ubicacion { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
-        public virtual DbSet<bitacora_errores> bitacora_errores { get; set; }
     }
 }

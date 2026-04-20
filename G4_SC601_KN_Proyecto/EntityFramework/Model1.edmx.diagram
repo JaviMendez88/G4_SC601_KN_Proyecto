@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d7b5ed6a6d73486d9712d9c3849572ad" Name="Diagram1" ZoomLevel="74">
+      <Diagram DiagramId="feae76a556744778be5aa6e61126fe2e" Name="Diagram1">
         <EntityTypeShape EntityType="ProyectoDBModel.auditoria" Width="1.5" PointX="7.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.bitacora_errores" Width="1.5" PointX="9.75" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.errores" Width="1.5" PointX="9.75" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.family" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.lote" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
@@ -14,6 +15,7 @@
         <EntityTypeShape EntityType="ProyectoDBModel.parent" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.rol" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.stock" Width="1.5" PointX="10.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.ubicacion" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.usuario" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
         <AssociationConnector Association="ProyectoDBModel.FK_usuario_auditado" ManuallyRouted="false" />
@@ -28,7 +30,6 @@
         <AssociationConnector Association="ProyectoDBModel.fk_mov_usuario" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.FK_usuario_rol" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_stock_ubicacion" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ProyectoDBModel.bitacora_errores" Width="1.5" PointX="10.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

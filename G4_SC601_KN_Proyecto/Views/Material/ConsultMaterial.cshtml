@@ -17,8 +17,10 @@
     <a href="@Url.Action("CreateMaterial", "Material")" class="btn btn-primary mb-3">Crear Material</a>
     <a href="@Url.Action("CreateFamily", "Material")" class="btn btn-success mb-3">Crear Familia</a>
     <a href="@Url.Action("CreateParent", "Material")" class="btn btn-info mb-3">Crear Parent</a>
-
+    <a href="@Url.Action("DeleteFamily", "Material")" class="btn btn-warning mb-3" style="float: right;">Borrar Family</a>
+    <a href="@Url.Action("DeleteParent", "Material")" class="btn btn-warning mb-3" style="float: right; margin-right: 5px;">Borrar Parent</a>
 </div>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card-style">
@@ -45,8 +47,8 @@
                         <tr>
 
                             <td>@item.id_material</td>
-                            <td>@(item.id_family)</td>
-                            <td>@(item.id_parent)</td>
+                            <td>@(item.family != null ? item.family.title : "N/A")</td>
+                            <td>@(item.parent != null ? item.parent.codigo : "N/A")</td>
                             <td>@item.descriptionM</td>
                             <td>@item.count_Order</td>
                             <td>@item.Qty</td>
@@ -68,10 +70,4 @@
 </div>
 
 <script src="~/assets/js/validaciones/Material.js"></script>
-<script>
-    function deleteMaterial(id) {
-        if (confirm('¿Estás seguro que deseas eliminar este material?')) {
-            window.location.href = '@Url.Action("DeleteMaterial", "Material")/' + id;
-        }
-    }
-</script>
+
