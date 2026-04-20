@@ -14,7 +14,4 @@ namespace G4_SC601_KN_Proyecto.Models
         public int TotalLotes { get; set; }
         public int TotalStock { get; set; }
     }
-
-
-}
 }
