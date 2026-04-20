@@ -39,6 +39,16 @@ CREATE TABLE dbo.usuario (
 );
 GO
 
+CREATE TABLE bitacora_errores (
+    id_error INT IDENTITY(1,1) PRIMARY KEY,
+    mensaje_error VARCHAR(MAX) NOT NULL,
+    stack_trace VARCHAR(MAX) NULL,
+    contexto VARCHAR(255) NULL,
+    fecha_hora DATETIME DEFAULT GETDATE(),
+    usuario VARCHAR(100) NULL
+);
+GO
+
 INSERT INTO dbo.rol (rol)
 VALUES 
     ('ADMIN'),
@@ -145,7 +155,7 @@ CREATE TABLE ubicacion (
 
 
 
-/*CREATE TABLE bodega (
+CREATE TABLE bodega (
     id_bodega INT IDENTITY(1,1) PRIMARY KEY,
     id_ubicacion INT NOT NULL,
     nombre VARCHAR(30) NOT NULL,
@@ -184,7 +194,7 @@ CREATE TABLE pasillo (
     CONSTRAINT fk_pasillo_ubicacion 
         FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
 );
-*/
+
 
 
 CREATE TABLE lote (
@@ -272,3 +282,14 @@ GO
 SELECT * FROM dbo.rol;
 SELECT * FROM dbo.usuario;
 
+USE ProyectoDB;
+GO
+
+-- Insertamos la ubicación principal de Terumo Neuro (Coyol)
+INSERT INTO ubicacion (provincia, canton, distrito)
+VALUES ('Alajuela', 'Alajuela', 'San Jose');
+GO
+
+-- Verificamos que se guardó
+SELECT * FROM ubicacion;
+GO
