@@ -27,6 +27,10 @@ namespace G4_SC601_KN_Proyecto.Controllers
             using (var db = new ProyectoDBEntities())
             {
                 var materials = db.material.Include("family").Include("parent").AsNoTracking().ToList();
+                var families = db.family.AsNoTracking().ToList();
+                var parents = db.parent.AsNoTracking().ToList();
+                ViewBag.Families = families;
+                ViewBag.Parents = parents;
                 return View(materials);
             }
 
@@ -231,34 +235,48 @@ namespace G4_SC601_KN_Proyecto.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateFamily(family table)
+        public JsonResult CreateFamily(family table)
         {
-            using (var db = new ProyectoDBEntities())
+            try
             {
-                var newFamily = db.family.Add(new family
+                using (var db = new ProyectoDBEntities())
                 {
-                    id_family = table.id_family,
-                    title = table.title
-                });
-                db.SaveChanges();
+                    db.family.Add(new family
+                    {
+                        title = table.title
+                    });
+                    db.SaveChanges();
+                }
+                return Json(new { success = true, message = "Familia creada exitosamente" });
             }
-            return RedirectToAction("ConsultMaterial", "Material");
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
         #endregion
 
         #region DeleteFamily
-        [HttpGet]
-        public ActionResult DeleteFamily(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult DeleteFamily(int id)
         {
-            using (var db = new ProyectoDBEntities())
+            try
             {
-                var family = db.family.Where(f => f.id_family == id).FirstOrDefault();
-                if (family != null)
+                using (var db = new ProyectoDBEntities())
                 {
-                    db.family.Remove(family);
-                    db.SaveChanges();
+                    var family = db.family.Where(f => f.id_family == id).FirstOrDefault();
+                    if (family != null)
+                    {
+                        db.family.Remove(family);
+                        db.SaveChanges();
+                    }
                 }
-                return RedirectToAction("ConsultMaterial", "Material");
+                return Json(new { success = true, message = "Familia eliminada exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
 
@@ -272,38 +290,51 @@ namespace G4_SC601_KN_Proyecto.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateParent(parent table)
+        public JsonResult CreateParent(parent table)
         {
-            using (var db = new ProyectoDBEntities())
+            try
             {
-                var newParent = db.parent.Add(new parent
+                using (var db = new ProyectoDBEntities())
                 {
-                    id_parent = table.id_parent,
-                    codigo = table.codigo
-                });
-                db.SaveChanges();
+                    db.parent.Add(new parent
+                    {
+                        codigo = table.codigo
+                    });
+                    db.SaveChanges();
+                }
+                return Json(new { success = true, message = "Parent creada exitosamente" });
             }
-            return RedirectToAction("ConsultMaterial", "Material");
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
         #endregion
 
         #region delete parent
 
-        [HttpGet]
-        public ActionResult DeleteParent(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult DeleteParent(int id)
         {
-            using (var db = new ProyectoDBEntities())
+            try
             {
-                var parent = db.parent.Where(p => p.id_parent == id).FirstOrDefault();
-                if (parent != null)
+                using (var db = new ProyectoDBEntities())
                 {
-                    db.parent.Remove(parent);
-                    db.SaveChanges();
+                    var parent = db.parent.Where(p => p.id_parent == id).FirstOrDefault();
+                    if (parent != null)
+                    {
+                        db.parent.Remove(parent);
+                        db.SaveChanges();
+                    }
                 }
-                return RedirectToAction("ConsultMaterial", "Material");
+                return Json(new { success = true, message = "Parent eliminado exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
-
 
         #endregion
 

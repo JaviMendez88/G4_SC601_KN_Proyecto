@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<G4_SC601_KN_Proyecto.EntityFramework.material>
 
+
 @{
-    ViewBag.Title = "ConsultMaterial";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	ViewBag.Title = "ConsultMaterial";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<!-- Token CSRF global -->
+@Html.AntiForgeryToken()
 
 <div class="row">
     <div class="col-12">
@@ -14,11 +17,10 @@
     </div>
 </div>
 <div>
-    <a href="@Url.Action("CreateMaterial", "Material")" class="btn btn-primary mb-3">Crear Material</a>
-    <a href="@Url.Action("CreateFamily", "Material")" class="btn btn-success mb-3">Crear Familia</a>
-    <a href="@Url.Action("CreateParent", "Material")" class="btn btn-info mb-3">Crear Parent</a>
-    <a href="@Url.Action("DeleteFamily", "Material")" class="btn btn-warning mb-3" style="float: right;">Borrar Family</a>
-    <a href="@Url.Action("DeleteParent", "Material")" class="btn btn-warning mb-3" style="float: right; margin-right: 5px;">Borrar Parent</a>
+	<a href="@Url.Action("CreateMaterial", "Material")" class="btn btn-primary mb-3">Crear Material</a>
+	<button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#FamilyModal">Familias</button>
+	<button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#ParentModal">Parents</button>
+
 </div>
 
 <div class="row">
@@ -26,20 +28,20 @@
         <div class="card-style">
             <table id="tableMaterial" class="table table-responsive">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Family</th>
-                    <th>Parent</th>
-                    <th>Material Description</th>
-                    <th>Count of Order</th>
-                    <th>QTY coois Scrap</th>
-                    <th>Labor</th>
-                    <th>Ind Ovh</th>
-                    <th>Scrap Allowance</th>
-                    <th>Material</th>
-                    <th>Total Variance</th>
-                    <th>Accions</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Family</th>
+                        <th>Parent</th>
+                        <th>Material Description</th>
+                        <th>Count of Order</th>
+                        <th>QTY coois Scrap</th>
+                        <th>Labor</th>
+                        <th>Ind Ovh</th>
+                        <th>Scrap Allowance</th>
+                        <th>Material</th>
+                        <th>Total Variance</th>
+                        <th>Accions</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
@@ -69,5 +71,152 @@
     </div>
 </div>
 
-<script src="~/assets/js/validaciones/Material.js"></script>
+<!-- MODAL: Ver todas las familias -->
+<div class="modal fade" id="FamilyModal" tabindex="-1" role="dialog" aria-labelledby="FamilyModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="FamilyModalLabel">Gestionar Familias</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div class="modal-body">
+				<button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createFamilyModal">
+					<i class="fas fa-plus"></i> Agregar Nueva Familia
+				</button>
+
+				<table id="familiesTable" class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Título</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var family in ViewBag.Families as IEnumerable<G4_SC601_KN_Proyecto.EntityFramework.family>)
+						{
+							<tr id="family-row-@family.id_family">
+								<td>@family.id_family</td>
+								<td>@family.title</td>
+								<td>
+									<a href="javascript:void(0);" onclick="deleteFamily(@family.id_family)" class="badge bg-danger" style="text-decoration: none; cursor: pointer;">Eliminación</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL: Crear nueva familia -->
+<div class="modal fade" id="createFamilyModal" tabindex="-1" role="dialog" aria-labelledby="createFamilyModalLabel">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Crear Familia</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<form id="createFamilyForm">
+				@Html.AntiForgeryToken()
+				<div class="modal-body">
+					<div class="alert alert-danger d-none" id="errorMessageFamily" role="alert"></div>
+					<div class="form-group">
+						<label for="familyTitle">Título de la Familia <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="familyTitle" name="title" placeholder="Ingrese el titulo de la familia" required>
+						<small class="form-text text-muted">Campo obligatorio</small>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-save"></i> Crear Familia
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- MODAL: Ver todas los parent -->
+<div class="modal fade" id="ParentModal" tabindex="-1" role="dialog" aria-labelledby="ParentModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ParentModalLabel">Gestionar Parents</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createParentModal" data-bs-dismiss="modal">
+                    <i class="fas fa-plus"></i> Agregar Nuevo Parent
+                </button>
+
+                <table id="parentsTable" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Título</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var parent in ViewBag.Parents as IEnumerable<G4_SC601_KN_Proyecto.EntityFramework.parent>)
+                        {
+                            <tr id="parent-row-@parent.id_parent">
+                                <td>@parent.id_parent</td>
+                                <td>@parent.codigo</td>
+                                <td>
+                                    <a href="javascript:void(0);" onclick="deleteParent(@parent.id_parent)" class="badge bg-danger" style="text-decoration: none; cursor: pointer;">Eliminación</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Crear nuevo parent -->
+<div class="modal fade" id="createParentModal" tabindex="-1" role="dialog" aria-labelledby="createParentModalLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Parent</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="createParentForm">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="alert alert-danger d-none" id="errorMessageParent" role="alert"></div>
+                    <div class="form-group">
+                        <label for="parentCodigo">Codigo de Parent <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="parentCodigo" name="codigo" placeholder="Ingrese el codigo del parent" required>
+                        <small class="form-text text-muted">Campo obligatorio</small>
+                    </div>
+                </div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-save"></i> Crear Parent
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/assets/js/validaciones/familyParent.js"></script>
+	<script src="~/assets/js/validaciones/Material.js"></script>
+}
+
 

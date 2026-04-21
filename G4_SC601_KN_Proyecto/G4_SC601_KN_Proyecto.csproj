@@ -202,9 +202,6 @@
     <Compile Include="EntityFramework\bitacora_errores.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\bodega.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\errores.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -238,16 +235,7 @@
     <Compile Include="EntityFramework\parent.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\pasillo.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\rack.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\rol.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ruta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\stock.cs">
@@ -290,6 +278,7 @@
     <Content Include="assets\js\ConsultarCambios.js" />
     <Content Include="assets\js\count-up.min.js" />
     <Content Include="assets\js\glightbox.min.js" />
+    <Content Include="assets\js\validaciones\familyParent.js" />
     <Content Include="assets\js\validaciones\LlamarIA.js" />
     <Content Include="assets\js\validaciones\Material.js" />
     <Content Include="assets\js\validaciones\ValidacionLogin.js" />
@@ -387,10 +376,6 @@
     <Content Include="Views\Material\EditMaterial.cshtml" />
     <Content Include="Views\Shared\_AlertMessages.cshtml" />
     <Content Include="Views\Gemini\Index.cshtml" />
-    <Content Include="Views\Material\CreateFamily.cshtml" />
-    <Content Include="Views\Material\CreateParent.cshtml" />
-    <Content Include="Views\Material\DeleteFamily.cshtml" />
-    <Content Include="Views\Material\DeleteParent.cshtml" />
     <Content Include="Views\Shared\_ChatGemini.cshtml" />
   </ItemGroup>
   <ItemGroup>
