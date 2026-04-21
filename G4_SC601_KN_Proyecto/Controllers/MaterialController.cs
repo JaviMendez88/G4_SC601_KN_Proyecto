@@ -125,11 +125,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 }
 
                 // Cargar dropdowns
-                var families = db.family.Select(f => new { f.id_family, f.title }).ToList();
-                ViewBag.Families = new SelectList(families, "id_family", "title", material.id_family);
-
-                var parents = db.parent.Select(p => new { p.id_parent, p.codigo }).ToList();
-                ViewBag.Parents = new SelectList(parents, "id_parent", "codigo", material.id_parent);
+                LoadDropdownsForEdit(db, material.id_family, material.id_parent);
 
                 // Convertir entidad a modelo
                 var model = new materialModel
@@ -161,6 +157,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 if (datos == null)
                 {
                     ViewBag.Material = "Material no encontrado";
+                    LoadDropdownsForEdit(db, model.idFamily, model.idParent);
                     return View(model);
                 }
 
@@ -168,6 +165,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 if (model.idFamily <= 0 || !db.family.Any(f => f.id_family == model.idFamily))
                 {
                     ViewBag.Material = "Debe seleccionar una familia válida";
+                    LoadDropdownsForEdit(db, model.idFamily, model.idParent);
                     return View(model);
                 }
 
@@ -175,6 +173,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 if (model.idParent <= 0 || !db.parent.Any(p => p.id_parent == model.idParent))
                 {
                     ViewBag.Material = "Debe seleccionar un padre válido";
+                    LoadDropdownsForEdit(db, model.idFamily, model.idParent);
                     return View(model);
                 }
 
@@ -198,29 +197,49 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 if (result <= 0)
                 {
                     ViewBag.Material = "Error al actualizar el material";
+                    LoadDropdownsForEdit(db, model.idFamily, model.idParent);
                     return View(model);
                 }
                 return RedirectToAction("ConsultMaterial", "Material");
             }
         }
 
+        private void LoadDropdownsForEdit(ProyectoDBEntities db, int idFamily, int idParent)
+        {
+            var families = db.family.Select(f => new { f.id_family, f.title }).ToList();
+            ViewBag.Families = new SelectList(families, "id_family", "title", idFamily);
+
+            var parents = db.parent.Select(p => new { p.id_parent, p.codigo }).ToList();
+            ViewBag.Parents = new SelectList(parents, "id_parent", "codigo", idParent);
+        }
+
         #endregion
 
         #region Delete Material
-        [HttpGet]
-        public ActionResult DeleteMaterial(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult DeleteMaterial(int id)
         {
-            using (var db = new ProyectoDBEntities())
+            try
             {
-                var material = db.material.Where(m => m.id_material == id).FirstOrDefault();
-                if (material != null)
+                using (var db = new ProyectoDBEntities())
                 {
-                    db.material.Remove(material);
-                    db.SaveChanges();
+                    var material = db.material.Where(m => m.id_material == id).FirstOrDefault();
+                    if (material != null)
+                    {
+                        db.material.Remove(material);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Material eliminado exitosamente" });
+                    }
+                    return Json(new { success = false, message = "Material no encontrado" });
                 }
-                return RedirectToAction("ConsultMaterial", "Material");
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
+
 
         #endregion
 

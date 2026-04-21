@@ -97,7 +97,7 @@
         }
     });
 
-    
+});
 
 
 $(function () {
@@ -112,3 +112,58 @@ $(function () {
         ]
     });
 });
+
+
+    // Eliminar Material
+    function deleteMaterial(id) {
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: '¿Desea eliminar este material?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var token = $('[name="__RequestVerificationToken"]').val();
+                $.ajax({
+                    url: '/Material/DeleteMaterial',
+                    type: 'POST',
+                    data: { id: id, __RequestVerificationToken: token },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            $('#material-row-' + id).fadeOut(function () {
+                                $(this).remove();
+                            });
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Eliminado!',
+                                text: response.message,
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al eliminar el material'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+              
+   

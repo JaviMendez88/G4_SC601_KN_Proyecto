@@ -38,7 +38,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         public ActionResult RegistrarMovimiento()
         {
             // Listas para los dropdowns del formulario
-            ViewBag.Productos = db.material.ToList();
+            ViewBag.Materials = db.material.ToList();
             ViewBag.Lotes = db.lote.ToList();
             ViewBag.Ubicaciones = db.ubicacion.ToList();
 
@@ -94,7 +94,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 ViewBag.Error = "Ocurrió un error al guardar: " + ex.Message;
 
                 // Recargar listas para volver a mostrar el formulario
-                ViewBag.Materiales = db.material.ToList();
+                ViewBag.Materials = db.material.ToList();
                 ViewBag.Lotes = db.lote.ToList();
                 ViewBag.Ubicaciones = db.ubicacion.ToList();
                 return View();

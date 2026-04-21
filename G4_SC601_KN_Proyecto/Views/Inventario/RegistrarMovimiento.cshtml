@@ -27,12 +27,12 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label>Producto</label>
-                    <select name="id_producto" class="form-control" required>
-                        <option value="">Seleccione un producto...</option>
-                        @foreach (var p in ViewBag.Productos)
+                    <label>Material</label>
+                    <select name="id_material" class="form-control" required>
+                        <option value="">Seleccione un material...</option>
+                        @foreach (var p in ViewBag.Materials)
                         {
-                            <option value="@p.id_producto">@p.nombre</option>
+                            <option value="@p.id_material">@p.descriptionM</option>
                         }
                     </select>
                 </div>
