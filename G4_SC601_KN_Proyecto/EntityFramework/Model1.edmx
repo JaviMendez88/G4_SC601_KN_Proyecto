@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProyectoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProyectoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="auditoria">
           <Key>
             <PropertyRef Name="id_auditoria" />
@@ -17,17 +17,6 @@
           <Property Name="id_usuario" Type="int" Nullable="false" />
           <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="NombreUser" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="bitacora_errores">
-          <Key>
-            <PropertyRef Name="id_error" />
-          </Key>
-          <Property Name="id_error" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="mensaje_error" Type="varchar(max)" Nullable="false" />
-          <Property Name="stack_trace" Type="varchar(max)" />
-          <Property Name="contexto" Type="varchar" MaxLength="255" />
-          <Property Name="fecha_hora" Type="datetime" />
-          <Property Name="usuario" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="errores">
           <Key>
@@ -109,16 +98,6 @@
           <Property Name="id_lote" Type="int" Nullable="false" />
           <Property Name="id_ubicacion" Type="int" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="ubicacion">
           <Key>
@@ -289,7 +268,6 @@
         </Association>
         <EntityContainer Name="ProyectoDBModelStoreContainer">
           <EntitySet Name="auditoria" EntityType="Self.auditoria" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="bitacora_errores" EntityType="Self.bitacora_errores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="errores" EntityType="Self.errores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="family" EntityType="Self.family" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lote" EntityType="Self.lote" Schema="dbo" store:Type="Tables" />
@@ -298,7 +276,6 @@
           <EntitySet Name="parent" EntityType="Self.parent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rol" EntityType="Self.rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="stock" EntityType="Self.stock" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_lote_material" Association="Self.fk_lote_material">
@@ -350,8 +327,7 @@
             <End Role="usuario" EntitySet="usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -744,18 +720,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="bitacora_errores">
-            <EntityTypeMapping TypeName="ProyectoDBModel.bitacora_errores">
-              <MappingFragment StoreEntitySet="bitacora_errores">
-                <ScalarProperty Name="id_error" ColumnName="id_error" />
-                <ScalarProperty Name="mensaje_error" ColumnName="mensaje_error" />
-                <ScalarProperty Name="stack_trace" ColumnName="stack_trace" />
-                <ScalarProperty Name="contexto" ColumnName="contexto" />
-                <ScalarProperty Name="fecha_hora" ColumnName="fecha_hora" />
-                <ScalarProperty Name="usuario" ColumnName="usuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="errores">
             <EntityTypeMapping TypeName="ProyectoDBModel.errores">
               <MappingFragment StoreEntitySet="errores">
@@ -840,17 +804,6 @@
                 <ScalarProperty Name="id_lote" ColumnName="id_lote" />
                 <ScalarProperty Name="id_ubicacion" ColumnName="id_ubicacion" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ProyectoDBModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
