@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace G4_SC601_KN_Proyecto.EntityFramework 
 {
-    public partial class SC604Proyecto_DBEntities
+    public partial class ProyectoDBEntities
     {
 
         public override int SaveChanges()

@@ -13,10 +13,10 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SC604Proyecto_DBEntities : DbContext
+    public partial class ProyectoDBEntities : DbContext
     {
-        public SC604Proyecto_DBEntities()
-            : base("name=SC604Proyecto_DBEntities")
+        public ProyectoDBEntities()
+            : base("name=ProyectoDBEntities")
         {
         }
     
@@ -27,15 +27,18 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     
         public virtual DbSet<auditoria> auditoria { get; set; }
         public virtual DbSet<bitacora_errores> bitacora_errores { get; set; }
+        public virtual DbSet<bodega> bodega { get; set; }
         public virtual DbSet<errores> errores { get; set; }
         public virtual DbSet<family> family { get; set; }
         public virtual DbSet<lote> lote { get; set; }
         public virtual DbSet<material> material { get; set; }
         public virtual DbSet<movimiento_inventario> movimiento_inventario { get; set; }
         public virtual DbSet<parent> parent { get; set; }
+        public virtual DbSet<pasillo> pasillo { get; set; }
+        public virtual DbSet<rack> rack { get; set; }
         public virtual DbSet<rol> rol { get; set; }
+        public virtual DbSet<ruta> ruta { get; set; }
         public virtual DbSet<stock> stock { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<ubicacion> ubicacion { get; set; }
         public virtual DbSet<usuario> usuario { get; set; }
     }

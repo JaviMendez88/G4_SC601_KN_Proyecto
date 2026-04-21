@@ -56,7 +56,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult Login(UsuarioModelo modelo)
         {
-            using (var context = new SC604Proyecto_DBEntities())
+            using (var context = new ProyectoDBEntities())
             {
                 var usuarioDb = context.usuario
                     .Where(u => u.email == modelo.Email)
@@ -164,7 +164,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 return View(modelo);
             }
 
-            using (var context = new SC604Proyecto_DBEntities())
+            using (var context = new ProyectoDBEntities())
             {
                 if (context.usuario.Any(u => u.email == modelo.Email))
                 {
@@ -208,7 +208,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult AccountRecovery(UsuarioModelo modelo)
         {
-            using (var context = new SC604Proyecto_DBEntities())
+            using (var context = new ProyectoDBEntities())
             {
                 var usuarioDb = context.usuario
                     .Where(u => u.email == modelo.Email)
@@ -251,7 +251,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 return View(modelo);
             }
 
-            using (var context = new SC604Proyecto_DBEntities())
+            using (var context = new ProyectoDBEntities())
             {
                 var usuarioDb = context.usuario
                     .Where(u => u.id_usuario == modelo.IdUsuario)
@@ -331,7 +331,7 @@ Saludos.";
             if ((int)Session["Rol"] != 1)
                 return RedirectToAction("UserDashboard");
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var listaStock = db.stock.Select(s => new StockViewModel
                 {
@@ -368,7 +368,7 @@ Saludos.";
                 return RedirectToAction("AdminDashboard");
 
             // Solo lectura
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var listaStock = db.stock.Select(s => new StockViewModel
                 {
@@ -397,7 +397,7 @@ Saludos.";
         [HttpPost]
         public JsonResult ValidarEmail(string Email)
         {
-            using (var context = new SC604Proyecto_DBEntities())
+            using (var context = new ProyectoDBEntities())
             {
                 bool existe = context.usuario.Any(u => u.email == Email);
                 return Json(!existe, JsonRequestBehavior.AllowGet);
@@ -413,7 +413,7 @@ Saludos.";
             if (Session["IdUsuario"] == null)
                 return RedirectToAction("Login");
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var data = db.stock.Select(s => new StockViewModel
                 {
@@ -463,7 +463,7 @@ Saludos.";
 
             DateTime fechaLimite = DateTime.Now.AddMonths(6);
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var data = db.stock
                     .Where(s => s.lote.fecha_vencimiento <= fechaLimite)

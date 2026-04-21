@@ -29,7 +29,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
                 string contextoInventario = "";
 
 
-                using (var db = new SC604Proyecto_DBEntities())
+                using (var db = new ProyectoDBEntities())
                 {
                     var fechaLimite = DateTime.Now.AddMonths(6);
                     var vencimientosProximos = db.stock.Where(s => s.lote.fecha_vencimiento <= fechaLimite).Count();

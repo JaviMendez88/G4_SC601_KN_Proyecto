@@ -18,7 +18,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
             if (Session["Rol"] == null || (int)Session["Rol"] != 1)
                 return RedirectToAction("Login", "Home");
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 // Obtenemos los registros y los ordenamos por fecha descendente (los más recientes primero)
                 // Usamos Include para traer los datos del usuario que hizo el cambio

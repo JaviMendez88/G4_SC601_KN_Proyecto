@@ -24,7 +24,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult ConsultMaterial()
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var materials = db.material.Include("family").Include("parent").AsNoTracking().ToList();
                 return View(materials);
@@ -37,7 +37,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult CreateMaterial()
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var families = db.family.
                     Select(f => new
@@ -61,7 +61,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult CreateMaterial(materialModel model)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
 
                 // Validar que el id_family existe
@@ -112,7 +112,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult EditMaterial(int id)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var material = db.material.Where(m => m.id_material == id).FirstOrDefault();
                 if (material == null)
@@ -150,7 +150,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult EditMaterial(materialModel model)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 // Validar que el material existe
                 var datos = db.material.Where(m => m.id_material == model.idMaterial).FirstOrDefault();
@@ -206,7 +206,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult DeleteMaterial(int id)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var material = db.material.Where(m => m.id_material == id).FirstOrDefault();
                 if (material != null)
@@ -233,7 +233,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult CreateFamily(family table)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var newFamily = db.family.Add(new family
                 {
@@ -250,7 +250,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult DeleteFamily(int id)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var family = db.family.Where(f => f.id_family == id).FirstOrDefault();
                 if (family != null)
@@ -274,7 +274,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult CreateParent(parent table)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var newParent = db.parent.Add(new parent
                 {
@@ -292,7 +292,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpGet]
         public ActionResult DeleteParent(int id)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var parent = db.parent.Where(p => p.id_parent == id).FirstOrDefault();
                 if (parent != null)

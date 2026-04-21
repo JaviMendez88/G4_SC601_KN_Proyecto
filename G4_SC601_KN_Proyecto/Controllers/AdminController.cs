@@ -17,7 +17,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
             if (Session["Rol"] == null || (int)Session["Rol"] != 1)
                 return RedirectToAction("Login", "Home");
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var usuarios = db.usuario.ToList();
                 return View(usuarios);
@@ -29,7 +29,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
             if ((int)Session["Rol"] != 1)
                 return RedirectToAction("Login", "Home");
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var user = db.usuario.Find(id);
                 ViewBag.Roles = new SelectList(db.rol.ToList(), "id_rol", "rol1", user.id_rol);
@@ -40,7 +40,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult EditUser(usuario user)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var userDb = db.usuario.Find(user.id_usuario);
 
@@ -73,7 +73,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         try
         {
             using (var workbook = new XLWorkbook(archivoExcel.InputStream))
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var hoja = workbook.Worksheet(1);
                 var filas = hoja.RowsUsed().Skip(1);

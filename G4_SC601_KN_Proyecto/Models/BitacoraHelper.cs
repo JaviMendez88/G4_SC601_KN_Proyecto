@@ -9,7 +9,7 @@ namespace G4_SC601_KN_Proyecto.Models
         {
             try
             {
-                using (var db = new SC604Proyecto_DBEntities())
+                using (var db = new ProyectoDBEntities())
                 {
                     var error = new bitacora_errores
                     {

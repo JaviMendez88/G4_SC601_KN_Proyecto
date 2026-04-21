@@ -4,21 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="feae76a556744778be5aa6e61126fe2e" Name="Diagram1" ZoomLevel="86">
-        <EntityTypeShape EntityType="ProyectoDBModel.auditoria" Width="1.5" PointX="7.5" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.bitacora_errores" Width="1.5" PointX="9.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.errores" Width="1.5" PointX="9.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.family" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.lote" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.material" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.movimiento_inventario" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.parent" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.rol" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.stock" Width="1.5" PointX="10.5" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
+      <Diagram DiagramId="ee47b9197f894e779df89bbcee2322ee" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="ProyectoDBModel.auditoria" Width="1.5" PointX="7.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.bitacora_errores" Width="1.5" PointX="9.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.bodega" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.errores" Width="1.5" PointX="9.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.family" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.lote" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.material" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.movimiento_inventario" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.parent" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.pasillo" Width="1.5" PointX="7.5" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.rack" Width="1.5" PointX="9.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.rol" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.ruta" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.stock" Width="1.5" PointX="10.5" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoDBModel.ubicacion" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoDBModel.usuario" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoDBModel.usuario" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
         <AssociationConnector Association="ProyectoDBModel.FK_usuario_auditado" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoDBModel.fk_bodega_ubicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoDBModel.fk_rack_bodega" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_material_family" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_lote_material" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_mov_lote" ManuallyRouted="false" />
@@ -28,6 +33,8 @@
         <AssociationConnector Association="ProyectoDBModel.fk_stock_material" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_mov_ubicacion" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_mov_usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoDBModel.fk_pasillo_ubicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyectoDBModel.fk_ruta_rol" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.FK_usuario_rol" ManuallyRouted="false" />
         <AssociationConnector Association="ProyectoDBModel.fk_stock_ubicacion" ManuallyRouted="false" />
       </Diagram>

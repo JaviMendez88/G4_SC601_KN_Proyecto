@@ -12,15 +12,20 @@ namespace G4_SC601_KN_Proyecto.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class stock
+    public partial class bodega
     {
-        public int id_material { get; set; }
-        public int id_lote { get; set; }
-        public int id_ubicacion { get; set; }
-        public int cantidad { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public bodega()
+        {
+            this.rack = new HashSet<rack>();
+        }
     
-        public virtual lote lote { get; set; }
-        public virtual material material { get; set; }
+        public int id_bodega { get; set; }
+        public int id_ubicacion { get; set; }
+        public string nombre { get; set; }
+    
         public virtual ubicacion ubicacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<rack> rack { get; set; }
     }
 }

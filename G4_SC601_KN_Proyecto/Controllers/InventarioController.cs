@@ -12,7 +12,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
     [SesionActiva]
     public class InventarioController : Controller
     {
-        private SC604Proyecto_DBEntities db = new SC604Proyecto_DBEntities();
+        private ProyectoDBEntities db = new ProyectoDBEntities();
 
         public ActionResult Index()
         {

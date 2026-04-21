@@ -23,7 +23,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         public ActionResult UserDetail()
         {
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 //variables de session que hay id_usuario, nombre y rol
                 var idUsuarioSession = int.Parse(Session["IdUsuario"].ToString());
@@ -44,7 +44,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         [HttpPost]
         public ActionResult UserDetail(PerfilModel model)
         {
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var idUsuarioSession = int.Parse(Session["IdUsuario"].ToString());
                 var result = db.usuario.Where(u => u.id_usuario == idUsuarioSession).FirstOrDefault();
@@ -78,7 +78,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
         {
             
 
-            using (var db = new SC604Proyecto_DBEntities())
+            using (var db = new ProyectoDBEntities())
             {
                 var result = db.usuario.ToList();
                 return View(result);
