@@ -1,6 +1,3 @@
--- Javier Méndez -- Tablas modificadas
-
-
 
 
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ProyectoDB')
@@ -49,46 +46,6 @@ CREATE TABLE bitacora_errores (
 );
 GO
 
-INSERT INTO dbo.rol (rol)
-VALUES 
-    ('ADMIN'),
-    ('USUARIO');
-GO
-
-INSERT INTO dbo.usuario (
-    nombre,
-    apellido_1,
-    usuario,
-    email,
-    contrasena,
-    id_rol,
-    intentos_fallidos,
-    bloqueado
-)
-VALUES
-(
-    'Javier',
-    'Mendez',
-    'jmendez80868',
-    'jmendez80867@ufide.ac.cr',
-    'WvzLPrey',
-    1,  -- ADMIN
-    0,
-    0
-),
-(
-    'Otilio',
-    'Jaen',
-    'Ottis',
-    'otilio0223@ufide.ac.cr',
-    'ABC000',
-    2,  -- USUARIO
-    0,
-    0
-);
-GO
-
-
 
 CREATE TABLE errores (
     id_error INT IDENTITY(1,1) PRIMARY KEY,
@@ -96,26 +53,6 @@ CREATE TABLE errores (
     descripcion VARCHAR(225)
 );
 
-/*
-CREATE TABLE categoria (
-    id_categoria INT IDENTITY(1,1) PRIMARY KEY,
-    titulo VARCHAR(40) UNIQUE
-);
-
-CREATE INDEX ndx_titulo ON categoria(titulo);
-
-
-CREATE TABLE producto (
-    id_producto INT IDENTITY(1,1) PRIMARY KEY,
-    id_categoria INT NOT NULL,
-    nombre VARCHAR(70) NOT NULL,
-    descripcion VARCHAR(100) NOT NULL,
-    precio DECIMAL(12,2) NOT NULL,
-    CONSTRAINT chk_precio CHECK (precio >= 0),
-    CONSTRAINT fk_producto_categoria 
-        FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
-);
-*/
 
 CREATE TABLE [dbo].[family](
  id_family INT IDENTITY(1,1) PRIMARY KEY,
@@ -180,23 +117,6 @@ CREATE TABLE ruta (
 
 
 
-CREATE TABLE rack (
-    id_rack INT IDENTITY(1,1) PRIMARY KEY,
-    id_bodega INT NOT NULL,
-    CONSTRAINT fk_rack_bodega 
-        FOREIGN KEY (id_bodega) REFERENCES bodega(id_bodega)
-);
-
-
-CREATE TABLE pasillo (
-    id_pasillo INT PRIMARY KEY,
-    id_ubicacion INT NOT NULL,
-    CONSTRAINT fk_pasillo_ubicacion 
-        FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
-);
-
-
-
 CREATE TABLE lote (
     id_lote INT IDENTITY(1,1) PRIMARY KEY,
     id_material INT NOT NULL,
@@ -223,15 +143,6 @@ CREATE TABLE stock (
     CONSTRAINT fk_stock_ubicacion FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id_ubicacion)
 );
 
-
-/*
-CREATE TABLE registro_error (
-    id_reporte INT IDENTITY(1,1) PRIMARY KEY,
-    id_error INT NOT NULL,
-    CONSTRAINT fk_registro_error 
-        FOREIGN KEY (id_error) REFERENCES errores(id_error)
-);
-*/
 
 
 CREATE TABLE movimiento_inventario (
@@ -277,13 +188,13 @@ ALTER TABLE [dbo].[auditoria] CHECK CONSTRAINT [FK_usuario_auditado]
 GO
 
 
-
-
 SELECT * FROM dbo.rol;
 SELECT * FROM dbo.usuario;
 
 USE ProyectoDB;
 GO
+
+--Inserts
 
 -- Insertamos la ubicación principal de Terumo Neuro (Coyol)
 INSERT INTO ubicacion (provincia, canton, distrito)
@@ -293,3 +204,74 @@ GO
 -- Verificamos que se guardó
 SELECT * FROM ubicacion;
 GO
+
+INSERT INTO dbo.rol (rol)
+VALUES 
+    ('ADMIN'),
+    ('USUARIO');
+GO
+
+INSERT INTO dbo.usuario (
+    nombre,
+    apellido_1,
+    usuario,
+    email,
+    contrasena,
+    id_rol,
+    intentos_fallidos,
+    bloqueado
+)
+VALUES
+(
+    'Javier',
+    'Mendez',
+    'jmendez80868',
+    'jmendez80867@ufide.ac.cr',
+    'WvzLPrey',
+    1,  -- ADMIN
+    0,
+    0
+),
+(
+    'Otilio',
+    'Jaen',
+    'Ottis',
+    'otilio0223@ufide.ac.cr',
+    'ABC000',
+    2,  -- USUARIO
+    0,
+    0
+);
+GO
+
+INSERT INTO lote (id_lote, id_material, codigo_lote, fecha_vencimiento, fecha_ingreso)
+VALUES (1, 2, 11111, '2020-08-31', '2020-07-02');
+GO
+
+INSERT INTO family (id_family, title) VALUES (3, 'Bobby');
+INSERT INTO family (id_family, title) VALUES (4, 'Carotid/Casper');
+INSERT INTO family (id_family, title) VALUES (2, 'Fred');
+INSERT INTO family (id_family, title) VALUES (5, 'FRED X');
+GO
+
+INSERT INTO parent (id_parent, codigo) VALUES (2, 'BOB-895-US');
+INSERT INTO parent (id_parent, codigo) VALUES (3, 'MV-BGA01095');
+INSERT INTO parent (id_parent, codigo) VALUES (1, 'PD070244-2525');
+INSERT INTO parent (id_parent, codigo) VALUES (4, 'PD070244-3025');
+GO
+
+INSERT INTO material 
+(id_material, id_family, id_parent, descriptionM, count_Order, Qty, labor, Ind_OVH, Scrap_Allowance, materialP, total_Variance)
+VALUES 
+(1, 2, 1, 'FINAL SURF TR...', 9, 58, 141, 0, 20158, 20357);
+
+INSERT INTO material 
+(id_material, id_family, id_parent, descriptionM, count_Order, Qty, labor, Ind_OVH, Scrap_Allowance, materialP, total_Variance)
+VALUES 
+(2, 3, 2, 'BOBBY Balloon ...', 5, 72, 2035, 4998, -23000, 16922, 955);
+
+GO
+
+
+
+

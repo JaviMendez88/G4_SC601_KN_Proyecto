@@ -46,7 +46,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr id="material-row-@item.id_material">
 
                             <td>@item.id_material</td>
                             <td>@(item.family != null ? item.family.title : "N/A")</td>
@@ -61,6 +61,7 @@
                             <td>$@item.total_Variance</td>
                             <td>
                                 <a href="@Url.Action("EditMaterial", "Material", new { id = item.id_material })" class="badge bg-warning text-dark" style="text-decoration: none; cursor: pointer;">Modificación</a>
+        
                                 <a href="javascript:void(0);" onclick="deleteMaterial(@item.id_material)" class="badge bg-danger" style="text-decoration: none; cursor: pointer;">Eliminación</a>
                             </td>
                         </tr>
