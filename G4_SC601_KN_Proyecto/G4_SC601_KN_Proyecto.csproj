@@ -290,6 +290,7 @@
     <Content Include="assets\js\ConsultarCambios.js" />
     <Content Include="assets\js\count-up.min.js" />
     <Content Include="assets\js\glightbox.min.js" />
+    <Content Include="assets\js\validaciones\LlamarIA.js" />
     <Content Include="assets\js\validaciones\Material.js" />
     <Content Include="assets\js\validaciones\ValidacionLogin.js" />
     <Content Include="assets\js\validaciones\ValidacionSignUp.js" />
@@ -390,6 +391,7 @@
     <Content Include="Views\Material\CreateParent.cshtml" />
     <Content Include="Views\Material\DeleteFamily.cshtml" />
     <Content Include="Views\Material\DeleteParent.cshtml" />
+    <Content Include="Views\Shared\_ChatGemini.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

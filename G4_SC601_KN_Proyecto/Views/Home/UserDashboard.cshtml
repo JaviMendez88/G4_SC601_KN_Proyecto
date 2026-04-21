@@ -18,29 +18,32 @@
     <hr class="my-4" />
     <h2 class="h4 mb-4 text-gray-800">Consulta de Inventarios</h2>
 
+    <!-- ROW PRINCIPAL -->
     <div class="row">
+
+        <!-- STOCK -->
         <div class="col-lg-7">
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold" style="color: #0056b3;">
+                        <i class="fas fa-boxes"></i> Stock Actual
+                    </h6>
 
-                    
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold" style="color: #0056b3;">
-                            <i class="fas fa-boxes"></i> Stock Actual
-                        </h6>
-
-                        <a href="@Url.Action("ExportarStockActual", "Home")"
-                           class="btn btn-sm btn-success">
-                            <i class="fas fa-file-excel"></i> Exportar
-                        </a>
-                    </div>
-
+                    <a href="@Url.Action("ExportarStockActual", "Home")"
+                       class="btn btn-sm btn-success">
+                        <i class="fas fa-file-excel"></i> Exportar
+                    </a>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover" width="100%" cellspacing="0">
+                        <table class="table table-striped table-hover">
                             <thead class="table-dark">
-                                <tr><th>Producto</th><th>Lote</th><th>Cantidad</th></tr>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Lote</th>
+                                    <th>Cantidad</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @if (stock != null)
@@ -50,7 +53,11 @@
                                         <tr>
                                             <td>@item.Material</td>
                                             <td>@item.Lote</td>
-                                            <td><span class="@(item.Cantidad < 50 ? "text-danger font-weight-bold" : "text-success font-weight-bold")">@item.Cantidad</span></td>
+                                            <td>
+                                                <span class="@(item.Cantidad < 50 ? "text-danger font-weight-bold" : "text-success font-weight-bold")">
+                                                    @item.Cantidad
+                                                </span>
+                                            </td>
                                         </tr>
                                     }
                                 }
@@ -61,28 +68,29 @@
             </div>
         </div>
 
+        <!-- VENCIMIENTOS -->
         <div class="col-lg-5">
             <div class="card shadow mb-4" style="border-left: 4px solid #f6c23e;">
-                <div class="card-header py-3">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-warning">
+                        <i class="fas fa-exclamation-triangle"></i> Próximos Vencimientos
+                    </h6>
 
-
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-warning">
-                            <i class="fas fa-exclamation-triangle"></i> Próximos Vencimientos
-                        </h6>
-
-                        <a href="@Url.Action("ExportarVencimientos", "Home")"
-                           class="btn btn-sm btn-success">
-                            <i class="fas fa-file-excel"></i> Exportar
-                        </a>
-                    </div>
-
+                    <a href="@Url.Action("ExportarVencimientos", "Home")"
+                       class="btn btn-sm btn-success">
+                        <i class="fas fa-file-excel"></i> Exportar
+                    </a>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered">
                             <thead class="bg-warning text-dark">
-                                <tr><th>Producto</th><th>Lote</th><th>Vence</th></tr>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Lote</th>
+                                    <th>Vence</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @if (vencimientos != null && vencimientos.Any())
@@ -92,14 +100,19 @@
                                         <tr>
                                             <td>@item.Material</td>
                                             <td>@item.Lote</td>
-                                            <td class="text-danger font-weight-bold">@item.FechaVencimiento.ToString("dd/MM/yyyy")</td>
+                                            <td class="text-danger font-weight-bold">
+                                                @item.FechaVencimiento.ToString("dd/MM/yyyy")
+                                            </td>
                                         </tr>
                                     }
                                 }
                                 else
                                 {
-                                    <tr><td colspan="3" class="text-center text-success">No hay alertas.</td></tr>
-
+                                    <tr>
+                                        <td colspan="3" class="text-center text-success">
+                                            No hay alertas.
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -107,5 +120,96 @@
                 </div>
             </div>
         </div>
+
+    </div> <!-- FIN ROW -->
+    <!-- ================= CHAT (FUERA DEL ROW) ================= -->
+    <!-- BOTÓN FLOTANTE -->
+    <button onclick="toggleChat()"
+            class="btn btn-primary shadow"
+            style="position: fixed; bottom: 20px; right: 20px;
+                   border-radius: 50%; width: 60px; height: 60px;
+                   font-size: 24px; z-index: 9999;">
+        💬
+    </button>
+
+    <!-- CONTENEDOR CHAT -->
+    <div id="chatContainer"
+         style="display:none;
+                position: fixed;
+                bottom: 90px;
+                right: 20px;
+                width: 350px;
+                z-index: 9999;">
+
+        @Html.Partial("_ChatGemini")
+
     </div>
+
 </div>
+
+@section Scripts {
+    <script>
+
+function toggleChat() {
+    $("#chatContainer").toggle();
+}
+
+function manejarEnter(e) {
+    if (e.keyCode === 13) {
+        llamarIA();
+    }
+}
+
+function llamarIA() {
+    var msg = $('#userInput').val();
+
+    if (msg.trim() === "") return;
+
+    // Usuario
+    $('#chatWindow').append(`
+        <div class="text-right mb-2">
+            <span style="background:#e9ecef; padding:8px 12px; border-radius:10px;">
+                <strong>Tú:</strong> ${msg}
+            </span>
+        </div>
+    `);
+
+    $('#userInput').val('');
+
+    // Loading
+    $('#chatWindow').append(`
+        <div id="loading" class="text-muted">Gemini está escribiendo...</div>
+    `);
+
+    scrollChat();
+
+    $.post('@Url.Action("Consultar", "Gemini")',
+        { pregunta: msg },
+        function (data) {
+
+            $('#loading').remove();
+
+            $('#chatWindow').append(`
+                <div class="text-left mb-2">
+                    <span style="background:#004a99; color:white; padding:8px 12px; border-radius:10px;">
+                        <strong>Gemini:</strong> ${escapeHtml(data.respuesta)}
+                    </span>
+                </div>
+            `);
+
+            scrollChat();
+        }
+    );
+}
+
+function scrollChat() {
+    $("#chatWindow").scrollTop($("#chatWindow")[0].scrollHeight);
+}
+
+// Seguridad
+function escapeHtml(text) {
+    return $('<div>').text(text).html();
+}
+
+    </script>
+}

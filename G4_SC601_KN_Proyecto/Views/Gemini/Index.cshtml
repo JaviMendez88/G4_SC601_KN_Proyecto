@@ -39,7 +39,6 @@
             var msg = $('#userInput').val();
             if(msg.trim() === "") return;
 
-            // Mensaje del USUARIO: Fondo gris claro, texto negro
             $('#chatWindow').append('<div class="text-right mb-3">' +
                 '<span style="background-color: #e9ecef; color: #212529; padding: 10px 15px; border-radius: 15px; display: inline-block; font-size: 14px; border: 1px solid #dee2e6;">' +
                 '<strong>Tú:</strong> ' + msg + '</span></div>');
@@ -48,7 +47,6 @@
             $("#chatWindow").scrollTop($("#chatWindow")[0].scrollHeight);
 
             $.post('@Url.Action("Consultar", "Gemini")', { pregunta: msg }, function(data) {
-                // Mensaje de GEMINI: Fondo azul Terumo, texto blanco
                 $('#chatWindow').append('<div class="text-left mb-3">' +
                     '<span style="background-color: #004a99; color: #ffffff; padding: 10px 15px; border-radius: 15px; display: inline-block; font-size: 14px; max-width: 80%; shadow: 2px 2px 5px rgba(0,0,0,0.1);">' +
                     '<strong>Gemini:</strong> ' + data.respuesta + '</span></div>');

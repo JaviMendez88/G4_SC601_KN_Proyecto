@@ -12,7 +12,7 @@ namespace G4_SC601_KN_Proyecto.Controllers
     public class GeminiController : Controller
     {
         //llave
-        private readonly string _apiKey = "AIzaSyA8dvfK8Nt2HoroL9-AML1tvuSLYD5w2c8";
+        private readonly string _apiKey = "AIzaSyCg6NGIK6yekb90i41Lk5hVr8ePPYIAa-g";
         private readonly string _apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=";
 
         public ActionResult Index()

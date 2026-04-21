@@ -1,0 +1,30 @@
+﻿<div class="card shadow-lg" style="border-radius: 15px; border-color: #004a99;">
+
+    <!-- Header -->
+    <div class="card-header text-white d-flex justify-content-between"
+         style="background-color: #004a99;">
+        <strong><i class="fas fa-robot"></i> Gemini</strong>
+        <button class="btn btn-sm btn-light" onclick="toggleChat()">✖</button>
+    </div>
+
+    <!-- Chat -->
+    <div class="card-body" id="chatWindow"
+         style="height: 300px; overflow-y: auto; background-color: #f8f9fa;">
+
+        <div class="alert alert-info">
+            <strong>Gemini:</strong> Hola 👋, consulta sobre inventario.
+        </div>
+
+    </div>
+
+    <!-- Input -->
+    <div class="card-footer">
+        <div class="input-group">
+            <input type="text" id="userInput" class="form-control"
+                   placeholder="Pregunta algo..."
+                   onkeypress="manejarEnter(event)">
+            <button class="btn btn-primary" onclick="llamarIA()">Enviar</button>
+        </div>
+    </div>
+
+</div>
